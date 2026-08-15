@@ -48,16 +48,16 @@ const MisContratos = () => {
       <div style={{ maxWidth: '1000px', margin: '0 auto', padding: 'clamp(12px, 4vw, 24px)' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '8px' }}>
           <div>
-            <h1 style={{ fontSize: 'clamp(1.2rem, 4vw, 1.6rem)', fontWeight: 700, margin: 0, color: '#1e293b' }}>Mis Contratos</h1>
-            <p style={{ color: '#64748b', margin: '4px 0 0', fontSize: '0.9rem' }}>Contratos donde eres propietario o inquilino/comprador</p>
+            <h1 style={{ fontSize: 'clamp(1.2rem, 4vw, 1.6rem)', fontWeight: 700, margin: 0, color: 'var(--color-text)' }}>Mis Contratos</h1>
+            <p style={{ color: 'var(--color-text-secondary)', margin: '4px 0 0', fontSize: '0.9rem' }}>Contratos donde eres propietario o inquilino/comprador</p>
           </div>
         </div>
 
         {loading ? (
-          <div style={{ textAlign: 'center', padding: '60px', color: '#94a3b8' }}>Cargando contratos...</div>
+          <div style={{ textAlign: 'center', padding: '60px', color: 'var(--color-text-muted)' }}>Cargando contratos...</div>
         ) : contratos.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '60px', color: '#94a3b8', background: '#fff', borderRadius: '16px', boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}>
-            <FileText size={48} style={{ color: '#cbd5e1', marginBottom: '12px' }} />
+          <div style={{ textAlign: 'center', padding: '60px', color: 'var(--color-text-muted)', background: 'var(--color-bg-card)', borderRadius: '16px', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-sm)' }}>
+            <FileText size={48} style={{ color: 'var(--color-text-muted)', marginBottom: '12px' }} />
             <p style={{ fontSize: '1.1rem' }}>No tienes contratos aún</p>
             <p style={{ fontSize: '0.85rem' }}>Los contratos se crean desde el chat con el propietario o inquilino.</p>
           </div>
@@ -68,24 +68,24 @@ const MisContratos = () => {
               const IconComp = cfg.icon;
               return (
                 <div key={c.id} style={{
-                  background: '#fff', borderRadius: '16px', padding: '20px 24px',
-                  boxShadow: '0 2px 12px rgba(0,0,0,0.06)', border: '1px solid #f1f5f9',
+                  background: 'var(--color-bg-card)', borderRadius: '16px', padding: '20px 24px',
+                  boxShadow: 'var(--shadow-sm)', border: '1px solid var(--color-border)',
                   cursor: 'pointer', transition: 'transform 0.15s, box-shadow 0.15s',
                 }}
                 onClick={() => verDetalle(c)}
-                onMouseOver={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.1)'; }}
-                onMouseOut={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 2px 12px rgba(0,0,0,0.06)'; }}
+                onMouseOver={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = 'var(--shadow-md)'; }}
+                onMouseOut={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'var(--shadow-sm)'; }}
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '16px', flexWrap: 'wrap' }}>
                     <div style={{ flex: 1, minWidth: '200px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
                         <FileText size={18} color="#6366f1" />
-                        <span style={{ fontWeight: 700, fontSize: '1.05rem', color: '#1e293b' }}>Contrato #{c.id}</span>
+                        <span style={{ fontWeight: 700, fontSize: '1.05rem', color: 'var(--color-text)' }}>Contrato #{c.id}</span>
                         <span style={{ background: cfg.bg, color: cfg.color, padding: '2px 10px', borderRadius: '12px', fontSize: '0.75rem', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
                           <IconComp size={12} /> {cfg.label}
                         </span>
                       </div>
-                      <div style={{ fontSize: '0.95rem', fontWeight: 600, color: '#374151' }}>{c.inmueble_titulo}</div>
+                      <div style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--color-text-secondary)' }}>{c.inmueble_titulo}</div>
                       <div style={{ fontSize: '0.82rem', color: '#94a3b8', marginTop: '2px' }}>
                         {c.tipo_contrato_nombre || 'Sin tipo'} · {c.inmueble_direccion || ''}
                       </div>

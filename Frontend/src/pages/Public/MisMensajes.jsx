@@ -1194,7 +1194,7 @@ Puedes consultarme sobre las cláusulas, penalidades o términos que deseas camb
             style={{
               width: '340px',
               borderRight: '1px solid var(--color-border)',
-              background: '#fff',
+              background: 'var(--color-bg-card)',
               display: 'flex',
               flexDirection: 'column',
             }}
@@ -1208,7 +1208,7 @@ Puedes consultarme sobre las cláusulas, penalidades o términos que deseas camb
                 alignItems: 'center',
               }}
             >
-              <h2 style={{ margin: 0, fontSize: '1.3rem', fontWeight: 700 }}>Chats</h2>
+              <h2 style={{ margin: 0, fontSize: '1.3rem', fontWeight: 700, color: 'var(--color-text)' }}>Chats</h2>
             </div>
 
             <div style={{ flex: 1, overflowY: 'auto' }}>
@@ -1224,7 +1224,7 @@ Puedes consultarme sobre las cláusulas, penalidades o términos que deseas camb
                     style={{
                       padding: '14px 20px',
                       cursor: 'pointer',
-                      borderBottom: '1px solid #f3f4f6',
+                      borderBottom: '1px solid var(--color-border)',
                       background: selectedChat?.id === chat.id ? 'rgba(14,165,233,0.08)' : 'transparent',
                       transition: 'background 0.15s',
                       display: 'flex',
@@ -1251,9 +1251,9 @@ Puedes consultarme sobre las cláusulas, penalidades o términos que deseas camb
                     </div>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span style={{ fontWeight: 600, fontSize: '0.95rem', color: '#1e293b' }}>{getOtherName(chat)}</span>
+                        <span style={{ fontWeight: 600, fontSize: '0.95rem', color: 'var(--color-text)' }}>{getOtherName(chat)}</span>
                         {chat.ultimo_mensaje && (
-                          <span style={{ fontSize: '0.7rem', color: '#94a3b8' }}>{formatDate(chat.ultimo_mensaje.creado)}</span>
+                          <span style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>{formatDate(chat.ultimo_mensaje.creado)}</span>
                         )}
                       </div>
                       <div
@@ -1267,7 +1267,7 @@ Puedes consultarme sobre las cláusulas, penalidades o términos que deseas camb
                         <span
                           style={{
                             fontSize: '0.82rem',
-                            color: '#64748b',
+                            color: 'var(--color-text-secondary)',
                             overflow: 'hidden',
                             textOverflow: 'ellipsis',
                             whiteSpace: 'nowrap',
@@ -1300,7 +1300,7 @@ Puedes consultarme sobre las cláusulas, penalidades o términos que deseas camb
             </div>
           </div>
 
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', background: '#f8fafc' }}>
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', background: 'var(--color-bg-secondary)' }}>
             {!selectedChat ? (
               <div
                 style={{
@@ -1309,10 +1309,10 @@ Puedes consultarme sobre las cláusulas, penalidades o términos que deseas camb
                   alignItems: 'center',
                   justifyContent: 'center',
                   flexDirection: 'column',
-                  color: '#94a3b8',
+                  color: 'var(--color-text-muted)',
                 }}
               >
-                <MessageSquare size={64} style={{ color: '#cbd5e1', marginBottom: '16px' }} />
+                <MessageSquare size={64} style={{ color: 'var(--color-text-muted)', marginBottom: '16px' }} />
                 <p style={{ fontSize: '1.1rem' }}>Selecciona un chat para comenzar</p>
               </div>
             ) : (
@@ -1321,7 +1321,7 @@ Puedes consultarme sobre las cláusulas, penalidades o términos que deseas camb
                   style={{
                     padding: '14px 20px',
                     borderBottom: '1px solid var(--color-border)',
-                    background: '#fff',
+                    background: 'var(--color-bg-card)',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
@@ -1616,7 +1616,7 @@ Puedes consultarme sobre las cláusulas, penalidades o términos que deseas camb
                     style={{
                       padding: '12px 20px',
                       borderTop: '1px solid var(--color-border)',
-                      background: '#fff',
+                      background: 'var(--color-bg-card)',
                     }}
                   >
                     <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-end' }}>

@@ -262,7 +262,7 @@ const PropiedadDetalle = () => {
           <ChevronLeft size={18} /> Volver al catálogo
         </Link>
 
-        <div style={{ background: '#fff', borderRadius: '16px', overflow: 'hidden', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-sm)' }}>
+        <div style={{ background: 'var(--color-bg-card)', borderRadius: '16px', overflow: 'hidden', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-sm)' }}>
           {(() => {
             const offerColors = {
               alquiler: { bg: 'rgba(16, 185, 129, 0.1)', color: '#10b981', label: 'Alquiler', border: '1px solid rgba(16, 185, 129, 0.2)' },
@@ -278,7 +278,7 @@ const PropiedadDetalle = () => {
                 <div style={{ 
                   display: 'flex', 
                   borderBottom: '1px solid var(--color-border)', 
-                  background: '#f8fafc',
+                  background: 'var(--color-bg-secondary)',
                   padding: '0 24px',
                   gap: '8px'
                 }}>
@@ -539,10 +539,10 @@ const PropiedadDetalle = () => {
                     </div>
                   </div>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '16px', marginBottom: '32px', background: 'var(--color-bg)', padding: '24px', borderRadius: '12px' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '16px', marginBottom: '32px', background: 'var(--color-bg-secondary)', padding: '24px', borderRadius: '12px' }}>
                     {inmueble.habitaciones > 0 && (
                       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                        <div style={{ background: '#fff', padding: '8px', borderRadius: '10px', color: 'var(--color-primary)' }}><Bed size={20} /></div>
+                        <div style={{ background: 'var(--color-bg-card)', padding: '8px', borderRadius: '10px', color: 'var(--color-primary)' }}><Bed size={20} /></div>
                         <div>
                           <strong style={{ display: 'block', color: 'var(--color-text-secondary)', fontSize: '0.9rem', marginBottom: '2px' }}>Habitaciones</strong>
                           <span style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--color-text)' }}>{inmueble.habitaciones}</span>
@@ -551,7 +551,7 @@ const PropiedadDetalle = () => {
                     )}
                     {inmueble.banos > 0 && (
                       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                        <div style={{ background: '#fff', padding: '8px', borderRadius: '10px', color: 'var(--color-primary)' }}><Bath size={20} /></div>
+                        <div style={{ background: 'var(--color-bg-card)', padding: '8px', borderRadius: '10px', color: 'var(--color-primary)' }}><Bath size={20} /></div>
                         <div>
                           <strong style={{ display: 'block', color: 'var(--color-text-secondary)', fontSize: '0.9rem', marginBottom: '2px' }}>Baños</strong>
                           <span style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--color-text)' }}>{inmueble.banos}</span>
@@ -560,7 +560,7 @@ const PropiedadDetalle = () => {
                     )}
                     {inmueble.superficie > 0 && (
                       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                        <div style={{ background: '#fff', padding: '8px', borderRadius: '10px', color: 'var(--color-primary)' }}><Maximize2 size={20} /></div>
+                        <div style={{ background: 'var(--color-bg-card)', padding: '8px', borderRadius: '10px', color: 'var(--color-primary)' }}><Maximize2 size={20} /></div>
                         <div>
                           <strong style={{ display: 'block', color: 'var(--color-text-secondary)', fontSize: '0.9rem', marginBottom: '2px' }}>Superficie</strong>
                           <span style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--color-text)' }}>{inmueble.superficie} m²</span>
@@ -585,7 +585,7 @@ const PropiedadDetalle = () => {
                           const pubStyle = offerColors[pub.tipo_oferta] || { label: pub.tipo_oferta, color: '#333', bg: '#eee' };
                           const isActiva = pub.estado === 'activa';
                           return (
-                            <div key={pub.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 18px', background: isActiva ? 'rgba(16, 185, 129, 0.03)' : '#f8fafc', borderRadius: '12px', border: isActiva ? '1px solid rgba(16,185,129,0.3)' : '1px solid var(--color-border)' }}>
+                            <div key={pub.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 18px', background: isActiva ? 'rgba(16, 185, 129, 0.08)' : 'var(--color-bg-secondary)', borderRadius: '12px', border: isActiva ? '1px solid rgba(16,185,129,0.3)' : '1px solid var(--color-border)' }}>
                               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                                 <span style={{ padding: '4px 10px', borderRadius: '12px', fontSize: '0.75rem', fontWeight: 700, background: pubStyle.bg, color: pubStyle.color, border: pubStyle.border }}>
                                   {pubStyle.label}
