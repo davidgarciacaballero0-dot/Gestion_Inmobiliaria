@@ -118,11 +118,11 @@ const TarjetaAcceso360 = ({ accesoId, expiracion, lines, isMine, esOwner, onRevo
           <div key={i} style={{ marginBottom: '2px' }}>{line}</div>
         ))}
       </div>
-      
+
       {/* ─── Analíticas (Solo Propietario) ─── */}
       {esOwner && (analytics.visitas > 0 || analytics.ultimo_acceso) && (
-        <div style={{ 
-          fontSize: '0.82rem', 
+        <div style={{
+          fontSize: '0.82rem',
           fontWeight: 600,
           background: 'rgba(255,255,255,0.25)',
           padding: '8px 12px',
@@ -135,7 +135,7 @@ const TarjetaAcceso360 = ({ accesoId, expiracion, lines, isMine, esOwner, onRevo
             if (!analytics.ultimo_acceso) return null;
             const diffSecs = (new Date() - new Date(analytics.ultimo_acceso)) / 1000;
             const isExploringNow = diffSecs < 20;
-            
+
             return (
               <>
                 {isExploringNow ? (
@@ -154,12 +154,12 @@ const TarjetaAcceso360 = ({ accesoId, expiracion, lines, isMine, esOwner, onRevo
           })()}
         </div>
       )}
-      
-      <div style={{ 
-        display: 'flex', 
-        alignItems: 'center', 
-        justifyContent: 'space-between', 
-        fontSize: '0.8rem', 
+
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        fontSize: '0.8rem',
         fontWeight: 600,
         background: expired ? 'rgba(0,0,0,0.1)' : 'rgba(16,185,129,0.15)',
         color: expired ? '#64748b' : '#059669',
@@ -273,7 +273,7 @@ const MisMensajes = () => {
   useEffect(() => {
     editChatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [editChatMensajes]);
-  
+
   // Notificaciones Profesionales (Reemplazo de alert)
   const mostrarMensaje = (title, message, type = 'info') => {
     showAlert({ title, message, status: type === 'success' ? 'success' : type === 'error' ? 'error' : 'info' });
@@ -369,11 +369,11 @@ const MisMensajes = () => {
           try {
             const resChats = await api.get('/usuarios/chats/');
             const chatList = resChats.data.results || resChats.data || [];
-            const existChat = chatList.find(c => 
-              c.inmueble === parseInt(inmuebleId) && 
+            const existChat = chatList.find(c =>
+              c.inmueble === parseInt(inmuebleId) &&
               (c.participante1 === parseInt(propietarioId) || c.participante2 === parseInt(propietarioId))
             );
-            
+
             const chatId = existChat ? existChat.id : 'temp';
             if (chatId !== 'temp') {
               await api.post('/usuarios/mensajes/', {
@@ -409,7 +409,7 @@ const MisMensajes = () => {
     fetchChats();
     const interval = setInterval(fetchChats, 5000);
     return () => clearInterval(interval);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated]);
 
   const fetchActivePub = useCallback(async (inmuebleId) => {
@@ -434,18 +434,18 @@ const MisMensajes = () => {
 
   useEffect(() => {
     if (!selectedChat || !isAuthenticated) return;
-    
+
     fetchMensajes(selectedChat.id);
     checkBloqueo(selectedChat);
     checkOwnership(selectedChat);
     fetchTiposContrato();
     fetchActivePub(selectedChat.inmueble);
-    
+
     // Auto-refresh mensajes cada 3 segundos
     const interval = setInterval(() => {
       fetchMensajes(selectedChat.id, true);
     }, 3000);
-    
+
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedChat?.id, isAuthenticated, fetchActivePub]);
@@ -690,7 +690,7 @@ const MisMensajes = () => {
     setAcceso360Loading(true);
     const exp = new Date(Date.now() + parseFloat(horas) * 3600000);
 
-    
+
     try {
       const inquilinoId = selectedChat.participante1 === user.id ? selectedChat.participante2 : selectedChat.participante1;
       const resAcceso = await api.post('/inmuebles/accesos-360/', {
@@ -781,12 +781,12 @@ const MisMensajes = () => {
     setEditChatCargando(false);
     setEditChatIniciado(false);
     setEditChipsUsados([]);
-    
+
     if (idContrato) {
       try {
         const res = await api.get(`/inmuebles/contratos/${idContrato}/`);
         setContratoForm(res.data);
-        
+
         const saludo = `¡Hola! Soy tu **Abogado IA**. Estoy listo para asesorarte mientras editas la propuesta del contrato #${idContrato}.
         
 Puedes consultarme sobre las cláusulas, penalidades o términos que deseas cambiar, o pedirme redactar un nuevo texto legal para actualizar el contrato.`;
@@ -846,7 +846,7 @@ Puedes consultarme sobre las cláusulas, penalidades o términos que deseas camb
       return;
     }
     setContratoLoading(true);
-    
+
     const dataToSave = {
       ...contratoForm,
       inmueble: typeof contratoForm.inmueble === 'object' ? contratoForm.inmueble.id : contratoForm.inmueble,
@@ -863,7 +863,7 @@ Puedes consultarme sobre las cláusulas, penalidades o términos que deseas camb
       } else {
         res = await api.post('/inmuebles/contratos/', dataToSave);
       }
-      
+
       await api.post(`/inmuebles/contratos/${res.data.id}/enviar/`);
       setShowContratoModal(false);
       fetchMensajes(selectedChat.id);
@@ -883,7 +883,7 @@ Puedes consultarme sobre las cláusulas, penalidades o términos que deseas camb
     try {
       const contratos = await pagoService.obtenerContratosParaPago({ chat_id: selectedChat.id });
       const aceptados = contratos.filter(c => c.estado === 'aceptado' || c.estado === 'activo');
-      
+
       if (aceptados.length === 0) {
         // SI NO HAY CONTRATOS ACEPTADOS, ABRIMOS EL MODAL DE CONTRATO DIRECTAMENTE
         setShowPagoModal(false);
@@ -894,7 +894,7 @@ Puedes consultarme sobre las cláusulas, penalidades o términos que deseas camb
       setContratosDisponibles(aceptados);
       setShowPagoModal(true);
       setPagoForm({ contrato_id: '', monto: '', tipo_operacion: 'mensualidad', descripcion: '', moneda: 'usd' });
-      
+
       if (aceptados.length === 1) {
         setPagoForm(prev => ({ ...prev, contrato_id: aceptados[0].id, monto: aceptados[0].monto }));
       }
@@ -1038,7 +1038,7 @@ Puedes consultarme sobre las cláusulas, penalidades o términos que deseas camb
       const match = msg.contenido.match(/CONTRATO_REVIEW:(\d+):END/);
       const contratoId = match ? match[1] : null;
       const lines = msg.contenido.split('\n').filter(l => !l.includes('CONTRATO_REVIEW:'));
-      
+
       return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', minWidth: '220px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: isMine ? '#fff' : '#6366f1' }}>
@@ -1434,14 +1434,14 @@ Puedes consultarme sobre las cláusulas, penalidades o términos que deseas camb
                             activePub.tipo_oferta === 'alquiler'
                               ? 'hsla(210, 100%, 96%, 1)'
                               : activePub.tipo_oferta === 'venta'
-                              ? 'hsla(140, 100%, 95%, 1)'
-                              : 'hsla(280, 100%, 96%, 1)',
+                                ? 'hsla(140, 100%, 95%, 1)'
+                                : 'hsla(280, 100%, 96%, 1)',
                           color:
                             activePub.tipo_oferta === 'alquiler'
                               ? 'hsla(210, 100%, 45%, 1)'
                               : activePub.tipo_oferta === 'venta'
-                              ? 'hsla(140, 90%, 30%, 1)'
-                              : 'hsla(280, 90%, 40%, 1)',
+                                ? 'hsla(140, 90%, 30%, 1)'
+                                : 'hsla(280, 90%, 40%, 1)',
                           padding: '6px 12px',
                           borderRadius: '20px',
                           fontSize: '0.78rem',
@@ -1452,13 +1452,12 @@ Puedes consultarme sobre las cláusulas, penalidades o términos que deseas camb
                           display: 'inline-flex',
                           alignItems: 'center',
                           gap: '6px',
-                          border: `1px solid ${
-                            activePub.tipo_oferta === 'alquiler'
+                          border: `1px solid ${activePub.tipo_oferta === 'alquiler'
                               ? 'hsla(210, 100%, 90%, 1)'
                               : activePub.tipo_oferta === 'venta'
-                              ? 'hsla(140, 100%, 85%, 1)'
-                              : 'hsla(280, 100%, 90%, 1)'
-                          }`,
+                                ? 'hsla(140, 100%, 85%, 1)'
+                                : 'hsla(280, 100%, 90%, 1)'
+                            }`,
                         }}
                       >
                         {activePub.tipo_oferta === 'alquiler' && 'Alquiler'}
@@ -1686,98 +1685,98 @@ Puedes consultarme sobre las cláusulas, penalidades o términos que deseas camb
                           <Orbit size={22} color="var(--color-primary)" />
                         </button>
                       )}
-                        {esOwner && (
+                      {esOwner && (
 
-                          <button
-                            onClick={abrirModalPago}
-                            style={{
-                              background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-                              border: 'none',
-                              cursor: 'pointer',
-                              padding: '6px 12px',
-                              borderRadius: '8px',
-                              flexShrink: 0,
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              gap: '4px',
-                              color: '#fff',
-                              fontWeight: 600,
-                              fontSize: '0.8rem',
-                              transition: 'transform 0.15s',
-                            }}
-                            title="Cobrar"
-                            onMouseOver={e => e.currentTarget.style.transform = 'scale(1.05)'}
-                            onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}
-                          >
-                            <DollarSign size={18} /> Cobrar
-                          </button>
-                        )}
-                        {esOwner && (
-                          <button
-                            onClick={() => {
-                              // Buscar si ya existe una propuesta de contrato en los mensajes del chat activo
-                              const existingProposalMsg = mensajes.slice().reverse().find(m => m.contenido?.includes('CONTRATO_REVIEW:'));
-                              if (existingProposalMsg) {
-                                const match = existingProposalMsg.contenido.match(/CONTRATO_REVIEW:(\d+):END/);
-                                const contratoId = match ? match[1] : null;
-                                if (contratoId) {
-                                  showConfirm({
-                                    title: 'Propuesta de contrato activa',
-                                    message: 'Ya existe una propuesta de contrato activa en este chat. Si creas una nueva, la propuesta anterior y su historial se eliminarán para evitar confusiones. ¿Deseas continuar?',
-                                    confirmText: 'Sí, crear nuevo',
-                                    cancelText: 'Cancelar',
-                                    status: 'warning',
-                                    onConfirm: async () => {
-                                      try {
-                                        // 1. Eliminar el contrato anterior
-                                        await api.delete(`/inmuebles/contratos/${contratoId}/`);
-                                        // 2. Eliminar el mensaje del chat
-                                        await api.delete(`/usuarios/mensajes/${existingProposalMsg.id}/`);
-                                        // 3. Limpiar borradores guardados
-                                        localStorage.removeItem(`contrato_ia_draft_${selectedChat.id}`);
-                                        localStorage.removeItem(`contrato_ia_edit_draft_${contratoId}`);
-                                        // 4. Recargar mensajes
-                                        fetchMensajes(selectedChat.id);
-                                        // 5. Abrir creación vacía
-                                        setContratoEdicion(null);
-                                        setShowContratoIAModal(true);
-                                      } catch (err) {
-                                        console.error("Error al cancelar propuesta anterior:", err);
-                                        showAlert({ title: 'Error', message: 'No se pudo eliminar la propuesta de contrato anterior.', status: 'error' });
-                                      }
+                        <button
+                          onClick={abrirModalPago}
+                          style={{
+                            background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                            border: 'none',
+                            cursor: 'pointer',
+                            padding: '6px 12px',
+                            borderRadius: '8px',
+                            flexShrink: 0,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '4px',
+                            color: '#fff',
+                            fontWeight: 600,
+                            fontSize: '0.8rem',
+                            transition: 'transform 0.15s',
+                          }}
+                          title="Cobrar"
+                          onMouseOver={e => e.currentTarget.style.transform = 'scale(1.05)'}
+                          onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}
+                        >
+                          <DollarSign size={18} /> Cobrar
+                        </button>
+                      )}
+                      {esOwner && (
+                        <button
+                          onClick={() => {
+                            // Buscar si ya existe una propuesta de contrato en los mensajes del chat activo
+                            const existingProposalMsg = mensajes.slice().reverse().find(m => m.contenido?.includes('CONTRATO_REVIEW:'));
+                            if (existingProposalMsg) {
+                              const match = existingProposalMsg.contenido.match(/CONTRATO_REVIEW:(\d+):END/);
+                              const contratoId = match ? match[1] : null;
+                              if (contratoId) {
+                                showConfirm({
+                                  title: 'Propuesta de contrato activa',
+                                  message: 'Ya existe una propuesta de contrato activa en este chat. Si creas una nueva, la propuesta anterior y su historial se eliminarán para evitar confusiones. ¿Deseas continuar?',
+                                  confirmText: 'Sí, crear nuevo',
+                                  cancelText: 'Cancelar',
+                                  status: 'warning',
+                                  onConfirm: async () => {
+                                    try {
+                                      // 1. Eliminar el contrato anterior
+                                      await api.delete(`/inmuebles/contratos/${contratoId}/`);
+                                      // 2. Eliminar el mensaje del chat
+                                      await api.delete(`/usuarios/mensajes/${existingProposalMsg.id}/`);
+                                      // 3. Limpiar borradores guardados
+                                      localStorage.removeItem(`contrato_ia_draft_${selectedChat.id}`);
+                                      localStorage.removeItem(`contrato_ia_edit_draft_${contratoId}`);
+                                      // 4. Recargar mensajes
+                                      fetchMensajes(selectedChat.id);
+                                      // 5. Abrir creación vacía
+                                      setContratoEdicion(null);
+                                      setShowContratoIAModal(true);
+                                    } catch (err) {
+                                      console.error("Error al cancelar propuesta anterior:", err);
+                                      showAlert({ title: 'Error', message: 'No se pudo eliminar la propuesta de contrato anterior.', status: 'error' });
                                     }
-                                  });
-                                  return;
-                                }
+                                  }
+                                });
+                                return;
                               }
-                              // Si no hay propuesta activa, se abre normalmente
-                              setContratoEdicion(null);
-                              setShowContratoIAModal(true);
-                            }}
-                            style={{
-                              background: 'linear-gradient(135deg, #0ea5e9, #0284c7)',
-                              border: 'none',
-                              cursor: 'pointer',
-                              padding: '6px 12px',
-                              borderRadius: '8px',
-                              flexShrink: 0,
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              gap: '4px',
-                              color: '#fff',
-                              fontWeight: 600,
-                              fontSize: '0.8rem',
-                              transition: 'transform 0.15s',
-                            }}
-                            title="Redactar nuevo contrato"
-                            onMouseOver={e => e.currentTarget.style.transform = 'scale(1.05)'}
-                            onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}
-                          >
-                            <FileSignature size={18} /> Contrato
-                          </button>
-                        )}
+                            }
+                            // Si no hay propuesta activa, se abre normalmente
+                            setContratoEdicion(null);
+                            setShowContratoIAModal(true);
+                          }}
+                          style={{
+                            background: 'linear-gradient(135deg, #0ea5e9, #0284c7)',
+                            border: 'none',
+                            cursor: 'pointer',
+                            padding: '6px 12px',
+                            borderRadius: '8px',
+                            flexShrink: 0,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '4px',
+                            color: '#fff',
+                            fontWeight: 600,
+                            fontSize: '0.8rem',
+                            transition: 'transform 0.15s',
+                          }}
+                          title="Redactar nuevo contrato"
+                          onMouseOver={e => e.currentTarget.style.transform = 'scale(1.05)'}
+                          onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}
+                        >
+                          <FileSignature size={18} /> Contrato
+                        </button>
+                      )}
                       <input
                         type="file"
                         ref={fileInputRef}
@@ -2096,121 +2095,121 @@ Puedes consultarme sobre las cláusulas, penalidades o términos que deseas camb
               <FileText size={24} color="#6366f1" />
               <p style={{ margin: 0, fontSize: '0.88rem', color: '#64748b' }}>Complete los terminos legales para formalizar el acuerdo con el cliente.</p>
             </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                  <div>
-                    <label style={{ fontWeight: 600, fontSize: '0.85rem', display: 'block', marginBottom: '4px' }}>Tipo de Contrato *</label>
-                    <select
-                      value={contratoForm.tipo_contrato}
-                      onChange={e => setContratoForm({ ...contratoForm, tipo_contrato: e.target.value })}
-                      style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #d1d5db', fontSize: '0.85rem' }}
-                    >
-                      <option value="">Seleccione...</option>
-                      {tiposContrato.map(t => <option key={t.id} value={t.id}>{t.nombre}</option>)}
-                    </select>
-                  </div>
-                  <div>
-                    <label style={{ fontWeight: 600, fontSize: '0.85rem', display: 'block', marginBottom: '4px' }}>Moneda</label>
-                    <input
-                      type="text"
-                      value="Bolivianos (BOB)"
-                      readOnly
-                      style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #d1d5db', background: '#f9fafb', color: '#64748b', fontSize: '0.85rem' }}
-                    />
-                  </div>
-                </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+              <div>
+                <label style={{ fontWeight: 600, fontSize: '0.85rem', display: 'block', marginBottom: '4px' }}>Tipo de Contrato *</label>
+                <select
+                  value={contratoForm.tipo_contrato}
+                  onChange={e => setContratoForm({ ...contratoForm, tipo_contrato: e.target.value })}
+                  style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #d1d5db', fontSize: '0.85rem' }}
+                >
+                  <option value="">Seleccione...</option>
+                  {tiposContrato.map(t => <option key={t.id} value={t.id}>{t.nombre}</option>)}
+                </select>
+              </div>
+              <div>
+                <label style={{ fontWeight: 600, fontSize: '0.85rem', display: 'block', marginBottom: '4px' }}>Moneda</label>
+                <input
+                  type="text"
+                  value="Bolivianos (BOB)"
+                  readOnly
+                  style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #d1d5db', background: '#f9fafb', color: '#64748b', fontSize: '0.85rem' }}
+                />
+              </div>
+            </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                  <div>
-                    <label style={{ fontWeight: 600, fontSize: '0.85rem', display: 'block', marginBottom: '4px' }}>Monto Total *</label>
-                    <input
-                      type="number"
-                      value={contratoForm.monto}
-                      onChange={e => setContratoForm({ ...contratoForm, monto: e.target.value })}
-                      placeholder="0.00"
-                      style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #d1d5db', fontSize: '0.85rem' }}
-                    />
-                  </div>
-                  <div>
-                    <label style={{ fontWeight: 600, fontSize: '0.85rem', display: 'block', marginBottom: '4px' }}>Garantía / Depósito</label>
-                    <input
-                      type="number"
-                      value={contratoForm.deposito}
-                      onChange={e => setContratoForm({ ...contratoForm, deposito: e.target.value })}
-                      style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #d1d5db', fontSize: '0.85rem' }}
-                    />
-                  </div>
-                </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+              <div>
+                <label style={{ fontWeight: 600, fontSize: '0.85rem', display: 'block', marginBottom: '4px' }}>Monto Total *</label>
+                <input
+                  type="number"
+                  value={contratoForm.monto}
+                  onChange={e => setContratoForm({ ...contratoForm, monto: e.target.value })}
+                  placeholder="0.00"
+                  style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #d1d5db', fontSize: '0.85rem' }}
+                />
+              </div>
+              <div>
+                <label style={{ fontWeight: 600, fontSize: '0.85rem', display: 'block', marginBottom: '4px' }}>Garantía / Depósito</label>
+                <input
+                  type="number"
+                  value={contratoForm.deposito}
+                  onChange={e => setContratoForm({ ...contratoForm, deposito: e.target.value })}
+                  style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #d1d5db', fontSize: '0.85rem' }}
+                />
+              </div>
+            </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                  <div>
-                    <label style={{ fontWeight: 600, fontSize: '0.85rem', display: 'block', marginBottom: '4px' }}>Fecha Inicio *</label>
-                    <input
-                      type="date"
-                      value={contratoForm.inicio}
-                      onChange={e => setContratoForm({ ...contratoForm, inicio: e.target.value })}
-                      style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #d1d5db', fontSize: '0.85rem' }}
-                    />
-                  </div>
-                  <div>
-                    <label style={{ fontWeight: 600, fontSize: '0.85rem', display: 'block', marginBottom: '4px' }}>Día de Pago (Mensual)</label>
-                    <input
-                      type="number"
-                      min="1" max="28"
-                      value={contratoForm.dia_pago}
-                      onChange={e => setContratoForm({ ...contratoForm, dia_pago: e.target.value })}
-                      style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #d1d5db', fontSize: '0.85rem' }}
-                    />
-                  </div>
-                </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+              <div>
+                <label style={{ fontWeight: 600, fontSize: '0.85rem', display: 'block', marginBottom: '4px' }}>Fecha Inicio *</label>
+                <input
+                  type="date"
+                  value={contratoForm.inicio}
+                  onChange={e => setContratoForm({ ...contratoForm, inicio: e.target.value })}
+                  style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #d1d5db', fontSize: '0.85rem' }}
+                />
+              </div>
+              <div>
+                <label style={{ fontWeight: 600, fontSize: '0.85rem', display: 'block', marginBottom: '4px' }}>Día de Pago (Mensual)</label>
+                <input
+                  type="number"
+                  min="1" max="28"
+                  value={contratoForm.dia_pago}
+                  onChange={e => setContratoForm({ ...contratoForm, dia_pago: e.target.value })}
+                  style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #d1d5db', fontSize: '0.85rem' }}
+                />
+              </div>
+            </div>
 
-                <div>
-                  <label style={{ fontWeight: 600, fontSize: '0.85rem', display: 'block', marginBottom: '4px' }}>Cláusulas Legales Detalladas</label>
-                  <textarea
-                    value={contratoForm.clausulas}
-                    onChange={e => setContratoForm({ ...contratoForm, clausulas: e.target.value })}
-                    rows={4}
-                    placeholder="Detalle todas las cláusulas legales aquí..."
-                    style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #d1d5db', fontSize: '0.85rem' }}
-                  />
-                </div>
+            <div>
+              <label style={{ fontWeight: 600, fontSize: '0.85rem', display: 'block', marginBottom: '4px' }}>Cláusulas Legales Detalladas</label>
+              <textarea
+                value={contratoForm.clausulas}
+                onChange={e => setContratoForm({ ...contratoForm, clausulas: e.target.value })}
+                rows={4}
+                placeholder="Detalle todas las cláusulas legales aquí..."
+                style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #d1d5db', fontSize: '0.85rem' }}
+              />
+            </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                  <div>
-                    <label style={{ fontWeight: 600, fontSize: '0.85rem', display: 'block', marginBottom: '4px' }}>Servicios Incluidos</label>
-                    <textarea
-                      value={contratoForm.incluye_servicios}
-                      onChange={e => setContratoForm({ ...contratoForm, incluye_servicios: e.target.value })}
-                      rows={2}
-                      style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #d1d5db', fontSize: '0.85rem' }}
-                    />
-                  </div>
-                  <div>
-                    <label style={{ fontWeight: 600, fontSize: '0.85rem', display: 'block', marginBottom: '4px' }}>Restricciones</label>
-                    <textarea
-                      value={contratoForm.restricciones}
-                      onChange={e => setContratoForm({ ...contratoForm, restricciones: e.target.value })}
-                      rows={2}
-                      style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #d1d5db', fontSize: '0.85rem' }}
-                    />
-                  </div>
-                </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+              <div>
+                <label style={{ fontWeight: 600, fontSize: '0.85rem', display: 'block', marginBottom: '4px' }}>Servicios Incluidos</label>
+                <textarea
+                  value={contratoForm.incluye_servicios}
+                  onChange={e => setContratoForm({ ...contratoForm, incluye_servicios: e.target.value })}
+                  rows={2}
+                  style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #d1d5db', fontSize: '0.85rem' }}
+                />
+              </div>
+              <div>
+                <label style={{ fontWeight: 600, fontSize: '0.85rem', display: 'block', marginBottom: '4px' }}>Restricciones</label>
+                <textarea
+                  value={contratoForm.restricciones}
+                  onChange={e => setContratoForm({ ...contratoForm, restricciones: e.target.value })}
+                  rows={2}
+                  style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #d1d5db', fontSize: '0.85rem' }}
+                />
+              </div>
+            </div>
 
-                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '10px', flexShrink: 0 }}>
-                  <button onClick={() => setShowContratoModal(false)} style={{ padding: '10px 20px', border: '1px solid #d1d5db', background: '#fff', borderRadius: '8px', fontWeight: 600, cursor: 'pointer', fontSize: '0.85rem' }}>Cancelar</button>
-                  <button
-                    onClick={handleGuardarContrato}
-                    disabled={contratoLoading}
-                    style={{
-                      padding: '10px 24px', background: contratoLoading ? '#cbd5e1' : 'linear-gradient(135deg, #0ea5e9, #0284c7)',
-                      color: '#fff', border: 'none', borderRadius: '8px', fontWeight: 700, fontSize: '0.85rem',
-                      display: 'inline-flex', alignItems: 'center', gap: '8px',
-                      cursor: contratoLoading ? 'not-allowed' : 'pointer'
-                    }}
-                  >
-                    {contratoLoading ? <Loader2 className="animate-spin" size={18} /> : <FileCheck size={18} />}
-                    {contratoLoading ? 'Enviando...' : 'Guardar y Enviar al Cliente'}
-                  </button>
-                </div>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '10px', flexShrink: 0 }}>
+              <button onClick={() => setShowContratoModal(false)} style={{ padding: '10px 20px', border: '1px solid #d1d5db', background: '#fff', borderRadius: '8px', fontWeight: 600, cursor: 'pointer', fontSize: '0.85rem' }}>Cancelar</button>
+              <button
+                onClick={handleGuardarContrato}
+                disabled={contratoLoading}
+                style={{
+                  padding: '10px 24px', background: contratoLoading ? '#cbd5e1' : 'linear-gradient(135deg, #0ea5e9, #0284c7)',
+                  color: '#fff', border: 'none', borderRadius: '8px', fontWeight: 700, fontSize: '0.85rem',
+                  display: 'inline-flex', alignItems: 'center', gap: '8px',
+                  cursor: contratoLoading ? 'not-allowed' : 'pointer'
+                }}
+              >
+                {contratoLoading ? <Loader2 className="animate-spin" size={18} /> : <FileCheck size={18} />}
+                {contratoLoading ? 'Enviando...' : 'Guardar y Enviar al Cliente'}
+              </button>
+            </div>
           </div>
         </div>
       </Modal>
@@ -2232,10 +2231,10 @@ Puedes consultarme sobre las cláusulas, penalidades o términos que deseas camb
               <AlertCircle size={32} style={{ margin: '0 auto 10px', color: '#f59e0b' }} />
               <p>No hay contratos <b>ACEPTADOS</b> por el cliente.</p>
               <p style={{ fontSize: '0.85rem', marginBottom: '16px' }}>Debes enviar un contrato legal y que el cliente lo acepte antes de cobrar.</p>
-              <button 
+              <button
                 onClick={() => { setShowPagoModal(false); abrirModalContrato(); }}
                 style={{
-                  background: '#6366f1', color: '#fff', border: 'none', padding: '10px 20px', 
+                  background: '#6366f1', color: '#fff', border: 'none', padding: '10px 20px',
                   borderRadius: '8px', fontWeight: 700, cursor: 'pointer'
                 }}
               >
@@ -2319,7 +2318,7 @@ Puedes consultarme sobre las cláusulas, penalidades o términos que deseas camb
               Selecciona la duración para la cual deseas permitir que el cliente explore la propiedad de forma inmersiva.
             </p>
           </div>
-          
+
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginTop: '4px' }}>
             <button
               onClick={() => handleOtorgarAcceso360('0.5')}

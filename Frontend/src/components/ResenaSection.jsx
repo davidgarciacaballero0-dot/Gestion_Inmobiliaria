@@ -106,17 +106,17 @@ const ResenaSection = ({ inmuebleId, isAuthenticated, userId }) => {
   return (
     <div style={{ marginTop: '40px', borderTop: '1px solid var(--color-border)', paddingTop: '24px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
-        <h2 style={{ fontSize: '1.3rem', fontWeight: 700, margin: 0 }}>Opiniones de Usuarios</h2>
+        <h2 style={{ fontSize: '1.3rem', fontWeight: 700, margin: 0, color: 'var(--color-text)' }}>Opiniones de Usuarios</h2>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
           <StarRating rating={Math.round(promedio.promedio)} size="1.2rem" />
-          <span style={{ fontWeight: 600, fontSize: '1.1rem' }}>{promedio.promedio}/5</span>
+          <span style={{ fontWeight: 600, fontSize: '1.1rem', color: 'var(--color-text)' }}>{promedio.promedio}/5</span>
           <span style={{ color: 'var(--color-text-secondary)', fontSize: '0.9rem' }}>({promedio.total} reseñas)</span>
         </div>
       </div>
 
       {isAuthenticated && !resenas.find(r => r.usuario === userId) && (
-        <form onSubmit={handleSubmit} style={{ background: '#f8fafc', padding: '20px', borderRadius: '12px', marginBottom: '24px', border: '1px solid var(--color-border)' }}>
-          <h4 style={{ margin: '0 0 12px 0', fontSize: '1rem' }}>Deja tu calificación</h4>
+        <form onSubmit={handleSubmit} style={{ background: 'var(--color-bg-card)', padding: '20px', borderRadius: '12px', marginBottom: '24px', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-sm)' }}>
+          <h4 style={{ margin: '0 0 12px 0', fontSize: '1rem', color: 'var(--color-text)' }}>Deja tu calificación</h4>
           <div style={{ marginBottom: '12px' }}>
             <StarRating rating={calificacion} interactive={true} onRate={setCalificacion} size="1.5rem" />
           </div>
@@ -124,7 +124,7 @@ const ResenaSection = ({ inmuebleId, isAuthenticated, userId }) => {
             value={comentario}
             onChange={(e) => setComentario(e.target.value)}
             placeholder="¿Qué te pareció este inmueble? (Opcional)"
-            style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e1', outline: 'none', resize: 'vertical', minHeight: '80px', marginBottom: '12px', fontFamily: 'inherit' }}
+            style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid var(--color-border)', background: 'var(--color-bg-secondary)', color: 'var(--color-text)', outline: 'none', resize: 'vertical', minHeight: '80px', marginBottom: '12px', fontFamily: 'inherit' }}
           />
           <button type="submit" style={{ background: 'var(--color-primary)', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '6px', fontWeight: 600, cursor: 'pointer' }}>
             Enviar Opinión
@@ -133,22 +133,22 @@ const ResenaSection = ({ inmuebleId, isAuthenticated, userId }) => {
       )}
 
       {loading ? (
-        <div style={{ textAlign: 'center', color: '#94a3b8', padding: '20px' }}>Cargando reseñas...</div>
+        <div style={{ textAlign: 'center', color: 'var(--color-text-muted)', padding: '20px' }}>Cargando reseñas...</div>
       ) : resenas.length === 0 ? (
-        <div style={{ textAlign: 'center', color: '#94a3b8', padding: '20px', background: '#f8fafc', borderRadius: '8px' }}>Aún no hay reseñas para este inmueble.</div>
+        <div style={{ textAlign: 'center', color: 'var(--color-text-muted)', padding: '24px', background: 'var(--color-bg-card)', border: '1px solid var(--color-border)', borderRadius: '12px', boxShadow: 'var(--shadow-sm)' }}>Aún no hay reseñas para este inmueble.</div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {resenas.map(resena => (
-            <div key={resena.id} style={{ padding: '16px', border: '1px solid var(--color-border)', borderRadius: '8px', background: '#fff' }}>
+            <div key={resena.id} style={{ padding: '16px', border: '1px solid var(--color-border)', borderRadius: '12px', background: 'var(--color-bg-card)', boxShadow: 'var(--shadow-sm)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', flexWrap: 'wrap', gap: '4px', alignItems: 'flex-start' }}>
-                <div style={{ fontWeight: 600 }}>{resena.usuario_nombre || resena.usuario_username}</div>
-                <div style={{ color: '#94a3b8', fontSize: '0.85rem' }}>
+                <div style={{ fontWeight: 600, color: 'var(--color-text)' }}>{resena.usuario_nombre || resena.usuario_username}</div>
+                <div style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem' }}>
                   {new Date(resena.creado).toLocaleDateString('es-BO', { year: 'numeric', month: 'long', day: 'numeric' })}
                 </div>
               </div>
               <StarRating rating={resena.calificacion} />
               {resena.comentario && (
-                <p style={{ marginTop: '12px', marginBottom: 0, color: 'var(--color-text)', fontSize: '0.95rem', lineHeight: '1.5' }}>
+                <p style={{ marginTop: '12px', marginBottom: 0, color: 'var(--color-text-secondary)', fontSize: '0.95rem', lineHeight: '1.5' }}>
                   {resena.comentario}
                 </p>
               )}

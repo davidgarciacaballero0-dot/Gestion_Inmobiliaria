@@ -61,9 +61,9 @@ const MisNotificaciones = () => {
           style={{
             border: '1px solid var(--color-border)',
             borderRadius: '14px',
-            background: '#fff',
+            background: 'var(--color-bg-card)',
             overflow: 'hidden',
-            boxShadow: '0 6px 16px rgba(15, 23, 42, 0.06)',
+            boxShadow: 'var(--shadow-sm)',
           }}
         >
           <div
@@ -75,6 +75,7 @@ const MisNotificaciones = () => {
               padding: '14px 16px',
               gap: '12px',
               flexWrap: 'wrap',
+              background: 'var(--color-bg-secondary)',
             }}
           >
             <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
@@ -82,10 +83,10 @@ const MisNotificaciones = () => {
                 onClick={() => setTab('sistema')}
                 style={{
                   border: '1px solid var(--color-border)',
-                  background: tab === 'sistema' ? '#ecfeff' : '#fff',
-                  color: '#0f172a',
+                  background: tab === 'sistema' ? 'rgba(14, 165, 233, 0.15)' : 'var(--color-bg-card)',
+                  color: tab === 'sistema' ? 'var(--color-primary)' : 'var(--color-text)',
                   borderRadius: '8px',
-                  padding: '8px 10px',
+                  padding: '8px 12px',
                   cursor: 'pointer',
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -99,10 +100,10 @@ const MisNotificaciones = () => {
                 onClick={() => setTab('usuario')}
                 style={{
                   border: '1px solid var(--color-border)',
-                  background: tab === 'usuario' ? '#eff6ff' : '#fff',
-                  color: '#0f172a',
+                  background: tab === 'usuario' ? 'rgba(14, 165, 233, 0.15)' : 'var(--color-bg-card)',
+                  color: tab === 'usuario' ? 'var(--color-primary)' : 'var(--color-text)',
                   borderRadius: '8px',
-                  padding: '8px 10px',
+                  padding: '8px 12px',
                   cursor: 'pointer',
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -118,14 +119,15 @@ const MisNotificaciones = () => {
               onClick={marcarLeidas}
               style={{
                 border: '1px solid var(--color-border)',
-                background: '#fff',
-                color: '#0f172a',
+                background: 'var(--color-bg-card)',
+                color: 'var(--color-text)',
                 borderRadius: '8px',
-                padding: '8px 10px',
+                padding: '8px 12px',
                 cursor: 'pointer',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '6px',
+                fontWeight: 500,
               }}
             >
               <CheckCheck size={16} /> Marcar leídas
@@ -138,10 +140,10 @@ const MisNotificaciones = () => {
             ) : null}
 
             {!loading && dataActiva.length === 0 ? (
-              <div style={{ padding: '80px 24px', color: '#94a3b8', textAlign: 'center' }}>
-                <BellRing size={48} style={{ color: '#cbd5e1', marginBottom: '16px', opacity: 0.5 }} />
-                <div style={{ fontSize: '1.1rem', fontWeight: 600, color: '#64748b' }}>Sin notificaciones</div>
-                <p style={{ fontSize: '0.85rem', marginTop: '4px' }}>
+              <div style={{ padding: '80px 24px', color: 'var(--color-text-muted)', textAlign: 'center' }}>
+                <BellRing size={48} style={{ color: 'var(--color-text-muted)', marginBottom: '16px', opacity: 0.5 }} />
+                <div style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--color-text)' }}>Sin notificaciones</div>
+                <p style={{ fontSize: '0.85rem', marginTop: '4px', color: 'var(--color-text-secondary)' }}>
                   No hay alertas de {tab} por el momento.
                 </p>
               </div>
@@ -153,8 +155,8 @@ const MisNotificaciones = () => {
                   key={n.id}
                   style={{
                     padding: '14px 16px',
-                    borderBottom: '1px solid #f1f5f9',
-                    background: n.leida ? '#fff' : tab === 'sistema' ? '#f0fdfa' : '#eff6ff',
+                    borderBottom: '1px solid var(--color-border)',
+                    background: n.leida ? 'transparent' : 'rgba(14, 165, 233, 0.06)',
                     display: 'flex',
                     gap: '10px',
                     alignItems: 'flex-start',
@@ -163,8 +165,8 @@ const MisNotificaciones = () => {
                   <div style={{ marginTop: '2px' }}>{iconoTipo(n.tipo)}</div>
                   <div style={{ flex: 1 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', gap: '8px', flexWrap: 'wrap' }}>
-                      <strong style={{ color: '#0f172a' }}>{n.titulo}</strong>
-                      <small style={{ color: '#64748b' }}>
+                      <strong style={{ color: 'var(--color-text)' }}>{n.titulo}</strong>
+                      <small style={{ color: 'var(--color-text-muted)' }}>
                         {new Date(n.creada).toLocaleString('es-BO', {
                           year: 'numeric',
                           month: '2-digit',
@@ -174,7 +176,7 @@ const MisNotificaciones = () => {
                         })}
                       </small>
                     </div>
-                    <p style={{ margin: '6px 0 0', color: '#334155' }}>{n.mensaje}</p>
+                    <p style={{ margin: '6px 0 0', color: 'var(--color-text-secondary)' }}>{n.mensaje}</p>
                   </div>
                 </div>
               ))}

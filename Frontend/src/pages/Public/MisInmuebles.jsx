@@ -1923,14 +1923,14 @@ const MisInmuebles = () => {
           display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px',
         }}>
           <div style={{
-            background: '#fff', borderRadius: '20px', width: '100%', maxWidth: '650px',
+            background: 'var(--color-bg-card)', borderRadius: '20px', width: '100%', maxWidth: '650px',
             maxHeight: '85vh', display: 'flex', flexDirection: 'column', overflow: 'hidden',
-            boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)', border: '1px solid var(--color-border)'
+            boxShadow: 'var(--shadow-lg)', border: '1px solid var(--color-border)'
           }}>
             <div style={{
               padding: '20px 24px', borderBottom: '1px solid var(--color-border)',
               display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-              background: 'linear-gradient(135deg, #f8fafc, #f1f5f9)'
+              background: 'var(--color-bg-secondary)'
             }}>
               <div>
                 <h2 style={{ margin: 0, fontSize: '1.25rem', fontWeight: 800, color: 'var(--color-text)' }}>
@@ -1939,32 +1939,32 @@ const MisInmuebles = () => {
                     Gestionar Ofertas Comerciales
                   </span>
                 </h2>
-                <p style={{ margin: '4px 0 0', fontSize: '0.8rem', color: '#64748b' }}>
+                <p style={{ margin: '4px 0 0', fontSize: '0.8rem', color: 'var(--color-text-secondary)' }}>
                   Administra las publicaciones, precios e historial de esta propiedad.
                 </p>
               </div>
               <button onClick={() => setShowPubModal(false)}
-                style={{ background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer', color: '#64748b' }}
+                style={{ background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer', color: 'var(--color-text-secondary)' }}
               >&times;</button>
             </div>
 
             <div style={{ padding: '24px', overflowY: 'auto', flex: 1, display: 'flex', flexDirection: 'column', gap: '20px' }}>
               <form onSubmit={crearPublicacion} style={{
-                background: 'linear-gradient(135deg, #f0fdf4, #ecfdf5)', borderRadius: '16px', padding: '20px',
+                background: 'rgba(16, 185, 129, 0.06)', borderRadius: '16px', padding: '20px',
                 border: '1px solid rgba(16, 185, 129, 0.2)', display: 'flex', flexDirection: 'column', gap: '14px'
               }}>
-                <p style={{ margin: '0', fontWeight: 700, color: '#065f46', fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <p style={{ margin: '0', fontWeight: 700, color: '#10b981', fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <Plus size={16} /> Crear Nueva Oferta Comercial
                 </p>
                 <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'flex-end' }}>
                   <div style={{ flex: 1, minWidth: '130px' }}>
-                    <label style={{ display: 'block', fontSize: '0.8rem', color: '#047857', marginBottom: '6px', fontWeight: 600 }}>Tipo de Oferta</label>
+                    <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--color-text-secondary)', marginBottom: '6px', fontWeight: 600 }}>Tipo de Oferta</label>
                     <select
                       value={newPubFormData.tipo_oferta}
                       onChange={e => setNewPubFormData(p => ({ ...p, tipo_oferta: e.target.value }))}
                       style={{
                         width: '100%', padding: '10px 14px', borderRadius: '10px',
-                        border: '1px solid rgba(16, 185, 129, 0.3)', background: '#fff', fontSize: '0.9rem'
+                        border: '1px solid var(--color-border)', background: 'var(--color-bg-card)', color: 'var(--color-text)', fontSize: '0.9rem'
                       }}
                     >
                       <option value="alquiler">Alquiler</option>
@@ -1973,23 +1973,23 @@ const MisInmuebles = () => {
                     </select>
                   </div>
                   <div style={{ flex: 1, minWidth: '130px' }}>
-                    <label style={{ display: 'block', fontSize: '0.8rem', color: '#047857', marginBottom: '6px', fontWeight: 600 }}>Precio (Bs)</label>
+                    <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--color-text-secondary)', marginBottom: '6px', fontWeight: 600 }}>Precio (Bs)</label>
                     <input type="number" min="0" step="0.01" required value={newPubFormData.precio}
                       onChange={e => setNewPubFormData(p => ({ ...p, precio: e.target.value }))}
                       style={{
                         width: '100%', padding: '10px 14px', borderRadius: '10px',
-                        border: '1px solid rgba(16, 185, 129, 0.3)', background: '#fff', fontSize: '0.9rem'
+                        border: '1px solid var(--color-border)', background: 'var(--color-bg-card)', color: 'var(--color-text)', fontSize: '0.9rem'
                       }}
                       placeholder="Ej. 3500" />
                   </div>
                   <div style={{ flex: 1, minWidth: '130px' }}>
-                    <label style={{ display: 'block', fontSize: '0.8rem', color: '#047857', marginBottom: '6px', fontWeight: 600 }}>Estado Inicial</label>
+                    <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--color-text-secondary)', marginBottom: '6px', fontWeight: 600 }}>Estado Inicial</label>
                     <select
                       value={newPubFormData.estado}
                       onChange={e => setNewPubFormData(p => ({ ...p, estado: e.target.value }))}
                       style={{
                         width: '100%', padding: '10px 14px', borderRadius: '10px',
-                        border: '1px solid rgba(16, 185, 129, 0.3)', background: '#fff', fontSize: '0.9rem'
+                        border: '1px solid var(--color-border)', background: 'var(--color-bg-card)', color: 'var(--color-text)', fontSize: '0.9rem'
                       }}
                     >
                       <option value="activa">Activa (Publicada)</option>
@@ -2008,7 +2008,7 @@ const MisInmuebles = () => {
                   </button>
                 </div>
                 {newPubFormData.estado === 'activa' && (
-                  <p style={{ margin: 0, fontSize: '0.75rem', color: '#047857', display: 'flex', alignItems: 'center', gap: '4px', opacity: 0.87 }}>
+                  <p style={{ margin: 0, fontSize: '0.75rem', color: '#10b981', display: 'flex', alignItems: 'center', gap: '4px', opacity: 0.9 }}>
                     <AlertCircle size={12} /> Nota: Activar esta oferta finalizará automáticamente cualquier otra oferta activa existente.
                   </p>
                 )}
@@ -2019,9 +2019,9 @@ const MisInmuebles = () => {
                   Historial de Ofertas Comerciales
                 </h3>
                 {loadingPubs ? (
-                  <div style={{ textAlign: 'center', padding: '24px', color: '#94a3b8' }}>Cargando ofertas...</div>
+                  <div style={{ textAlign: 'center', padding: '24px', color: 'var(--color-text-muted)' }}>Cargando ofertas...</div>
                 ) : publications.length === 0 ? (
-                  <div style={{ textAlign: 'center', padding: '24px', color: '#94a3b8', fontSize: '0.9rem', border: '1px dashed var(--color-border)', borderRadius: '12px' }}>
+                  <div style={{ textAlign: 'center', padding: '24px', color: 'var(--color-text-muted)', fontSize: '0.9rem', border: '1px dashed var(--color-border)', borderRadius: '12px' }}>
                     Esta propiedad no tiene ofertas registradas. Crea una arriba.
                   </div>
                 ) : (
@@ -2033,12 +2033,12 @@ const MisInmuebles = () => {
                         venta: { bg: 'rgba(99, 102, 241, 0.1)', color: '#6366f1', label: 'Venta', border: '1px solid rgba(99, 102, 241, 0.2)' },
                         anticretico: { bg: 'rgba(245, 158, 11, 0.1)', color: '#f59e0b', label: 'Anticrético', border: '1px solid rgba(245, 158, 11, 0.2)' },
                       };
-                      const pubStyle = offerColors[pub.tipo_oferta] || { label: pub.tipo_oferta, color: '#475569', bg: '#f1f5f9', border: '1px solid #cbd5e1' };
+                      const pubStyle = offerColors[pub.tipo_oferta] || { label: pub.tipo_oferta, color: 'var(--color-text-secondary)', bg: 'var(--color-bg-secondary)', border: '1px solid var(--color-border)' };
 
                       return (
                         <div key={pub.id} style={{
                           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                          padding: '16px', background: isActiva ? 'rgba(16, 185, 129, 0.03)' : '#f8fafc',
+                          padding: '16px', background: isActiva ? 'rgba(16, 185, 129, 0.08)' : 'var(--color-bg-secondary)',
                           borderRadius: '14px', border: isActiva ? '1px solid rgba(16, 185, 129, 0.4)' : '1px solid var(--color-border)',
                           transition: 'all 0.2s', boxShadow: isActiva ? '0 4px 6px -1px rgba(16, 185, 129, 0.05)' : 'none'
                         }}>
@@ -2054,7 +2054,7 @@ const MisInmuebles = () => {
                                 Bs. {parseFloat(pub.precio).toLocaleString()} {pub.tipo_oferta === 'alquiler' ? '/ mes' : pub.tipo_oferta === 'anticretico' ? '(Anticrético)' : ''}
                               </span>
                             </div>
-                            <span style={{ fontSize: '0.75rem', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                            <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
                               <Clock size={12} /> Creada el {new Date(pub.creado).toLocaleDateString('es-BO', { day: 'numeric', month: 'short', year: 'numeric' })}
                             </span>
                           </div>
@@ -2064,8 +2064,8 @@ const MisInmuebles = () => {
                               onChange={e => cambiarEstadoPublicacion(pub.id, e.target.value)}
                               style={{
                                 padding: '6px 12px', borderRadius: '8px', border: '1px solid var(--color-border)',
-                                fontSize: '0.85rem', fontWeight: 600, background: isActiva ? '#dcfce7' : '#f1f5f9',
-                                color: isActiva ? '#15803d' : '#475569', cursor: 'pointer'
+                                fontSize: '0.85rem', fontWeight: 600, background: isActiva ? 'rgba(16, 185, 129, 0.15)' : 'var(--color-bg-card)',
+                                color: isActiva ? '#10b981' : 'var(--color-text-secondary)', cursor: 'pointer'
                               }}
                             >
                               <option value="borrador">Borrador</option>
@@ -2084,12 +2084,12 @@ const MisInmuebles = () => {
 
             <div style={{
               padding: '16px 24px', borderTop: '1px solid var(--color-border)',
-              background: '#f8fafc', display: 'flex', justifyContent: 'flex-end',
+              background: 'var(--color-bg-secondary)', display: 'flex', justifyContent: 'flex-end',
             }}>
               <button onClick={() => setShowPubModal(false)}
                 style={{
-                  background: 'var(--color-primary)', color: '#fff', border: 'none',
-                  padding: '10px 24px', borderRadius: '8px', fontWeight: 600, cursor: 'pointer',
+                  padding: '8px 20px', borderRadius: '10px', background: 'var(--color-primary)',
+                  color: '#fff', border: 'none', fontWeight: 700, cursor: 'pointer'
                 }}>
                 Listo
               </button>
