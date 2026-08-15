@@ -110,10 +110,10 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.postgresql'),
-            'NAME': os.getenv('DB_NAME', 'railway'),
+            'NAME': os.getenv('DB_NAME', 'inmobiliaria_db'),
             'USER': os.getenv('DB_USER', 'postgres'),
-            'PASSWORD': os.getenv('DB_PASSWORD', 'qFzjpZHipslPYrdKARseUmjViIsUBEsf'),
-            'HOST': os.getenv('DB_HOST', 'Postgres.railway.internal'),
+            'PASSWORD': os.getenv('DB_PASSWORD', ''),
+            'HOST': os.getenv('DB_HOST', 'localhost'),
             'PORT': os.getenv('DB_PORT', '5432'),
         }
     }
@@ -170,9 +170,9 @@ CORS_ALLOW_CREDENTIALS = True
 
 # ─── Cloudinary (almacenamiento de imágenes) ───────────────────
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME', 'dwerzrgya'),
-    'API_KEY': os.getenv('CLOUDINARY_API_KEY', '581815563668339'),
-    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET', 'ul_5HAkewevM14trmtf7onSxZtU'),
+    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME', ''),
+    'API_KEY': os.getenv('CLOUDINARY_API_KEY', ''),
+    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET', ''),
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'

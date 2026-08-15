@@ -27,4 +27,6 @@ log*.txt
 .firebase/
 Frontend/.firebase/
 *.sqlite3
+data_dump.json
+Backend/data_dump.json
 
