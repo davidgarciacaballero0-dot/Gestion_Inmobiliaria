@@ -1,0 +1,28 @@
+{
+  "name": "autogestion-blockchain",
+  "version": "1.0.0",
+  "description": "Blockchain Chaincode and Gateway API for Autogestión Inmobiliaria",
+  "main": "src/chaincode/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node src/index.js",
+    "chaincode:start": "fabric-chaincode-node start"
+  },
+  "dependencies": {
+    "@hyperledger/fabric-gateway": "^1.4.0",
+    "@grpc/grpc-js": "^1.9.0",
+    "express": "^4.19.2",
+    "dotenv": "^16.4.5",
+    "fabric-contract-api": "^2.5.4",
+    "fabric-shim": "^2.5.4"
+  },
+  "devDependencies": {
+    "mocha": "^10.4.0",
+    "chai": "^4.4.1",
+    "sinon": "^18.0.0",
+    "sinon-chai": "^3.7.0"
+  },
+  "author": "Autogestión Inmobiliaria",
+  "license": "Apache-2.0"
+}

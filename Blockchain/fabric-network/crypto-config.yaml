@@ -1,0 +1,27 @@
+# ==============================================================================
+#  crypto-config.yaml - Topology definition for crypto-config generation
+# ==============================================================================
+OrdererOrgs:
+  - Name: Orderer
+    Domain: autogestion.com
+    Specs:
+      - Hostname: orderer
+
+PeerOrgs:
+  - Name: Org1
+    Domain: org1.autogestion.com
+    EnableNodeOUs: true
+    Template:
+      Count: 1
+    Users:
+      Admin:
+        Count: 1
+
+  - Name: Org2
+    Domain: org2.autogestion.com
+    EnableNodeOUs: true
+    Template:
+      Count: 1
+    Users:
+      Admin:
+        Count: 1

@@ -1,0 +1,36 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: fabric-setup
+spec:
+  template:
+    metadata:
+      labels:
+        app: fabric-setup
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: setup
+        image: hyperledger/fabric-tools:2.4.0
+        command: ["/bin/bash", "-c"]
+        args:
+        - |
+          cd /fabric/fabric-network
+          export FABRIC_CFG_PATH=$PWD
+          if [ ! -d "crypto-config" ]; then
+            echo "Generando crypto-config..."
+            cryptogen generate --config=./crypto-config.yaml
+          fi
+          echo "Generando bloque genesis..."
+          rm -rf system-genesis-block
+          mkdir -p system-genesis-block
+          configtxgen -profile TwoOrgsOrdererGenesis -channelID system-channel -outputBlock ./system-genesis-block/genesis.block
+          echo "Setup completado!"
+          chmod -R 777 /fabric
+        volumeMounts:
+        - name: fabric-data
+          mountPath: /fabric
+      volumes:
+      - name: fabric-data
+        persistentVolumeClaim:
+          claimName: fabric-pvc

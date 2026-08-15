@@ -1,0 +1,127 @@
+# ==============================================================================
+#  docker-compose-base.yaml - Docker Infrastructure Setup for Fabric network
+# ==============================================================================
+version: '2.4'
+
+networks:
+  autogestion:
+    name: autogestion_network
+
+services:
+  orderer.autogestion.com:
+    image: hyperledger/fabric-orderer:2.4.0
+    environment:
+      - FABRIC_LOGGING_SPEC=INFO
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_LISTENPORT=7050
+      - ORDERER_GENERAL_GENESISMETHOD=file
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+      - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_CLUSTER_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+    command: orderer
+    volumes:
+      - ./system-genesis-block/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+      - ./crypto-config/ordererOrganizations/autogestion.com/orderers/orderer.autogestion.com/msp:/var/hyperledger/orderer/msp
+      - ./crypto-config/ordererOrganizations/autogestion.com/orderers/orderer.autogestion.com/tls/:/var/hyperledger/orderer/tls
+    ports:
+      - 7050:7050
+    networks:
+      - autogestion
+
+  peer0.org1.autogestion.com:
+    image: hyperledger/fabric-peer:2.4.0
+    environment:
+      - VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - VM_DOCKER_HOSTCONFIG_NETWORKMODE=autogestion_network
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_PROFILE_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+      - CORE_PEER_ID=peer0.org1.autogestion.com
+      - CORE_PEER_ADDRESS=peer0.org1.autogestion.com:7051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.org1.autogestion.com:7052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org1.autogestion.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org1.autogestion.com:7051
+      - CORE_PEER_LOCALMSPID=Org1MSP
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: peer node start
+    volumes:
+      - /var/run/:/host/var/run/
+      - ./crypto-config/peerOrganizations/org1.autogestion.com/peers/peer0.org1.autogestion.com/msp:/etc/hyperledger/fabric/msp
+      - ./crypto-config/peerOrganizations/org1.autogestion.com/peers/peer0.org1.autogestion.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 7051:7051
+    networks:
+      - autogestion
+
+  peer0.org2.autogestion.com:
+    image: hyperledger/fabric-peer:2.4.0
+    environment:
+      - VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - VM_DOCKER_HOSTCONFIG_NETWORKMODE=autogestion_network
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_PROFILE_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+      - CORE_PEER_ID=peer0.org2.autogestion.com
+      - CORE_PEER_ADDRESS=peer0.org2.autogestion.com:9051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:9051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.org2.autogestion.com:9052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:9052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org2.autogestion.com:9051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org2.autogestion.com:9051
+      - CORE_PEER_LOCALMSPID=Org2MSP
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: peer node start
+    volumes:
+      - /var/run/:/host/var/run/
+      - ./crypto-config/peerOrganizations/org2.autogestion.com/peers/peer0.org2.autogestion.com/msp:/etc/hyperledger/fabric/msp
+      - ./crypto-config/peerOrganizations/org2.autogestion.com/peers/peer0.org2.autogestion.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 9051:9051
+    networks:
+      - autogestion
+
+  cli:
+    container_name: cli
+    image: hyperledger/fabric-tools:2.4.0
+    tty: true
+    stdin_open: true
+    environment:
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_ID=cli
+      - CORE_PEER_ADDRESS=peer0.org1.autogestion.com:7051
+      - CORE_PEER_LOCALMSPID=Org1MSP
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto-config/peerOrganizations/org1.autogestion.com/peers/peer0.org1.autogestion.com/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto-config/peerOrganizations/org1.autogestion.com/peers/peer0.org1.autogestion.com/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto-config/peerOrganizations/org1.autogestion.com/peers/peer0.org1.autogestion.com/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto-config/peerOrganizations/org1.autogestion.com/users/Admin@org1.autogestion.com/msp
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: /bin/bash
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../src/chaincode:/opt/gopath/src/github.com/chaincode
+        - .:/opt/gopath/src/github.com/hyperledger/fabric/peer/
+    networks:
+      - autogestion
+    depends_on:
+      - orderer.autogestion.com
+      - peer0.org1.autogestion.com
+      - peer0.org2.autogestion.com

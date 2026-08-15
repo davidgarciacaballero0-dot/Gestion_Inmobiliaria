@@ -1,0 +1,3562 @@
+{
+  "blocks": [
+    {
+      "blockNumber": 1,
+      "prevHash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "timestamp": "2026-05-25T05:39:29.792Z",
+      "transactions": [
+        {
+          "txId": "tx_2714767e3b852ee1168a33d9a35cbebd",
+          "timestamp": "2026-05-25T05:39:29.792Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-9",
+            "contratoId": "CON-1",
+            "monto": 3500,
+            "fecha": "2026-05-25",
+            "tipoPago": "Efectivo",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "92b2344d8f2c1f565914603503cb4b02140c732d3c457783c3fab13431198178"
+    },
+    {
+      "blockNumber": 2,
+      "prevHash": "92b2344d8f2c1f565914603503cb4b02140c732d3c457783c3fab13431198178",
+      "timestamp": "2026-05-25T05:39:29.814Z",
+      "transactions": [
+        {
+          "txId": "tx_c5bf210e1428680f37ef920ff13e2371",
+          "timestamp": "2026-05-25T05:39:29.814Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-10",
+            "contratoId": "CON-1",
+            "monto": 3500,
+            "fecha": "2026-04-25",
+            "tipoPago": "Transferencia Bancaria",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "b762d11220513904938b79bee586c3b3339fecd40735375835a3a1f60281f5d8"
+    },
+    {
+      "blockNumber": 3,
+      "prevHash": "b762d11220513904938b79bee586c3b3339fecd40735375835a3a1f60281f5d8",
+      "timestamp": "2026-05-25T05:39:29.822Z",
+      "transactions": [
+        {
+          "txId": "tx_a2ca96bea237d2d0620eb042742e4106",
+          "timestamp": "2026-05-25T05:39:29.822Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-11",
+            "contratoId": "CON-1",
+            "monto": 3500,
+            "fecha": "2026-03-26",
+            "tipoPago": "QR",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "947f0725b57156aa7d07a5fa1fbfb8502c6213c0307e3785794632ae5ffb7cb3"
+    },
+    {
+      "blockNumber": 4,
+      "prevHash": "947f0725b57156aa7d07a5fa1fbfb8502c6213c0307e3785794632ae5ffb7cb3",
+      "timestamp": "2026-05-25T05:39:29.844Z",
+      "transactions": [
+        {
+          "txId": "tx_e93268ed02a42184c4ba90c7c88a25af",
+          "timestamp": "2026-05-25T05:39:29.844Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-12",
+            "contratoId": "CON-2",
+            "monto": 1800,
+            "fecha": "2026-05-25",
+            "tipoPago": "Efectivo",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "b66e7418318e67151ce516a046d35ac8e468c47a14682cb58b7944e90913d2d9"
+    },
+    {
+      "blockNumber": 5,
+      "prevHash": "b66e7418318e67151ce516a046d35ac8e468c47a14682cb58b7944e90913d2d9",
+      "timestamp": "2026-05-25T05:39:29.858Z",
+      "transactions": [
+        {
+          "txId": "tx_e95486dd61ddc4d60f505911dd45bf23",
+          "timestamp": "2026-05-25T05:39:29.858Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-14",
+            "contratoId": "CON-4",
+            "monto": 450000,
+            "fecha": "2026-05-20",
+            "tipoPago": "Tarjeta de Crédito",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "cde7f5d33ef5d780a03ab342a7bad5f02ad91f98a67fa2356b3c8c6151535b83"
+    },
+    {
+      "blockNumber": 6,
+      "prevHash": "cde7f5d33ef5d780a03ab342a7bad5f02ad91f98a67fa2356b3c8c6151535b83",
+      "timestamp": "2026-05-25T05:39:29.866Z",
+      "transactions": [
+        {
+          "txId": "tx_46722dcd61321d845f89bb8f946a3b56",
+          "timestamp": "2026-05-25T05:39:29.866Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-15",
+            "contratoId": "CON-5",
+            "monto": 4500,
+            "fecha": "2026-05-15",
+            "tipoPago": "QR",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "bc383ca71f794a7a03833f80b523b3ff05da5f5ea52ab370cec964102a18860c"
+    },
+    {
+      "blockNumber": 7,
+      "prevHash": "bc383ca71f794a7a03833f80b523b3ff05da5f5ea52ab370cec964102a18860c",
+      "timestamp": "2026-05-25T05:39:29.892Z",
+      "transactions": [
+        {
+          "txId": "tx_70bd08be3e60cce6a79736dd06189ded",
+          "timestamp": "2026-05-25T05:39:29.892Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-16",
+            "contratoId": "CON-5",
+            "monto": 4500,
+            "fecha": "2026-04-15",
+            "tipoPago": "Efectivo",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "5e23aa161de04e610866aac0958e0c952ed06af51e6d4e9e665ec89878bfbb57"
+    },
+    {
+      "blockNumber": 8,
+      "prevHash": "5e23aa161de04e610866aac0958e0c952ed06af51e6d4e9e665ec89878bfbb57",
+      "timestamp": "2026-06-13T05:19:20.049Z",
+      "transactions": [
+        {
+          "txId": "tx_26b98f0aac6955e3e97ba5419d23558a",
+          "timestamp": "2026-06-13T05:19:20.049Z",
+          "txName": "crearContrato",
+          "args": {
+            "id": "CON-1",
+            "inmuebleId": "INM-1",
+            "propietarioId": "USR-2",
+            "inquilinoId": "USR-2",
+            "montoAlquiler": 3500,
+            "montoDeposito": 7000,
+            "fechaInicio": "2026-05-14",
+            "fechaFin": "2027-05-14"
+          }
+        }
+      ],
+      "blockHash": "190f43a96ee7a35e8d0f4ab45f85dbe34e369f1b2d03f4fb24aa5b7c3b747f22"
+    },
+    {
+      "blockNumber": 9,
+      "prevHash": "190f43a96ee7a35e8d0f4ab45f85dbe34e369f1b2d03f4fb24aa5b7c3b747f22",
+      "timestamp": "2026-06-13T05:19:20.059Z",
+      "transactions": [
+        {
+          "txId": "tx_6746351dce650c6c980640f5287acb1c",
+          "timestamp": "2026-06-13T05:19:20.059Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-1",
+            "rolUsuario": "propietario",
+            "hashFirmaDigital": "078638944efc9b124e2fde52b806c12f10f5d21eca236d6b0359dc5392a4da16"
+          }
+        }
+      ],
+      "blockHash": "1b3e3a7fc31e22dca071bf6a017597b9600b373b31b440d43593b50d0fee5666"
+    },
+    {
+      "blockNumber": 10,
+      "prevHash": "1b3e3a7fc31e22dca071bf6a017597b9600b373b31b440d43593b50d0fee5666",
+      "timestamp": "2026-06-13T05:19:20.088Z",
+      "transactions": [
+        {
+          "txId": "tx_503cf0420019682490dd703cb2d44c34",
+          "timestamp": "2026-06-13T05:19:20.088Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-1",
+            "rolUsuario": "inquilino",
+            "hashFirmaDigital": "e6eb7ec451a08ab07f654a8827b6896fd79c2104e42227c8fb5b115825b21aee"
+          }
+        }
+      ],
+      "blockHash": "d534f0f501a8f1a28556a5ef59bab7c544959c3be3259944133ad7648f8a0d7f"
+    },
+    {
+      "blockNumber": 11,
+      "prevHash": "d534f0f501a8f1a28556a5ef59bab7c544959c3be3259944133ad7648f8a0d7f",
+      "timestamp": "2026-06-13T05:19:20.117Z",
+      "transactions": [
+        {
+          "txId": "tx_c2c94c8a9fed21264920a61775b28bc1",
+          "timestamp": "2026-06-13T05:19:20.117Z",
+          "txName": "crearContrato",
+          "args": {
+            "id": "CON-2",
+            "inmuebleId": "INM-2",
+            "propietarioId": "USR-1",
+            "inquilinoId": "USR-3",
+            "montoAlquiler": 1800,
+            "montoDeposito": 3600,
+            "fechaInicio": "2026-04-14",
+            "fechaFin": "2027-03-10"
+          }
+        }
+      ],
+      "blockHash": "f8e46395d569070f7b19ab93ff46920983a2147b4e7793eb5cbe0b6ab0c0d6f2"
+    },
+    {
+      "blockNumber": 12,
+      "prevHash": "f8e46395d569070f7b19ab93ff46920983a2147b4e7793eb5cbe0b6ab0c0d6f2",
+      "timestamp": "2026-06-13T05:19:20.123Z",
+      "transactions": [
+        {
+          "txId": "tx_ff6fe81d1817ae3766cc21e6ffbc903f",
+          "timestamp": "2026-06-13T05:19:20.123Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-2",
+            "rolUsuario": "propietario",
+            "hashFirmaDigital": "fb95907e7df1b5249fd78275664c1fd74566afdd28b82bae7ca1ebe24ca416ff"
+          }
+        }
+      ],
+      "blockHash": "8477cdf5b126695c5356df981a6820377e123627b9d956e3f91182d8685a2ef9"
+    },
+    {
+      "blockNumber": 13,
+      "prevHash": "8477cdf5b126695c5356df981a6820377e123627b9d956e3f91182d8685a2ef9",
+      "timestamp": "2026-06-13T05:19:20.149Z",
+      "transactions": [
+        {
+          "txId": "tx_6139c7ec87bdd8b9a84ee8362ff6ed97",
+          "timestamp": "2026-06-13T05:19:20.149Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-2",
+            "rolUsuario": "inquilino",
+            "hashFirmaDigital": "702bd5406d4d86816c25dcf7b9f6b836b4eddee1bf148cd0e0f0fee1a962610b"
+          }
+        }
+      ],
+      "blockHash": "a2908801c350d7918e2340a12d2e237ff723ec9a93a6bcd23f97ae6d3ad0bca0"
+    },
+    {
+      "blockNumber": 14,
+      "prevHash": "a2908801c350d7918e2340a12d2e237ff723ec9a93a6bcd23f97ae6d3ad0bca0",
+      "timestamp": "2026-06-13T05:19:20.182Z",
+      "transactions": [
+        {
+          "txId": "tx_56199cc4ea69d533f53c540fbd2221e9",
+          "timestamp": "2026-06-13T05:19:20.182Z",
+          "txName": "crearContrato",
+          "args": {
+            "id": "CON-3",
+            "inmuebleId": "INM-3",
+            "propietarioId": "USR-4",
+            "inquilinoId": "USR-4",
+            "montoAlquiler": 0,
+            "montoDeposito": 25000,
+            "fechaInicio": "2026-05-29",
+            "fechaFin": "2027-07-03"
+          }
+        }
+      ],
+      "blockHash": "a7c6c90b06e102d96a7c9415bce6675301fa35315c4f6dec99c17b5af3931e37"
+    },
+    {
+      "blockNumber": 15,
+      "prevHash": "a7c6c90b06e102d96a7c9415bce6675301fa35315c4f6dec99c17b5af3931e37",
+      "timestamp": "2026-06-13T05:19:20.211Z",
+      "transactions": [
+        {
+          "txId": "tx_503fbb1f904fa0d5048cb2cdf36fe2f7",
+          "timestamp": "2026-06-13T05:19:20.211Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-3",
+            "rolUsuario": "propietario",
+            "hashFirmaDigital": "87c9fc839829df29cd9e075f9b9aa02f5e7ff77e6aebab47936039d433b19d83"
+          }
+        }
+      ],
+      "blockHash": "5cc159a9420085e2fb1b800f78e16609f34d74adac11e292afeb6281c4301de4"
+    },
+    {
+      "blockNumber": 16,
+      "prevHash": "5cc159a9420085e2fb1b800f78e16609f34d74adac11e292afeb6281c4301de4",
+      "timestamp": "2026-06-13T05:19:20.228Z",
+      "transactions": [
+        {
+          "txId": "tx_0c1f74026dd984984b8479325c1504f5",
+          "timestamp": "2026-06-13T05:19:20.228Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-3",
+            "rolUsuario": "inquilino",
+            "hashFirmaDigital": "f25f53b6153189292c2e3f6ab66c899280547e6c8da50cd55b5168597a7969b5"
+          }
+        }
+      ],
+      "blockHash": "90ad8a9da5fd573b677fbc9cb25169c9318789c215219fccbb2db34c55000018"
+    },
+    {
+      "blockNumber": 17,
+      "prevHash": "90ad8a9da5fd573b677fbc9cb25169c9318789c215219fccbb2db34c55000018",
+      "timestamp": "2026-06-13T05:19:20.259Z",
+      "transactions": [
+        {
+          "txId": "tx_678d9e980d4e605f4a67e3f3a6736397",
+          "timestamp": "2026-06-13T05:19:20.259Z",
+          "txName": "crearContrato",
+          "args": {
+            "id": "CON-4",
+            "inmuebleId": "INM-5",
+            "propietarioId": "USR-6",
+            "inquilinoId": "USR-6",
+            "montoAlquiler": 450000,
+            "montoDeposito": 0,
+            "fechaInicio": "2026-03-15",
+            "fechaFin": ""
+          }
+        }
+      ],
+      "blockHash": "26105d379b063da434f9af11b1c63b709135b6f112ea6f15461908db1b37caee"
+    },
+    {
+      "blockNumber": 18,
+      "prevHash": "26105d379b063da434f9af11b1c63b709135b6f112ea6f15461908db1b37caee",
+      "timestamp": "2026-06-13T05:19:20.291Z",
+      "transactions": [
+        {
+          "txId": "tx_5f72234693769c9d7c11c047c968d4b6",
+          "timestamp": "2026-06-13T05:19:20.291Z",
+          "txName": "crearContrato",
+          "args": {
+            "id": "CON-5",
+            "inmuebleId": "INM-6",
+            "propietarioId": "USR-7",
+            "inquilinoId": "USR-7",
+            "montoAlquiler": 4500,
+            "montoDeposito": 15000,
+            "fechaInicio": "2026-05-24",
+            "fechaFin": "2027-05-19"
+          }
+        }
+      ],
+      "blockHash": "f7762367a1ed07235a1917cac5ae4bc21cae84e2ea901aeb6cfcabf3c6a5cc92"
+    },
+    {
+      "blockNumber": 19,
+      "prevHash": "f7762367a1ed07235a1917cac5ae4bc21cae84e2ea901aeb6cfcabf3c6a5cc92",
+      "timestamp": "2026-06-13T05:19:20.306Z",
+      "transactions": [
+        {
+          "txId": "tx_9c56ae6db5c8e58b5c8feeb753e85847",
+          "timestamp": "2026-06-13T05:19:20.306Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-5",
+            "rolUsuario": "propietario",
+            "hashFirmaDigital": "13ae3ac6e889fa0066e36a8012c852e4e636492abba297078d31f09e44b273f6"
+          }
+        }
+      ],
+      "blockHash": "2f30c50e5134e98c85fdd2ae07c666b99a0800587f4a31600678faaa66d39a19"
+    },
+    {
+      "blockNumber": 20,
+      "prevHash": "2f30c50e5134e98c85fdd2ae07c666b99a0800587f4a31600678faaa66d39a19",
+      "timestamp": "2026-06-13T05:19:20.321Z",
+      "transactions": [
+        {
+          "txId": "tx_bc400ebfa5c6a2e3486a206aa77e2ce3",
+          "timestamp": "2026-06-13T05:19:20.321Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-5",
+            "rolUsuario": "inquilino",
+            "hashFirmaDigital": "7a7203a38d20a8cf996d4fb77d259f3825e301b2f68c44967f48ccfc3bdfb6c0"
+          }
+        }
+      ],
+      "blockHash": "53159e1097d62ecb663b54c3df9ea62ea7fb253c624242725d51e0e5f81a20bc"
+    },
+    {
+      "blockNumber": 21,
+      "prevHash": "53159e1097d62ecb663b54c3df9ea62ea7fb253c624242725d51e0e5f81a20bc",
+      "timestamp": "2026-06-13T05:19:20.367Z",
+      "transactions": [
+        {
+          "txId": "tx_14890d092037eb92f71b2bd231017462",
+          "timestamp": "2026-06-13T05:19:20.367Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-1",
+            "contratoId": "CON-1",
+            "monto": 3500,
+            "fecha": "2026-06-13",
+            "tipoPago": "Efectivo",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "6fc4831438601da9a3bbbf551d9abff7c57409631d10711755d38b8ea6e4373d"
+    },
+    {
+      "blockNumber": 22,
+      "prevHash": "6fc4831438601da9a3bbbf551d9abff7c57409631d10711755d38b8ea6e4373d",
+      "timestamp": "2026-06-13T05:19:20.398Z",
+      "transactions": [
+        {
+          "txId": "tx_bccd838b7e0dad1734f41e1bdda27aac",
+          "timestamp": "2026-06-13T05:19:20.398Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-2",
+            "contratoId": "CON-1",
+            "monto": 3500,
+            "fecha": "2026-05-14",
+            "tipoPago": "Transferencia Bancaria",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "95d28bd1c4933c1111fc2a5c6999418e99d897c215762c34060cbdb0125b0e73"
+    },
+    {
+      "blockNumber": 23,
+      "prevHash": "95d28bd1c4933c1111fc2a5c6999418e99d897c215762c34060cbdb0125b0e73",
+      "timestamp": "2026-06-13T05:19:20.428Z",
+      "transactions": [
+        {
+          "txId": "tx_17f836413f318dd8ac4e9c752fc371e4",
+          "timestamp": "2026-06-13T05:19:20.428Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-3",
+            "contratoId": "CON-1",
+            "monto": 3500,
+            "fecha": "2026-04-14",
+            "tipoPago": "QR",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "019ff93b7ea6f864bb9c61ac46f5153f13c190def0dfcef0e9db40bdac8ee46d"
+    },
+    {
+      "blockNumber": 24,
+      "prevHash": "019ff93b7ea6f864bb9c61ac46f5153f13c190def0dfcef0e9db40bdac8ee46d",
+      "timestamp": "2026-06-13T05:19:20.439Z",
+      "transactions": [
+        {
+          "txId": "tx_69edbcb997ec2f6c74ef8a17bee19623",
+          "timestamp": "2026-06-13T05:19:20.439Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-4",
+            "contratoId": "CON-2",
+            "monto": 1800,
+            "fecha": "2026-06-13",
+            "tipoPago": "Efectivo",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "5354007ef68ffdac5ee5049d0e3aa1c0507daa08917c3e1b80a5e7a956561aca"
+    },
+    {
+      "blockNumber": 25,
+      "prevHash": "5354007ef68ffdac5ee5049d0e3aa1c0507daa08917c3e1b80a5e7a956561aca",
+      "timestamp": "2026-06-13T05:19:20.459Z",
+      "transactions": [
+        {
+          "txId": "tx_86c214c8efc77c668694bae9a54baed4",
+          "timestamp": "2026-06-13T05:19:20.459Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-6",
+            "contratoId": "CON-4",
+            "monto": 450000,
+            "fecha": "2026-06-08",
+            "tipoPago": "Tarjeta de Crédito",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "f17f9f9f7cce98034afb9caa558544a0e6a234eae55d394fdcc2b44a2a00c347"
+    },
+    {
+      "blockNumber": 26,
+      "prevHash": "f17f9f9f7cce98034afb9caa558544a0e6a234eae55d394fdcc2b44a2a00c347",
+      "timestamp": "2026-06-13T05:19:20.490Z",
+      "transactions": [
+        {
+          "txId": "tx_d290a25020761ba89313f2c23213587b",
+          "timestamp": "2026-06-13T05:19:20.490Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-7",
+            "contratoId": "CON-5",
+            "monto": 4500,
+            "fecha": "2026-06-03",
+            "tipoPago": "QR",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "5252eb229745d03c41fbf6a1cf08de670fe9a3c03c264c66ebfe8645f94c1d7f"
+    },
+    {
+      "blockNumber": 27,
+      "prevHash": "5252eb229745d03c41fbf6a1cf08de670fe9a3c03c264c66ebfe8645f94c1d7f",
+      "timestamp": "2026-06-13T05:19:20.522Z",
+      "transactions": [
+        {
+          "txId": "tx_ea597e130c7f31d78fc870cf88ef2775",
+          "timestamp": "2026-06-13T05:19:20.522Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-8",
+            "contratoId": "CON-5",
+            "monto": 4500,
+            "fecha": "2026-05-04",
+            "tipoPago": "Efectivo",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "c6ad95df8738862b366cde9e7b94507f3add24329edae5cd6bf5e4f75abbb138"
+    },
+    {
+      "blockNumber": 28,
+      "prevHash": "c6ad95df8738862b366cde9e7b94507f3add24329edae5cd6bf5e4f75abbb138",
+      "timestamp": "2026-06-14T00:41:50.109Z",
+      "transactions": [
+        {
+          "txId": "tx_abd54c54cd492b212ec657a08acbfeac",
+          "timestamp": "2026-06-14T00:41:50.109Z",
+          "txName": "crearContrato",
+          "args": {
+            "id": "CON-6",
+            "inmuebleId": "INM-11",
+            "propietarioId": "USR-2",
+            "inquilinoId": "USR-2",
+            "montoAlquiler": 3500,
+            "montoDeposito": 7000,
+            "fechaInicio": "2026-05-14",
+            "fechaFin": "2027-05-14"
+          }
+        }
+      ],
+      "blockHash": "c10c29f6e1a8b434fd414b15929087ac4aa5474dd55473283c6187cb2e387f10"
+    },
+    {
+      "blockNumber": 29,
+      "prevHash": "c10c29f6e1a8b434fd414b15929087ac4aa5474dd55473283c6187cb2e387f10",
+      "timestamp": "2026-06-14T00:41:50.138Z",
+      "transactions": [
+        {
+          "txId": "tx_6e588a26f3558206d8ed1cc43ebf56b9",
+          "timestamp": "2026-06-14T00:41:50.138Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-6",
+            "rolUsuario": "propietario",
+            "hashFirmaDigital": "a9e32e539578316dd6f03417afe3cf035ae90af868d24665dae216a18702a60d"
+          }
+        }
+      ],
+      "blockHash": "19d32f18eb3bcd0decb62d4c1a2ae3677d31a439d19eebc14fff6e4248a1fa55"
+    },
+    {
+      "blockNumber": 30,
+      "prevHash": "19d32f18eb3bcd0decb62d4c1a2ae3677d31a439d19eebc14fff6e4248a1fa55",
+      "timestamp": "2026-06-14T00:41:50.143Z",
+      "transactions": [
+        {
+          "txId": "tx_3f21f6ddddb90bd2c5249f823c9f97cd",
+          "timestamp": "2026-06-14T00:41:50.143Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-6",
+            "rolUsuario": "inquilino",
+            "hashFirmaDigital": "81602086a61a04b2b58ecf3333464a8ab1999c0ee751a63bf0c34302a9ee2c9b"
+          }
+        }
+      ],
+      "blockHash": "c2bc205e2f83969c8c44d9f0c1ba8b94bf539873b6282cf3ebeb948fef1c9085"
+    },
+    {
+      "blockNumber": 31,
+      "prevHash": "c2bc205e2f83969c8c44d9f0c1ba8b94bf539873b6282cf3ebeb948fef1c9085",
+      "timestamp": "2026-06-14T00:41:50.169Z",
+      "transactions": [
+        {
+          "txId": "tx_5745548b05ee5c21bd1b012cdd71691c",
+          "timestamp": "2026-06-14T00:41:50.169Z",
+          "txName": "crearContrato",
+          "args": {
+            "id": "CON-7",
+            "inmuebleId": "INM-12",
+            "propietarioId": "USR-1",
+            "inquilinoId": "USR-3",
+            "montoAlquiler": 1800,
+            "montoDeposito": 3600,
+            "fechaInicio": "2026-04-14",
+            "fechaFin": "2027-03-10"
+          }
+        }
+      ],
+      "blockHash": "2e3f9eb0fd6e7e15afcf63ef55023fc8f6a813e819272dbb149c054c44075e2d"
+    },
+    {
+      "blockNumber": 32,
+      "prevHash": "2e3f9eb0fd6e7e15afcf63ef55023fc8f6a813e819272dbb149c054c44075e2d",
+      "timestamp": "2026-06-14T00:41:50.185Z",
+      "transactions": [
+        {
+          "txId": "tx_4c35eea2ddcf4e1e36125e7bff6b17a4",
+          "timestamp": "2026-06-14T00:41:50.185Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-7",
+            "rolUsuario": "propietario",
+            "hashFirmaDigital": "b1d5588e90cccfea984fe1981a8e36bb76b8396b837d3fdda8c99c60869b6837"
+          }
+        }
+      ],
+      "blockHash": "760934eb97d5cbca371317dc9406edf0dfda243072d786a51d90e2811fd7c1bf"
+    },
+    {
+      "blockNumber": 33,
+      "prevHash": "760934eb97d5cbca371317dc9406edf0dfda243072d786a51d90e2811fd7c1bf",
+      "timestamp": "2026-06-14T00:41:50.201Z",
+      "transactions": [
+        {
+          "txId": "tx_b0d4c96b4b8fdae7b6b5d0c6c9769a25",
+          "timestamp": "2026-06-14T00:41:50.201Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-7",
+            "rolUsuario": "inquilino",
+            "hashFirmaDigital": "5359896c6231556c2fa1d76e4f67d003d4b0ac8c7e261a060f8faf434d74f419"
+          }
+        }
+      ],
+      "blockHash": "4e6e7846d732687a0b4e296dc196c0feea5170a163650431ef0ecf341ba76468"
+    },
+    {
+      "blockNumber": 34,
+      "prevHash": "4e6e7846d732687a0b4e296dc196c0feea5170a163650431ef0ecf341ba76468",
+      "timestamp": "2026-06-14T00:41:50.232Z",
+      "transactions": [
+        {
+          "txId": "tx_72d4e9a7fb559c58ec62a87f228bdb05",
+          "timestamp": "2026-06-14T00:41:50.232Z",
+          "txName": "crearContrato",
+          "args": {
+            "id": "CON-8",
+            "inmuebleId": "INM-13",
+            "propietarioId": "USR-4",
+            "inquilinoId": "USR-4",
+            "montoAlquiler": 0,
+            "montoDeposito": 25000,
+            "fechaInicio": "2026-05-29",
+            "fechaFin": "2027-07-03"
+          }
+        }
+      ],
+      "blockHash": "87745a9111c500063a7e0ac2ea43ae65e85400097a7e5494dbb6b5c258b71620"
+    },
+    {
+      "blockNumber": 35,
+      "prevHash": "87745a9111c500063a7e0ac2ea43ae65e85400097a7e5494dbb6b5c258b71620",
+      "timestamp": "2026-06-14T00:41:50.262Z",
+      "transactions": [
+        {
+          "txId": "tx_f0a89e881b5c3e5f7f45a814e30c484e",
+          "timestamp": "2026-06-14T00:41:50.262Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-8",
+            "rolUsuario": "propietario",
+            "hashFirmaDigital": "2ff9f98624c78909db61e633cfdaad72ae545aeb0197aa6324a3f47c956380ab"
+          }
+        }
+      ],
+      "blockHash": "fb14f6f4c13e2f3118c2d0fbb7f9d8bf17f40b2926d690f8f055c4c62495b931"
+    },
+    {
+      "blockNumber": 36,
+      "prevHash": "fb14f6f4c13e2f3118c2d0fbb7f9d8bf17f40b2926d690f8f055c4c62495b931",
+      "timestamp": "2026-06-14T00:41:50.279Z",
+      "transactions": [
+        {
+          "txId": "tx_5ca78ce9695cd277d990171ce456ef0a",
+          "timestamp": "2026-06-14T00:41:50.279Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-8",
+            "rolUsuario": "inquilino",
+            "hashFirmaDigital": "770d87714506dd842ad39e4799808a1c6c7c2e328ef13e6e517f8d336688f4f1"
+          }
+        }
+      ],
+      "blockHash": "1e1a19461f812b061abd7dcbaa9b140de023593260691c7c4ab2ef3de26a37fb"
+    },
+    {
+      "blockNumber": 37,
+      "prevHash": "1e1a19461f812b061abd7dcbaa9b140de023593260691c7c4ab2ef3de26a37fb",
+      "timestamp": "2026-06-14T00:41:50.309Z",
+      "transactions": [
+        {
+          "txId": "tx_5ffacfddaa5acf1ff8a3d202dcaf075b",
+          "timestamp": "2026-06-14T00:41:50.309Z",
+          "txName": "crearContrato",
+          "args": {
+            "id": "CON-9",
+            "inmuebleId": "INM-15",
+            "propietarioId": "USR-6",
+            "inquilinoId": "USR-6",
+            "montoAlquiler": 450000,
+            "montoDeposito": 0,
+            "fechaInicio": "2026-03-15",
+            "fechaFin": ""
+          }
+        }
+      ],
+      "blockHash": "aceb465822dc002d2c07a4dc1c7ad2b7a4b03872ae902f46ff1c8193bbdc15a0"
+    },
+    {
+      "blockNumber": 38,
+      "prevHash": "aceb465822dc002d2c07a4dc1c7ad2b7a4b03872ae902f46ff1c8193bbdc15a0",
+      "timestamp": "2026-06-14T00:41:50.320Z",
+      "transactions": [
+        {
+          "txId": "tx_4e63887336398f9ac9c57c5fce0ad9fe",
+          "timestamp": "2026-06-14T00:41:50.320Z",
+          "txName": "crearContrato",
+          "args": {
+            "id": "CON-10",
+            "inmuebleId": "INM-16",
+            "propietarioId": "USR-7",
+            "inquilinoId": "USR-7",
+            "montoAlquiler": 4500,
+            "montoDeposito": 15000,
+            "fechaInicio": "2026-05-24",
+            "fechaFin": "2027-05-19"
+          }
+        }
+      ],
+      "blockHash": "8f4158df50ba0852e9bb97d5bfe481d08e98f334741fde3c194a7dbb897c66eb"
+    },
+    {
+      "blockNumber": 39,
+      "prevHash": "8f4158df50ba0852e9bb97d5bfe481d08e98f334741fde3c194a7dbb897c66eb",
+      "timestamp": "2026-06-14T00:41:50.339Z",
+      "transactions": [
+        {
+          "txId": "tx_b2ad451fd3cea4f688c101b4d4c0248a",
+          "timestamp": "2026-06-14T00:41:50.339Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-10",
+            "rolUsuario": "propietario",
+            "hashFirmaDigital": "e0d1d7b5ed0299a2efa57bab971f68d84b159856682b4e29daf94d0bfc7f6cf7"
+          }
+        }
+      ],
+      "blockHash": "a3af33c45a07195f7239e51793436bf83c7e59eee50c71e8854019e2808e423f"
+    },
+    {
+      "blockNumber": 40,
+      "prevHash": "a3af33c45a07195f7239e51793436bf83c7e59eee50c71e8854019e2808e423f",
+      "timestamp": "2026-06-14T00:41:50.345Z",
+      "transactions": [
+        {
+          "txId": "tx_1753729309625662538d3ed93699348b",
+          "timestamp": "2026-06-14T00:41:50.345Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-10",
+            "rolUsuario": "inquilino",
+            "hashFirmaDigital": "1df5292e5b7026366860a0a3a04a40bec5bea3c889166d6ab86a5aee32c05a24"
+          }
+        }
+      ],
+      "blockHash": "0e27bf8ef767936a8830d5f3264d254713b8152710a4bafc3bfba175056ccf74"
+    },
+    {
+      "blockNumber": 41,
+      "prevHash": "0e27bf8ef767936a8830d5f3264d254713b8152710a4bafc3bfba175056ccf74",
+      "timestamp": "2026-06-14T00:41:50.385Z",
+      "transactions": [
+        {
+          "txId": "tx_b68ae4ba8298042d8c1a987991ed6d29",
+          "timestamp": "2026-06-14T00:41:50.385Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-9",
+            "contratoId": "CON-6",
+            "monto": 3500,
+            "fecha": "2026-06-13",
+            "tipoPago": "Efectivo",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "5ea7f0c10f019761ac263fdf08ded4a7c36c60efbf1f7505757180b871361511"
+    },
+    {
+      "blockNumber": 42,
+      "prevHash": "5ea7f0c10f019761ac263fdf08ded4a7c36c60efbf1f7505757180b871361511",
+      "timestamp": "2026-06-14T00:41:50.417Z",
+      "transactions": [
+        {
+          "txId": "tx_d6f372b322e0f6b5feee2ee51e6b6433",
+          "timestamp": "2026-06-14T00:41:50.417Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-10",
+            "contratoId": "CON-6",
+            "monto": 3500,
+            "fecha": "2026-05-14",
+            "tipoPago": "Transferencia Bancaria",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "66ba6527752f266eff1651b6c3d72db7e8e066c861a5a2430faa3a353c66a31c"
+    },
+    {
+      "blockNumber": 43,
+      "prevHash": "66ba6527752f266eff1651b6c3d72db7e8e066c861a5a2430faa3a353c66a31c",
+      "timestamp": "2026-06-14T00:41:50.446Z",
+      "transactions": [
+        {
+          "txId": "tx_2d7ab971e27580361db56577bfdc00c3",
+          "timestamp": "2026-06-14T00:41:50.446Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-11",
+            "contratoId": "CON-6",
+            "monto": 3500,
+            "fecha": "2026-04-14",
+            "tipoPago": "QR",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "74dc132e9df6d8317cf963cb91292f65daa9a47da274250d78a4bf9a85703766"
+    },
+    {
+      "blockNumber": 44,
+      "prevHash": "74dc132e9df6d8317cf963cb91292f65daa9a47da274250d78a4bf9a85703766",
+      "timestamp": "2026-06-14T00:41:50.478Z",
+      "transactions": [
+        {
+          "txId": "tx_05dcee9126a5be6bb02728d2ab8cc76f",
+          "timestamp": "2026-06-14T00:41:50.478Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-12",
+            "contratoId": "CON-7",
+            "monto": 1800,
+            "fecha": "2026-06-13",
+            "tipoPago": "Efectivo",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "50668ff1aff6e9f5002c2a26f121e25a320d80e89b4b9c75b493a476cc400801"
+    },
+    {
+      "blockNumber": 45,
+      "prevHash": "50668ff1aff6e9f5002c2a26f121e25a320d80e89b4b9c75b493a476cc400801",
+      "timestamp": "2026-06-14T00:41:50.494Z",
+      "transactions": [
+        {
+          "txId": "tx_a50c24ab0d7596fe806834f3b64c16e9",
+          "timestamp": "2026-06-14T00:41:50.494Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-14",
+            "contratoId": "CON-9",
+            "monto": 450000,
+            "fecha": "2026-06-08",
+            "tipoPago": "Tarjeta de Crédito",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "7f6312fde357a7eda730aa8dbed173c94833aaa6c1d698449c901d77b6dda349"
+    },
+    {
+      "blockNumber": 46,
+      "prevHash": "7f6312fde357a7eda730aa8dbed173c94833aaa6c1d698449c901d77b6dda349",
+      "timestamp": "2026-06-14T00:41:50.524Z",
+      "transactions": [
+        {
+          "txId": "tx_6ceb373f418c6a5ede137f9ccf8470b3",
+          "timestamp": "2026-06-14T00:41:50.524Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-15",
+            "contratoId": "CON-10",
+            "monto": 4500,
+            "fecha": "2026-06-03",
+            "tipoPago": "QR",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "13465a7727bc0edc0a8a737dd03adcf73ec59003fe489a3504dd50102290a336"
+    },
+    {
+      "blockNumber": 47,
+      "prevHash": "13465a7727bc0edc0a8a737dd03adcf73ec59003fe489a3504dd50102290a336",
+      "timestamp": "2026-06-14T00:41:50.554Z",
+      "transactions": [
+        {
+          "txId": "tx_46ecbaabe71423ac8208312d1057474b",
+          "timestamp": "2026-06-14T00:41:50.554Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-16",
+            "contratoId": "CON-10",
+            "monto": 4500,
+            "fecha": "2026-05-04",
+            "tipoPago": "Efectivo",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "69590f4da874ff789c6595693e0de1237646129670cb076ded4b46445078fe3c"
+    },
+    {
+      "blockNumber": 48,
+      "prevHash": "69590f4da874ff789c6595693e0de1237646129670cb076ded4b46445078fe3c",
+      "timestamp": "2026-06-14T00:44:49.122Z",
+      "transactions": [
+        {
+          "txId": "tx_396912834ff07f4d27e9109db155f139",
+          "timestamp": "2026-06-14T00:44:49.122Z",
+          "txName": "crearContrato",
+          "args": {
+            "id": "CON-11",
+            "inmuebleId": "INM-21",
+            "propietarioId": "USR-2",
+            "inquilinoId": "USR-2",
+            "montoAlquiler": 3500,
+            "montoDeposito": 7000,
+            "fechaInicio": "2026-05-14",
+            "fechaFin": "2027-05-14"
+          }
+        }
+      ],
+      "blockHash": "666585af54804a3efee4ca4d6c294cbf80df819c109b560edc9c9f8601752d6c"
+    },
+    {
+      "blockNumber": 49,
+      "prevHash": "666585af54804a3efee4ca4d6c294cbf80df819c109b560edc9c9f8601752d6c",
+      "timestamp": "2026-06-14T00:44:49.138Z",
+      "transactions": [
+        {
+          "txId": "tx_141199ebe7a8f6723139915871bab284",
+          "timestamp": "2026-06-14T00:44:49.138Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-11",
+            "rolUsuario": "propietario",
+            "hashFirmaDigital": "2e10be45ecef66ed532dad809187a122b1ef8b2c6a0d8f85b0752eee0790ad43"
+          }
+        }
+      ],
+      "blockHash": "a497ac779d60647bb900855b8a781758937ab13980232b08dc491aa363932268"
+    },
+    {
+      "blockNumber": 50,
+      "prevHash": "a497ac779d60647bb900855b8a781758937ab13980232b08dc491aa363932268",
+      "timestamp": "2026-06-14T00:44:49.154Z",
+      "transactions": [
+        {
+          "txId": "tx_efd24801330cba63d29086cd294c2dd3",
+          "timestamp": "2026-06-14T00:44:49.154Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-11",
+            "rolUsuario": "inquilino",
+            "hashFirmaDigital": "3e56eed0115b0581126dcab4ce38c02567baf51ca923a2c3b8a495bde7f0cdcf"
+          }
+        }
+      ],
+      "blockHash": "4249855342c3569859d0a68b4d1404d855575ad7a9849e71aa830bd1ddd7d66a"
+    },
+    {
+      "blockNumber": 51,
+      "prevHash": "4249855342c3569859d0a68b4d1404d855575ad7a9849e71aa830bd1ddd7d66a",
+      "timestamp": "2026-06-14T00:44:49.184Z",
+      "transactions": [
+        {
+          "txId": "tx_fe8068504769138d2ca4382e0a67ace4",
+          "timestamp": "2026-06-14T00:44:49.184Z",
+          "txName": "crearContrato",
+          "args": {
+            "id": "CON-12",
+            "inmuebleId": "INM-22",
+            "propietarioId": "USR-1",
+            "inquilinoId": "USR-3",
+            "montoAlquiler": 1800,
+            "montoDeposito": 3600,
+            "fechaInicio": "2026-04-14",
+            "fechaFin": "2027-03-10"
+          }
+        }
+      ],
+      "blockHash": "bfd6f398fcc019ad522013e5df3b18c68900dddfa6adf47ef156a9a2911d0b2c"
+    },
+    {
+      "blockNumber": 52,
+      "prevHash": "bfd6f398fcc019ad522013e5df3b18c68900dddfa6adf47ef156a9a2911d0b2c",
+      "timestamp": "2026-06-14T00:44:49.190Z",
+      "transactions": [
+        {
+          "txId": "tx_85a83c0893dbf80a7ef667ef70757897",
+          "timestamp": "2026-06-14T00:44:49.190Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-12",
+            "rolUsuario": "propietario",
+            "hashFirmaDigital": "d37a749fd42ea628915661bae14f02d61cdb4462934cc5413d5f571a57483bfd"
+          }
+        }
+      ],
+      "blockHash": "8027da0b81e77f0f46a6641421e31c99efe2f81bbb437a4b25c7ed0248d31384"
+    },
+    {
+      "blockNumber": 53,
+      "prevHash": "8027da0b81e77f0f46a6641421e31c99efe2f81bbb437a4b25c7ed0248d31384",
+      "timestamp": "2026-06-14T00:44:49.195Z",
+      "transactions": [
+        {
+          "txId": "tx_67ec848fef461abbe4101e51c69808c3",
+          "timestamp": "2026-06-14T00:44:49.195Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-12",
+            "rolUsuario": "inquilino",
+            "hashFirmaDigital": "360729552de4e3497aae0ce1ea86ae81b33983f903739966835cc6def0402664"
+          }
+        }
+      ],
+      "blockHash": "8debbfa1092a4cc47b053bd30af86f7644b67b574c2be32d99e906d3627e8aab"
+    },
+    {
+      "blockNumber": 54,
+      "prevHash": "8debbfa1092a4cc47b053bd30af86f7644b67b574c2be32d99e906d3627e8aab",
+      "timestamp": "2026-06-14T00:44:49.231Z",
+      "transactions": [
+        {
+          "txId": "tx_0e398302fd45f3548d7e866aa346ab96",
+          "timestamp": "2026-06-14T00:44:49.231Z",
+          "txName": "crearContrato",
+          "args": {
+            "id": "CON-13",
+            "inmuebleId": "INM-23",
+            "propietarioId": "USR-4",
+            "inquilinoId": "USR-4",
+            "montoAlquiler": 0,
+            "montoDeposito": 25000,
+            "fechaInicio": "2026-05-29",
+            "fechaFin": "2027-07-03"
+          }
+        }
+      ],
+      "blockHash": "cdb39b126e2765fbec4ecc7cd5eb118fa46b2c0304d2e10dbdf0f1121e375660"
+    },
+    {
+      "blockNumber": 55,
+      "prevHash": "cdb39b126e2765fbec4ecc7cd5eb118fa46b2c0304d2e10dbdf0f1121e375660",
+      "timestamp": "2026-06-14T00:44:49.236Z",
+      "transactions": [
+        {
+          "txId": "tx_dabe3e5ad642e714301bef888b5d1fc3",
+          "timestamp": "2026-06-14T00:44:49.236Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-13",
+            "rolUsuario": "propietario",
+            "hashFirmaDigital": "dd8ebd3ef650264634d8ae95647fc7b96fd837e28817379c6c71b48d6a5f9ec6"
+          }
+        }
+      ],
+      "blockHash": "97ed6e9904707c7aa45812c9987e19a9feb79c656d4cad6833e499ead9fb6526"
+    },
+    {
+      "blockNumber": 56,
+      "prevHash": "97ed6e9904707c7aa45812c9987e19a9feb79c656d4cad6833e499ead9fb6526",
+      "timestamp": "2026-06-14T00:44:49.260Z",
+      "transactions": [
+        {
+          "txId": "tx_6b3723bd99490b72824db502521f97b7",
+          "timestamp": "2026-06-14T00:44:49.260Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-13",
+            "rolUsuario": "inquilino",
+            "hashFirmaDigital": "3e2811048a4bdc85c100366f0310cb83fec9a20d1f12aaf7f889b5ec9b422ced"
+          }
+        }
+      ],
+      "blockHash": "742471d766506433065fc666ba9028def9408cf4d1eedb63ccdd52a282ff0f2a"
+    },
+    {
+      "blockNumber": 57,
+      "prevHash": "742471d766506433065fc666ba9028def9408cf4d1eedb63ccdd52a282ff0f2a",
+      "timestamp": "2026-06-14T00:44:49.291Z",
+      "transactions": [
+        {
+          "txId": "tx_872456f7ad657a3cc3cdc9c53df78a65",
+          "timestamp": "2026-06-14T00:44:49.291Z",
+          "txName": "crearContrato",
+          "args": {
+            "id": "CON-14",
+            "inmuebleId": "INM-25",
+            "propietarioId": "USR-6",
+            "inquilinoId": "USR-6",
+            "montoAlquiler": 450000,
+            "montoDeposito": 0,
+            "fechaInicio": "2026-03-15",
+            "fechaFin": ""
+          }
+        }
+      ],
+      "blockHash": "c1e782cbcef5e15e1bed963180526a6aab6b9defe780cd0dd66ca1fdb01c903f"
+    },
+    {
+      "blockNumber": 58,
+      "prevHash": "c1e782cbcef5e15e1bed963180526a6aab6b9defe780cd0dd66ca1fdb01c903f",
+      "timestamp": "2026-06-14T00:44:49.305Z",
+      "transactions": [
+        {
+          "txId": "tx_9462f243dc1f8ae7ac808e14e9498653",
+          "timestamp": "2026-06-14T00:44:49.305Z",
+          "txName": "crearContrato",
+          "args": {
+            "id": "CON-15",
+            "inmuebleId": "INM-26",
+            "propietarioId": "USR-7",
+            "inquilinoId": "USR-7",
+            "montoAlquiler": 4500,
+            "montoDeposito": 15000,
+            "fechaInicio": "2026-05-24",
+            "fechaFin": "2027-05-19"
+          }
+        }
+      ],
+      "blockHash": "df1031e166d79b270acd3131d5d35f3e7c0ec2dff8cab7665ad6760c395afe93"
+    },
+    {
+      "blockNumber": 59,
+      "prevHash": "df1031e166d79b270acd3131d5d35f3e7c0ec2dff8cab7665ad6760c395afe93",
+      "timestamp": "2026-06-14T00:44:49.310Z",
+      "transactions": [
+        {
+          "txId": "tx_94ee0d1893a8e104e7d0ec251f583e02",
+          "timestamp": "2026-06-14T00:44:49.310Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-15",
+            "rolUsuario": "propietario",
+            "hashFirmaDigital": "d0842b33a606e807ca2431db008f31b756825c1428c366df851df2036b97f6c9"
+          }
+        }
+      ],
+      "blockHash": "615c226257e51a4a8f91ab73be7a86ffe919dc7e9965a94f09c7ddfc00e75c91"
+    },
+    {
+      "blockNumber": 60,
+      "prevHash": "615c226257e51a4a8f91ab73be7a86ffe919dc7e9965a94f09c7ddfc00e75c91",
+      "timestamp": "2026-06-14T00:44:49.338Z",
+      "transactions": [
+        {
+          "txId": "tx_9e6784cea68c00a7a958d3ebd6ee07e7",
+          "timestamp": "2026-06-14T00:44:49.338Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-15",
+            "rolUsuario": "inquilino",
+            "hashFirmaDigital": "740ffa27419009cb74a4203a62b063f4c0e5331b912c09c5703b164ed6d7608f"
+          }
+        }
+      ],
+      "blockHash": "106003eaa3270db12d361de3d16bdfa299ed86bc4676f30cb03f96769432f76c"
+    },
+    {
+      "blockNumber": 61,
+      "prevHash": "106003eaa3270db12d361de3d16bdfa299ed86bc4676f30cb03f96769432f76c",
+      "timestamp": "2026-06-14T00:44:49.383Z",
+      "transactions": [
+        {
+          "txId": "tx_db862c39db5f339bc55a6ecf28abf799",
+          "timestamp": "2026-06-14T00:44:49.383Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-17",
+            "contratoId": "CON-11",
+            "monto": 3500,
+            "fecha": "2026-06-13",
+            "tipoPago": "Efectivo",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "424d1384b8e447286535fe62c6d17f15eab97ec75c628d57cd5d17b752d52589"
+    },
+    {
+      "blockNumber": 62,
+      "prevHash": "424d1384b8e447286535fe62c6d17f15eab97ec75c628d57cd5d17b752d52589",
+      "timestamp": "2026-06-14T00:44:49.414Z",
+      "transactions": [
+        {
+          "txId": "tx_dac2731a212b5a65412298cba0a8202c",
+          "timestamp": "2026-06-14T00:44:49.414Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-18",
+            "contratoId": "CON-11",
+            "monto": 3500,
+            "fecha": "2026-05-14",
+            "tipoPago": "Transferencia Bancaria",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "76187e43de1bc795f11fe8252da5b029455f68ef9503106d26d664f3680218ad"
+    },
+    {
+      "blockNumber": 63,
+      "prevHash": "76187e43de1bc795f11fe8252da5b029455f68ef9503106d26d664f3680218ad",
+      "timestamp": "2026-06-14T00:44:49.444Z",
+      "transactions": [
+        {
+          "txId": "tx_2cf9e72886d4b644e8a304741dedf100",
+          "timestamp": "2026-06-14T00:44:49.444Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-19",
+            "contratoId": "CON-11",
+            "monto": 3500,
+            "fecha": "2026-04-14",
+            "tipoPago": "QR",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "4ef8f1649f1c046b5a4d2bdec369ec17fb1ceffa14cd1acaacad29f81a7de469"
+    },
+    {
+      "blockNumber": 64,
+      "prevHash": "4ef8f1649f1c046b5a4d2bdec369ec17fb1ceffa14cd1acaacad29f81a7de469",
+      "timestamp": "2026-06-14T00:44:49.476Z",
+      "transactions": [
+        {
+          "txId": "tx_cac36a71a3125f569c7f31b1d4fb3003",
+          "timestamp": "2026-06-14T00:44:49.476Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-20",
+            "contratoId": "CON-12",
+            "monto": 1800,
+            "fecha": "2026-06-13",
+            "tipoPago": "Efectivo",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "77e3f1267bf3d702b5dac081f8d5990656ca862a1931c2a2f567eafabbcdca9e"
+    },
+    {
+      "blockNumber": 65,
+      "prevHash": "77e3f1267bf3d702b5dac081f8d5990656ca862a1931c2a2f567eafabbcdca9e",
+      "timestamp": "2026-06-14T00:44:49.507Z",
+      "transactions": [
+        {
+          "txId": "tx_7325fa7dc938588a7583f208ba0f2f3b",
+          "timestamp": "2026-06-14T00:44:49.507Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-22",
+            "contratoId": "CON-14",
+            "monto": 450000,
+            "fecha": "2026-06-08",
+            "tipoPago": "Tarjeta de Crédito",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "9a2abca57eac92b8be42ff861faa577129b103dc299a22ed09718ffbca881f76"
+    },
+    {
+      "blockNumber": 66,
+      "prevHash": "9a2abca57eac92b8be42ff861faa577129b103dc299a22ed09718ffbca881f76",
+      "timestamp": "2026-06-14T00:44:49.539Z",
+      "transactions": [
+        {
+          "txId": "tx_9d22ff5e412d2f47a687a4892cfac99b",
+          "timestamp": "2026-06-14T00:44:49.539Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-23",
+            "contratoId": "CON-15",
+            "monto": 4500,
+            "fecha": "2026-06-03",
+            "tipoPago": "QR",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "e1e9d9775aba5644a553e2fbc8d8ec7629843202f29f21d0f539380946ab560e"
+    },
+    {
+      "blockNumber": 67,
+      "prevHash": "e1e9d9775aba5644a553e2fbc8d8ec7629843202f29f21d0f539380946ab560e",
+      "timestamp": "2026-06-14T00:44:49.569Z",
+      "transactions": [
+        {
+          "txId": "tx_be1b7249c275ea80a933a9b147a292bc",
+          "timestamp": "2026-06-14T00:44:49.569Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-24",
+            "contratoId": "CON-15",
+            "monto": 4500,
+            "fecha": "2026-05-04",
+            "tipoPago": "Efectivo",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "339cb12aca2b24e0bcb5ed5434f73357fb2c310f9dc25657e013db6d1e8eb698"
+    },
+    {
+      "blockNumber": 68,
+      "prevHash": "339cb12aca2b24e0bcb5ed5434f73357fb2c310f9dc25657e013db6d1e8eb698",
+      "timestamp": "2026-06-14T00:57:17.216Z",
+      "transactions": [
+        {
+          "txId": "tx_f93e19e2f756d3afa7866630c64a7c49",
+          "timestamp": "2026-06-14T00:57:17.216Z",
+          "txName": "crearContrato",
+          "args": {
+            "id": "CON-16",
+            "inmuebleId": "INM-31",
+            "propietarioId": "USR-2",
+            "inquilinoId": "USR-2",
+            "montoAlquiler": 3500,
+            "montoDeposito": 7000,
+            "fechaInicio": "2026-05-14",
+            "fechaFin": "2027-05-14"
+          }
+        }
+      ],
+      "blockHash": "d1c574f1f43a9901459030ad04b99c8abecd921e83b84c33aae22a13592ee680"
+    },
+    {
+      "blockNumber": 69,
+      "prevHash": "d1c574f1f43a9901459030ad04b99c8abecd921e83b84c33aae22a13592ee680",
+      "timestamp": "2026-06-14T00:57:17.222Z",
+      "transactions": [
+        {
+          "txId": "tx_d2dc9c4c955da14174a0d2a36a09f9fb",
+          "timestamp": "2026-06-14T00:57:17.222Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-16",
+            "rolUsuario": "propietario",
+            "hashFirmaDigital": "bf93ed3d2a075a9ba5b5ada111874b8fdf543170eb5d78f73c6ca1dab0bb11af"
+          }
+        }
+      ],
+      "blockHash": "f2c64722707dd39494d547c32296bebe046dce7ee3b1b75ffa3cb2e9f2744be1"
+    },
+    {
+      "blockNumber": 70,
+      "prevHash": "f2c64722707dd39494d547c32296bebe046dce7ee3b1b75ffa3cb2e9f2744be1",
+      "timestamp": "2026-06-14T00:57:17.228Z",
+      "transactions": [
+        {
+          "txId": "tx_b1c7c9cbddf4d42c3bee7ba1d3af236d",
+          "timestamp": "2026-06-14T00:57:17.228Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-16",
+            "rolUsuario": "inquilino",
+            "hashFirmaDigital": "a40518a49e1e5ef3bab3d47baf14158d0655ace4ff05c9ef14cae1c973bb08d3"
+          }
+        }
+      ],
+      "blockHash": "3513a0d39402cf9beee3912d59f3e59cce52e707895509ad3e559b04829a672c"
+    },
+    {
+      "blockNumber": 71,
+      "prevHash": "3513a0d39402cf9beee3912d59f3e59cce52e707895509ad3e559b04829a672c",
+      "timestamp": "2026-06-14T00:57:17.264Z",
+      "transactions": [
+        {
+          "txId": "tx_4e88c21bea1cc8f3664d448c92b3faa3",
+          "timestamp": "2026-06-14T00:57:17.264Z",
+          "txName": "crearContrato",
+          "args": {
+            "id": "CON-17",
+            "inmuebleId": "INM-32",
+            "propietarioId": "USR-1",
+            "inquilinoId": "USR-3",
+            "montoAlquiler": 1800,
+            "montoDeposito": 3600,
+            "fechaInicio": "2026-04-14",
+            "fechaFin": "2027-03-10"
+          }
+        }
+      ],
+      "blockHash": "d978ab1db30f98bbde7cfcfbf8ecf47bd7a7e5ae24c1c7f6800285e762f5c458"
+    },
+    {
+      "blockNumber": 72,
+      "prevHash": "d978ab1db30f98bbde7cfcfbf8ecf47bd7a7e5ae24c1c7f6800285e762f5c458",
+      "timestamp": "2026-06-14T00:57:17.279Z",
+      "transactions": [
+        {
+          "txId": "tx_470c437a598552b2aec4f1a9237fed54",
+          "timestamp": "2026-06-14T00:57:17.279Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-17",
+            "rolUsuario": "propietario",
+            "hashFirmaDigital": "99c2cd54900c8b198ed85c42512f6ff185d8a2a2bef3e5b8e18999de27fcc92b"
+          }
+        }
+      ],
+      "blockHash": "e9aeca006a0d5e054347a0498baf6b0897806429da1624fadd76a3f7d20b60c1"
+    },
+    {
+      "blockNumber": 73,
+      "prevHash": "e9aeca006a0d5e054347a0498baf6b0897806429da1624fadd76a3f7d20b60c1",
+      "timestamp": "2026-06-14T00:57:17.295Z",
+      "transactions": [
+        {
+          "txId": "tx_043ab1221b4dc52fb7ef4f1d0ed6da30",
+          "timestamp": "2026-06-14T00:57:17.295Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-17",
+            "rolUsuario": "inquilino",
+            "hashFirmaDigital": "f669e8315050659f40dfacaad4129c33347422ac134a083372885b2979a402a7"
+          }
+        }
+      ],
+      "blockHash": "2fbac0244454c9c33bab788ab15a520ca2ad8b05107afb1f8755ca75e7dfe47a"
+    },
+    {
+      "blockNumber": 74,
+      "prevHash": "2fbac0244454c9c33bab788ab15a520ca2ad8b05107afb1f8755ca75e7dfe47a",
+      "timestamp": "2026-06-14T00:57:17.305Z",
+      "transactions": [
+        {
+          "txId": "tx_e97ff84356a5063888cfd40c2d77fc67",
+          "timestamp": "2026-06-14T00:57:17.305Z",
+          "txName": "crearContrato",
+          "args": {
+            "id": "CON-18",
+            "inmuebleId": "INM-33",
+            "propietarioId": "USR-4",
+            "inquilinoId": "USR-4",
+            "montoAlquiler": 0,
+            "montoDeposito": 25000,
+            "fechaInicio": "2026-05-29",
+            "fechaFin": "2027-07-03"
+          }
+        }
+      ],
+      "blockHash": "736bdf32fdc75d4a4060f3d98d60fc182be10ed8fd802d48be84ce71d0178871"
+    },
+    {
+      "blockNumber": 75,
+      "prevHash": "736bdf32fdc75d4a4060f3d98d60fc182be10ed8fd802d48be84ce71d0178871",
+      "timestamp": "2026-06-14T00:57:17.310Z",
+      "transactions": [
+        {
+          "txId": "tx_88a291402193f5d5da12a1498640c44a",
+          "timestamp": "2026-06-14T00:57:17.310Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-18",
+            "rolUsuario": "propietario",
+            "hashFirmaDigital": "76ca32da6be9921a771ea5c0f230b6141d63236dbbf0d24678fa3db228fa13af"
+          }
+        }
+      ],
+      "blockHash": "1e6bee05978db84afc084c3facf73686cd99269676994e7288128ea897148df3"
+    },
+    {
+      "blockNumber": 76,
+      "prevHash": "1e6bee05978db84afc084c3facf73686cd99269676994e7288128ea897148df3",
+      "timestamp": "2026-06-14T00:57:17.315Z",
+      "transactions": [
+        {
+          "txId": "tx_482f3c978aacca3dac17d603fc1729d0",
+          "timestamp": "2026-06-14T00:57:17.315Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-18",
+            "rolUsuario": "inquilino",
+            "hashFirmaDigital": "435f6ebae3c03eb1b7b65e80cbd40d63c2225002077ce0e8eb8750bcf74b4587"
+          }
+        }
+      ],
+      "blockHash": "efe26bf18ab24c5a5621be40c65bd5a2d38c368c1ad7c78ba6a8aa5b760fbedb"
+    },
+    {
+      "blockNumber": 77,
+      "prevHash": "efe26bf18ab24c5a5621be40c65bd5a2d38c368c1ad7c78ba6a8aa5b760fbedb",
+      "timestamp": "2026-06-14T00:57:17.340Z",
+      "transactions": [
+        {
+          "txId": "tx_8d570ef05c8891418549bf0a0804bf84",
+          "timestamp": "2026-06-14T00:57:17.340Z",
+          "txName": "crearContrato",
+          "args": {
+            "id": "CON-19",
+            "inmuebleId": "INM-35",
+            "propietarioId": "USR-6",
+            "inquilinoId": "USR-6",
+            "montoAlquiler": 450000,
+            "montoDeposito": 0,
+            "fechaInicio": "2026-03-15",
+            "fechaFin": ""
+          }
+        }
+      ],
+      "blockHash": "a0673f4de5451007980b43cd9c1a244e529fb4404cc5540bdeeb633d1bac1172"
+    },
+    {
+      "blockNumber": 78,
+      "prevHash": "a0673f4de5451007980b43cd9c1a244e529fb4404cc5540bdeeb633d1bac1172",
+      "timestamp": "2026-06-14T00:57:17.349Z",
+      "transactions": [
+        {
+          "txId": "tx_a899bf3d15db956a660ad3977e0f9ee0",
+          "timestamp": "2026-06-14T00:57:17.349Z",
+          "txName": "crearContrato",
+          "args": {
+            "id": "CON-20",
+            "inmuebleId": "INM-36",
+            "propietarioId": "USR-7",
+            "inquilinoId": "USR-7",
+            "montoAlquiler": 4500,
+            "montoDeposito": 15000,
+            "fechaInicio": "2026-05-24",
+            "fechaFin": "2027-05-19"
+          }
+        }
+      ],
+      "blockHash": "575d6901c31946cd63a4a7076e477872addcd2be860ef00020f7d5ca0f31b189"
+    },
+    {
+      "blockNumber": 79,
+      "prevHash": "575d6901c31946cd63a4a7076e477872addcd2be860ef00020f7d5ca0f31b189",
+      "timestamp": "2026-06-14T00:57:17.371Z",
+      "transactions": [
+        {
+          "txId": "tx_30e3bf8616286fd06b0ab47b70508b47",
+          "timestamp": "2026-06-14T00:57:17.371Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-20",
+            "rolUsuario": "propietario",
+            "hashFirmaDigital": "8fba9aa69a7a5a9a5f1ebaec8edffbb31ae5e215aaca87301b2dd175485bcbfb"
+          }
+        }
+      ],
+      "blockHash": "93783d082ea5a98ae54fee928662b37cf9eed976bcd1357b32c7356940f865f7"
+    },
+    {
+      "blockNumber": 80,
+      "prevHash": "93783d082ea5a98ae54fee928662b37cf9eed976bcd1357b32c7356940f865f7",
+      "timestamp": "2026-06-14T00:57:17.387Z",
+      "transactions": [
+        {
+          "txId": "tx_84b0f99b6c1dbd053e2e81120627fdee",
+          "timestamp": "2026-06-14T00:57:17.387Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-20",
+            "rolUsuario": "inquilino",
+            "hashFirmaDigital": "6cc299a994eb1c2d7436f0a6251c5d9038c3acd2f9c5769a28dd6e6a73db7530"
+          }
+        }
+      ],
+      "blockHash": "efbcdabcb285a94d63ff4d241c496c2954e4c0756f19b45019f168106bc6126e"
+    },
+    {
+      "blockNumber": 81,
+      "prevHash": "efbcdabcb285a94d63ff4d241c496c2954e4c0756f19b45019f168106bc6126e",
+      "timestamp": "2026-06-14T00:57:17.417Z",
+      "transactions": [
+        {
+          "txId": "tx_72617ba15a7ff261d8792fa840041a28",
+          "timestamp": "2026-06-14T00:57:17.417Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-25",
+            "contratoId": "CON-16",
+            "monto": 3500,
+            "fecha": "2026-06-13",
+            "tipoPago": "Efectivo",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "e46c6aed8995b84486fd5e82c9bcd47a7999d2b26c664b16eab65e57aace470f"
+    },
+    {
+      "blockNumber": 82,
+      "prevHash": "e46c6aed8995b84486fd5e82c9bcd47a7999d2b26c664b16eab65e57aace470f",
+      "timestamp": "2026-06-14T00:57:17.427Z",
+      "transactions": [
+        {
+          "txId": "tx_434805d6a3062fafb9e9497c4f0f2911",
+          "timestamp": "2026-06-14T00:57:17.427Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-26",
+            "contratoId": "CON-16",
+            "monto": 3500,
+            "fecha": "2026-05-14",
+            "tipoPago": "Transferencia Bancaria",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "9114107a1c9894c0b25cce79eae0af4c100f4b59cac677cceacdc0470d52b6ba"
+    },
+    {
+      "blockNumber": 83,
+      "prevHash": "9114107a1c9894c0b25cce79eae0af4c100f4b59cac677cceacdc0470d52b6ba",
+      "timestamp": "2026-06-14T00:57:17.448Z",
+      "transactions": [
+        {
+          "txId": "tx_4b244b93c444cadb439c6287693c46bc",
+          "timestamp": "2026-06-14T00:57:17.448Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-27",
+            "contratoId": "CON-16",
+            "monto": 3500,
+            "fecha": "2026-04-14",
+            "tipoPago": "QR",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "280905869adb3f51126a58a470f619358902ba5ecdffd052e53403e111f9f310"
+    },
+    {
+      "blockNumber": 84,
+      "prevHash": "280905869adb3f51126a58a470f619358902ba5ecdffd052e53403e111f9f310",
+      "timestamp": "2026-06-14T00:57:17.458Z",
+      "transactions": [
+        {
+          "txId": "tx_53eb67be9e6e118727faf1aa018fd3b9",
+          "timestamp": "2026-06-14T00:57:17.458Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-28",
+            "contratoId": "CON-17",
+            "monto": 1800,
+            "fecha": "2026-06-13",
+            "tipoPago": "Efectivo",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "c4c5538b977157e4e89065f2a8115cb9f67d974177a0185c19040959d684e742"
+    },
+    {
+      "blockNumber": 85,
+      "prevHash": "c4c5538b977157e4e89065f2a8115cb9f67d974177a0185c19040959d684e742",
+      "timestamp": "2026-06-14T00:57:17.496Z",
+      "transactions": [
+        {
+          "txId": "tx_de876ad861f157dd45eee93b92315b42",
+          "timestamp": "2026-06-14T00:57:17.496Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-30",
+            "contratoId": "CON-19",
+            "monto": 450000,
+            "fecha": "2026-06-08",
+            "tipoPago": "Tarjeta de Crédito",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "c439c97305928b96c36a8a67dd311028aa538cf0444c6c4bf9ede1d904913211"
+    },
+    {
+      "blockNumber": 86,
+      "prevHash": "c439c97305928b96c36a8a67dd311028aa538cf0444c6c4bf9ede1d904913211",
+      "timestamp": "2026-06-14T00:57:17.528Z",
+      "transactions": [
+        {
+          "txId": "tx_730715cc04c1ca6fccc36f8c1e279d67",
+          "timestamp": "2026-06-14T00:57:17.528Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-31",
+            "contratoId": "CON-20",
+            "monto": 4500,
+            "fecha": "2026-06-03",
+            "tipoPago": "QR",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "3f7a5ec72f236700cff082169f5d02556b885ea93be979f93027ae22c6461805"
+    },
+    {
+      "blockNumber": 87,
+      "prevHash": "3f7a5ec72f236700cff082169f5d02556b885ea93be979f93027ae22c6461805",
+      "timestamp": "2026-06-14T00:57:17.560Z",
+      "transactions": [
+        {
+          "txId": "tx_bb9ef0e0688803b92f8490e46eb52a00",
+          "timestamp": "2026-06-14T00:57:17.560Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-32",
+            "contratoId": "CON-20",
+            "monto": 4500,
+            "fecha": "2026-05-04",
+            "tipoPago": "Efectivo",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "86b0e85a3520b71bc366959d3d680ac4e2d6bb5673ffd58fb602d546b44b8e02"
+    },
+    {
+      "blockNumber": 88,
+      "prevHash": "86b0e85a3520b71bc366959d3d680ac4e2d6bb5673ffd58fb602d546b44b8e02",
+      "timestamp": "2026-06-14T00:57:17.967Z",
+      "transactions": [
+        {
+          "txId": "tx_79e2931e4d31426306f41a3afc85e560",
+          "timestamp": "2026-06-14T00:57:17.967Z",
+          "txName": "registrarInmueble",
+          "args": {
+            "id": "INM-31",
+            "titulo": "Casa Moderna La Guardia",
+            "propietarioId": "USR-2",
+            "direccion": "La Guardia, Zona Centro - Calle Principal La Guardia",
+            "hashTituloPropiedad": "0fddebc23dd309842acceedbfd6aae7a0abfbaee6b845cd5f76b6532d56b4d63"
+          }
+        }
+      ],
+      "blockHash": "d871c39c472da6edbbd12d9ee947eeebafd0987de30a2259c9775fe7989220df"
+    },
+    {
+      "blockNumber": 89,
+      "prevHash": "d871c39c472da6edbbd12d9ee947eeebafd0987de30a2259c9775fe7989220df",
+      "timestamp": "2026-06-14T01:26:12.032Z",
+      "transactions": [
+        {
+          "txId": "tx_901cafdb1c3cfd2d4c7dc51f5b99cdd1",
+          "timestamp": "2026-06-14T01:26:12.032Z",
+          "txName": "crearContrato",
+          "args": {
+            "id": "CON-21",
+            "inmuebleId": "INM-41",
+            "propietarioId": "USR-2",
+            "inquilinoId": "USR-2",
+            "montoAlquiler": 3500,
+            "montoDeposito": 7000,
+            "fechaInicio": "2026-05-14",
+            "fechaFin": "2027-05-14"
+          }
+        }
+      ],
+      "blockHash": "d578dc784e1ba8c998e8e0099d73a5d1c17faa51d021758ce8fd5e0fc09d5bc8"
+    },
+    {
+      "blockNumber": 90,
+      "prevHash": "d578dc784e1ba8c998e8e0099d73a5d1c17faa51d021758ce8fd5e0fc09d5bc8",
+      "timestamp": "2026-06-14T01:26:12.040Z",
+      "transactions": [
+        {
+          "txId": "tx_1f56b6b853cc460651367642fafe571f",
+          "timestamp": "2026-06-14T01:26:12.040Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-21",
+            "rolUsuario": "propietario",
+            "hashFirmaDigital": "5620d21ba49ec06630c31e493431c9d810bf76df2ef655527acb518d0004344f"
+          }
+        }
+      ],
+      "blockHash": "4933af74740fb28519287a2287d7a8b63628628a01ece9c5a7e843e2fb2e1500"
+    },
+    {
+      "blockNumber": 91,
+      "prevHash": "4933af74740fb28519287a2287d7a8b63628628a01ece9c5a7e843e2fb2e1500",
+      "timestamp": "2026-06-14T01:26:12.048Z",
+      "transactions": [
+        {
+          "txId": "tx_a0746744a80a318f469d12262dcc0d51",
+          "timestamp": "2026-06-14T01:26:12.048Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-21",
+            "rolUsuario": "inquilino",
+            "hashFirmaDigital": "54f0ff04038cdd5b016bba4e0453ceb6eb3f66cbc63881ad3c14e6f52b9ec9e0"
+          }
+        }
+      ],
+      "blockHash": "5dd1d019ac688ba2654126c6cf69d3d6ae43435e824a1f13910c2a1aacfe90ff"
+    },
+    {
+      "blockNumber": 92,
+      "prevHash": "5dd1d019ac688ba2654126c6cf69d3d6ae43435e824a1f13910c2a1aacfe90ff",
+      "timestamp": "2026-06-14T01:26:12.062Z",
+      "transactions": [
+        {
+          "txId": "tx_64fdd6ebd9597e51638bc35e0cef96ac",
+          "timestamp": "2026-06-14T01:26:12.062Z",
+          "txName": "crearContrato",
+          "args": {
+            "id": "CON-22",
+            "inmuebleId": "INM-42",
+            "propietarioId": "USR-1",
+            "inquilinoId": "USR-3",
+            "montoAlquiler": 1800,
+            "montoDeposito": 3600,
+            "fechaInicio": "2026-04-14",
+            "fechaFin": "2027-03-10"
+          }
+        }
+      ],
+      "blockHash": "0631f64651dd68aa7cfe7acd44239ac9d95604853ccb0ec819a597a1b9f88182"
+    },
+    {
+      "blockNumber": 93,
+      "prevHash": "0631f64651dd68aa7cfe7acd44239ac9d95604853ccb0ec819a597a1b9f88182",
+      "timestamp": "2026-06-14T01:26:12.070Z",
+      "transactions": [
+        {
+          "txId": "tx_f9515d34e3df708ef8a6d07e6d366b28",
+          "timestamp": "2026-06-14T01:26:12.070Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-22",
+            "rolUsuario": "propietario",
+            "hashFirmaDigital": "b4cf82be61a6dae4bf42738ee18e3d333de98947203015d83fcdf061259906b9"
+          }
+        }
+      ],
+      "blockHash": "ae4e85028cc706520533212b81fc1867fb071e7c29aa837f5662791482c60b7a"
+    },
+    {
+      "blockNumber": 94,
+      "prevHash": "ae4e85028cc706520533212b81fc1867fb071e7c29aa837f5662791482c60b7a",
+      "timestamp": "2026-06-14T01:26:12.077Z",
+      "transactions": [
+        {
+          "txId": "tx_ffb758596ca16ec1155cbebf86beb830",
+          "timestamp": "2026-06-14T01:26:12.077Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-22",
+            "rolUsuario": "inquilino",
+            "hashFirmaDigital": "42bda2cf6133d95d86c8f5c574c580da7af32c8ec3665e57730504c693acedb4"
+          }
+        }
+      ],
+      "blockHash": "9fc7ffca73080141aba4417ec1182bfb9829eb5db5d7b6c3baf29fbeb12caa20"
+    },
+    {
+      "blockNumber": 95,
+      "prevHash": "9fc7ffca73080141aba4417ec1182bfb9829eb5db5d7b6c3baf29fbeb12caa20",
+      "timestamp": "2026-06-14T01:26:12.090Z",
+      "transactions": [
+        {
+          "txId": "tx_45551bc66244cb1874599e79daa9bae7",
+          "timestamp": "2026-06-14T01:26:12.090Z",
+          "txName": "crearContrato",
+          "args": {
+            "id": "CON-23",
+            "inmuebleId": "INM-43",
+            "propietarioId": "USR-4",
+            "inquilinoId": "USR-4",
+            "montoAlquiler": 0,
+            "montoDeposito": 25000,
+            "fechaInicio": "2026-05-29",
+            "fechaFin": "2027-07-03"
+          }
+        }
+      ],
+      "blockHash": "244f1650c1834d10ea0a500d288916902b3056df49b09ec254894a9f01a91cad"
+    },
+    {
+      "blockNumber": 96,
+      "prevHash": "244f1650c1834d10ea0a500d288916902b3056df49b09ec254894a9f01a91cad",
+      "timestamp": "2026-06-14T01:26:12.098Z",
+      "transactions": [
+        {
+          "txId": "tx_4e1d79b060b323dbd9bc2c033e0acee8",
+          "timestamp": "2026-06-14T01:26:12.098Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-23",
+            "rolUsuario": "propietario",
+            "hashFirmaDigital": "b8c65ee400577693df6c636db6c6f3d08e14576d5fbcec0828583ec082f075ff"
+          }
+        }
+      ],
+      "blockHash": "a2e6f9120dedfc14be3cf5d6ebecfc78b04ccee66dfbd390284febfb90c058c5"
+    },
+    {
+      "blockNumber": 97,
+      "prevHash": "a2e6f9120dedfc14be3cf5d6ebecfc78b04ccee66dfbd390284febfb90c058c5",
+      "timestamp": "2026-06-14T01:26:12.104Z",
+      "transactions": [
+        {
+          "txId": "tx_cf618fd2c137349f2cf311b379a7fa7e",
+          "timestamp": "2026-06-14T01:26:12.104Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-23",
+            "rolUsuario": "inquilino",
+            "hashFirmaDigital": "3d94f23cde757f0a100d078381b11070728133b34119da70b245ac6a3ef62aee"
+          }
+        }
+      ],
+      "blockHash": "08d6d3c915deaa7ba6373cad7e7e35461b7ac0a8d371ea7278441d939f73af44"
+    },
+    {
+      "blockNumber": 98,
+      "prevHash": "08d6d3c915deaa7ba6373cad7e7e35461b7ac0a8d371ea7278441d939f73af44",
+      "timestamp": "2026-06-14T01:26:12.117Z",
+      "transactions": [
+        {
+          "txId": "tx_316ccbfea2c7f27553e93aa1b85d5629",
+          "timestamp": "2026-06-14T01:26:12.117Z",
+          "txName": "crearContrato",
+          "args": {
+            "id": "CON-24",
+            "inmuebleId": "INM-45",
+            "propietarioId": "USR-6",
+            "inquilinoId": "USR-6",
+            "montoAlquiler": 450000,
+            "montoDeposito": 0,
+            "fechaInicio": "2026-03-15",
+            "fechaFin": ""
+          }
+        }
+      ],
+      "blockHash": "dfaeee0e3d82c1ebda43e4dc0b4669fe242df9fb492f2f51aeb443ed1cc537d7"
+    },
+    {
+      "blockNumber": 99,
+      "prevHash": "dfaeee0e3d82c1ebda43e4dc0b4669fe242df9fb492f2f51aeb443ed1cc537d7",
+      "timestamp": "2026-06-14T01:26:12.131Z",
+      "transactions": [
+        {
+          "txId": "tx_c46bfbe731549b26db2b516ee00e582a",
+          "timestamp": "2026-06-14T01:26:12.131Z",
+          "txName": "crearContrato",
+          "args": {
+            "id": "CON-25",
+            "inmuebleId": "INM-46",
+            "propietarioId": "USR-7",
+            "inquilinoId": "USR-7",
+            "montoAlquiler": 4500,
+            "montoDeposito": 15000,
+            "fechaInicio": "2026-05-24",
+            "fechaFin": "2027-05-19"
+          }
+        }
+      ],
+      "blockHash": "22005bff7cead9848a0243d1c0dc54d900035c64035c375eb10425713c9e42ef"
+    },
+    {
+      "blockNumber": 100,
+      "prevHash": "22005bff7cead9848a0243d1c0dc54d900035c64035c375eb10425713c9e42ef",
+      "timestamp": "2026-06-14T01:26:12.137Z",
+      "transactions": [
+        {
+          "txId": "tx_e44875aff95f09127d541df58b374da5",
+          "timestamp": "2026-06-14T01:26:12.137Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-25",
+            "rolUsuario": "propietario",
+            "hashFirmaDigital": "111669175a28ee62fbab6af745748f2da28c27518a111cee1c2d1388b98207de"
+          }
+        }
+      ],
+      "blockHash": "3448c6aae59b3d7438260eea3fc06eabc4f694823f0575d1e781c8a996ea8c82"
+    },
+    {
+      "blockNumber": 101,
+      "prevHash": "3448c6aae59b3d7438260eea3fc06eabc4f694823f0575d1e781c8a996ea8c82",
+      "timestamp": "2026-06-14T01:26:12.145Z",
+      "transactions": [
+        {
+          "txId": "tx_9229db117d3a5b549c0552a077e53b98",
+          "timestamp": "2026-06-14T01:26:12.145Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-25",
+            "rolUsuario": "inquilino",
+            "hashFirmaDigital": "0e60653fcb2766a487da283336851498b445f11ad0de47d6fcf6a78ad51e0d88"
+          }
+        }
+      ],
+      "blockHash": "973f51af69aa04e8a929430f836eed5cb7f97ed14dab001c6419cce031891c1e"
+    },
+    {
+      "blockNumber": 102,
+      "prevHash": "973f51af69aa04e8a929430f836eed5cb7f97ed14dab001c6419cce031891c1e",
+      "timestamp": "2026-06-14T01:26:12.166Z",
+      "transactions": [
+        {
+          "txId": "tx_bc290ee8f106383de752850b4b47a7c3",
+          "timestamp": "2026-06-14T01:26:12.166Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-33",
+            "contratoId": "CON-21",
+            "monto": 3500,
+            "fecha": "2026-06-13",
+            "tipoPago": "Efectivo",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "6deb85bbe366d25492619e09555d3677d6f3dae8ec85a4f7aefde1b3b86a1e24"
+    },
+    {
+      "blockNumber": 103,
+      "prevHash": "6deb85bbe366d25492619e09555d3677d6f3dae8ec85a4f7aefde1b3b86a1e24",
+      "timestamp": "2026-06-14T01:26:12.179Z",
+      "transactions": [
+        {
+          "txId": "tx_7f896f52e345ed118830d22deb7deef7",
+          "timestamp": "2026-06-14T01:26:12.179Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-34",
+            "contratoId": "CON-21",
+            "monto": 3500,
+            "fecha": "2026-05-14",
+            "tipoPago": "Transferencia Bancaria",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "fe1d60276d998713f1843b09872e3c1bbc6541c5e3a8808f3f9be742472418a6"
+    },
+    {
+      "blockNumber": 104,
+      "prevHash": "fe1d60276d998713f1843b09872e3c1bbc6541c5e3a8808f3f9be742472418a6",
+      "timestamp": "2026-06-14T01:26:12.192Z",
+      "transactions": [
+        {
+          "txId": "tx_fedf2ca3e908a4c5eefa55af716b1837",
+          "timestamp": "2026-06-14T01:26:12.192Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-35",
+            "contratoId": "CON-21",
+            "monto": 3500,
+            "fecha": "2026-04-14",
+            "tipoPago": "QR",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "4e8c0657c63b708880da0a090cd65c61bd06f4e4fb16aaea212d4897501c5a3e"
+    },
+    {
+      "blockNumber": 105,
+      "prevHash": "4e8c0657c63b708880da0a090cd65c61bd06f4e4fb16aaea212d4897501c5a3e",
+      "timestamp": "2026-06-14T01:26:12.203Z",
+      "transactions": [
+        {
+          "txId": "tx_4ee242bce39e6f8200b3010d95cc1378",
+          "timestamp": "2026-06-14T01:26:12.203Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-36",
+            "contratoId": "CON-22",
+            "monto": 1800,
+            "fecha": "2026-06-13",
+            "tipoPago": "Efectivo",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "2f940d1874f08f52931b4204e3048d51028e8f17e9f6f9a3b3b61fc24b043e7f"
+    },
+    {
+      "blockNumber": 106,
+      "prevHash": "2f940d1874f08f52931b4204e3048d51028e8f17e9f6f9a3b3b61fc24b043e7f",
+      "timestamp": "2026-06-14T01:26:12.217Z",
+      "transactions": [
+        {
+          "txId": "tx_63ab289a5f34b324d430a413d88a1b45",
+          "timestamp": "2026-06-14T01:26:12.217Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-38",
+            "contratoId": "CON-24",
+            "monto": 450000,
+            "fecha": "2026-06-08",
+            "tipoPago": "Tarjeta de Crédito",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "bf4ba966c4da4ca1cc744647ebc988f26448114bad55c77edd5904738bf3104e"
+    },
+    {
+      "blockNumber": 107,
+      "prevHash": "bf4ba966c4da4ca1cc744647ebc988f26448114bad55c77edd5904738bf3104e",
+      "timestamp": "2026-06-14T01:26:12.227Z",
+      "transactions": [
+        {
+          "txId": "tx_e2f90821ca8decd2c1c8a5caa8af6a14",
+          "timestamp": "2026-06-14T01:26:12.227Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-39",
+            "contratoId": "CON-25",
+            "monto": 4500,
+            "fecha": "2026-06-03",
+            "tipoPago": "QR",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "eb5e01383513a8d6399a0b2a2b1df01d850f908df893cb058a6359ccdc0210c4"
+    },
+    {
+      "blockNumber": 108,
+      "prevHash": "eb5e01383513a8d6399a0b2a2b1df01d850f908df893cb058a6359ccdc0210c4",
+      "timestamp": "2026-06-14T01:26:12.247Z",
+      "transactions": [
+        {
+          "txId": "tx_8f728a5bf1be394626df36d53c3bda88",
+          "timestamp": "2026-06-14T01:26:12.247Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-40",
+            "contratoId": "CON-25",
+            "monto": 4500,
+            "fecha": "2026-05-04",
+            "tipoPago": "Efectivo",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "803ebbe0619ad4cca724504afc99c88094fa1aa9cb94fc5269513ffdf32715da"
+    },
+    {
+      "blockNumber": 109,
+      "prevHash": "803ebbe0619ad4cca724504afc99c88094fa1aa9cb94fc5269513ffdf32715da",
+      "timestamp": "2026-06-14T01:26:12.619Z",
+      "transactions": [
+        {
+          "txId": "tx_8d40d56626761e0cadee453048f8bbdf",
+          "timestamp": "2026-06-14T01:26:12.619Z",
+          "txName": "registrarInmueble",
+          "args": {
+            "id": "INM-41",
+            "titulo": "Casa Moderna La Guardia",
+            "propietarioId": "USR-2",
+            "direccion": "La Guardia, Zona Centro - Calle Principal La Guardia",
+            "hashTituloPropiedad": "0fddebc23dd309842acceedbfd6aae7a0abfbaee6b845cd5f76b6532d56b4d63"
+          }
+        }
+      ],
+      "blockHash": "f9a5e4cbd9190c398336d0978404febba1b86561336cd487ae40bd6ea82eda56"
+    },
+    {
+      "blockNumber": 110,
+      "prevHash": "f9a5e4cbd9190c398336d0978404febba1b86561336cd487ae40bd6ea82eda56",
+      "timestamp": "2026-06-14T03:29:20.809Z",
+      "transactions": [
+        {
+          "txId": "tx_c41e6a64d2a968e7bca6c6a13e056808",
+          "timestamp": "2026-06-14T03:29:20.809Z",
+          "txName": "crearContrato",
+          "args": {
+            "id": "CON-34",
+            "inmuebleId": "INM-34",
+            "propietarioId": "USR-2",
+            "inquilinoId": "USR-2",
+            "montoAlquiler": 3500,
+            "montoDeposito": 7000,
+            "fechaInicio": "2026-05-14",
+            "fechaFin": "2027-05-14"
+          }
+        }
+      ],
+      "blockHash": "34927edaa2780fd8a7cb5eef7ff6a0fd2eec2ae949331d8dc0f09b252b615dbf"
+    },
+    {
+      "blockNumber": 111,
+      "prevHash": "34927edaa2780fd8a7cb5eef7ff6a0fd2eec2ae949331d8dc0f09b252b615dbf",
+      "timestamp": "2026-06-14T03:29:20.847Z",
+      "transactions": [
+        {
+          "txId": "tx_66420ac92f89a495893e3a13c6127b6a",
+          "timestamp": "2026-06-14T03:29:20.847Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-34",
+            "rolUsuario": "propietario",
+            "hashFirmaDigital": "8b59e715c835bd37c33a62702f57a3b3d9a4783ee3e723150bcd26fc31dd4769"
+          }
+        }
+      ],
+      "blockHash": "b81c0011bc2b8bb931cb662c02e19916405dfb9e2dcb4570d2f5113ed8a7545e"
+    },
+    {
+      "blockNumber": 112,
+      "prevHash": "b81c0011bc2b8bb931cb662c02e19916405dfb9e2dcb4570d2f5113ed8a7545e",
+      "timestamp": "2026-06-14T03:29:20.877Z",
+      "transactions": [
+        {
+          "txId": "tx_d7129fddee062f91cb081a038700012c",
+          "timestamp": "2026-06-14T03:29:20.877Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-34",
+            "rolUsuario": "inquilino",
+            "hashFirmaDigital": "4f038893fe4a97bbf695edacc900e1a9d472fdfd110bbc065689786445032586"
+          }
+        }
+      ],
+      "blockHash": "ad63e3efdf0e9a124d52d5ae8dfabafe924da385a78f306514e44e0ae7f28bf7"
+    },
+    {
+      "blockNumber": 113,
+      "prevHash": "ad63e3efdf0e9a124d52d5ae8dfabafe924da385a78f306514e44e0ae7f28bf7",
+      "timestamp": "2026-06-14T03:29:21.970Z",
+      "transactions": [
+        {
+          "txId": "tx_10c6a07ac1db390d480ac4eabef7f193",
+          "timestamp": "2026-06-14T03:29:21.970Z",
+          "txName": "crearContrato",
+          "args": {
+            "id": "CON-35",
+            "inmuebleId": "INM-35",
+            "propietarioId": "USR-1",
+            "inquilinoId": "USR-3",
+            "montoAlquiler": 1800,
+            "montoDeposito": 3600,
+            "fechaInicio": "2026-04-14",
+            "fechaFin": "2027-03-10"
+          }
+        }
+      ],
+      "blockHash": "649893545e906ffcb3fd282194c1ab7d4c9bc5e7b9b58c83d8807397b6b6d4ee"
+    },
+    {
+      "blockNumber": 114,
+      "prevHash": "649893545e906ffcb3fd282194c1ab7d4c9bc5e7b9b58c83d8807397b6b6d4ee",
+      "timestamp": "2026-06-14T03:29:22.001Z",
+      "transactions": [
+        {
+          "txId": "tx_e46fe2910e687ff92cd0309703784c96",
+          "timestamp": "2026-06-14T03:29:22.001Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-35",
+            "rolUsuario": "propietario",
+            "hashFirmaDigital": "8589382ba81bd879e1f46dfee6e8622950ec2031388aed79514c73a222ed2cd4"
+          }
+        }
+      ],
+      "blockHash": "677a7ae7db09067911a4205cdd62ba3fddc8f7a2940728180f741de1335863a2"
+    },
+    {
+      "blockNumber": 115,
+      "prevHash": "677a7ae7db09067911a4205cdd62ba3fddc8f7a2940728180f741de1335863a2",
+      "timestamp": "2026-06-14T03:29:22.031Z",
+      "transactions": [
+        {
+          "txId": "tx_47fb70291c2ad8e934aceb5416f9e9d0",
+          "timestamp": "2026-06-14T03:29:22.031Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-35",
+            "rolUsuario": "inquilino",
+            "hashFirmaDigital": "6278519087295a0689f7fd5772cb73003214f90fcfdf52df140f851fdc36d6a5"
+          }
+        }
+      ],
+      "blockHash": "530a51a8300033992f95b4f1c721b3841bb8d6566735846bf7626319090b240c"
+    },
+    {
+      "blockNumber": 116,
+      "prevHash": "530a51a8300033992f95b4f1c721b3841bb8d6566735846bf7626319090b240c",
+      "timestamp": "2026-06-14T03:29:23.126Z",
+      "transactions": [
+        {
+          "txId": "tx_2951153c07252b5a40f7d2597378a3d6",
+          "timestamp": "2026-06-14T03:29:23.126Z",
+          "txName": "crearContrato",
+          "args": {
+            "id": "CON-36",
+            "inmuebleId": "INM-36",
+            "propietarioId": "USR-4",
+            "inquilinoId": "USR-4",
+            "montoAlquiler": 0,
+            "montoDeposito": 25000,
+            "fechaInicio": "2026-05-29",
+            "fechaFin": "2027-07-03"
+          }
+        }
+      ],
+      "blockHash": "c7ef5183a16e7c72aa42edf1d8082a9fb999a05e5e116394740aced89425847d"
+    },
+    {
+      "blockNumber": 117,
+      "prevHash": "c7ef5183a16e7c72aa42edf1d8082a9fb999a05e5e116394740aced89425847d",
+      "timestamp": "2026-06-14T03:29:23.157Z",
+      "transactions": [
+        {
+          "txId": "tx_d1539b5ebe9898b52f34b3f607f7b531",
+          "timestamp": "2026-06-14T03:29:23.157Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-36",
+            "rolUsuario": "propietario",
+            "hashFirmaDigital": "c95bd0e93f18f149bcadbf00c2322298d12505f3a8983a1ee99395608bc0c8f2"
+          }
+        }
+      ],
+      "blockHash": "fe83c9af9bcd584b8991ea660b589b2782191ff5e8c552e0c30dd68969e28fdb"
+    },
+    {
+      "blockNumber": 118,
+      "prevHash": "fe83c9af9bcd584b8991ea660b589b2782191ff5e8c552e0c30dd68969e28fdb",
+      "timestamp": "2026-06-14T03:29:23.165Z",
+      "transactions": [
+        {
+          "txId": "tx_ed6ec6892742f06c56b0e5734aa1d3df",
+          "timestamp": "2026-06-14T03:29:23.165Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-36",
+            "rolUsuario": "inquilino",
+            "hashFirmaDigital": "300ef0108a669c9382ae3f306df7ed6a7f0d97cf28d18569f0b2193cc529fb88"
+          }
+        }
+      ],
+      "blockHash": "f7dd7b9fcae421059fd76ccc7ee502ef4134c30f7452dad5ba2f41ace2089c40"
+    },
+    {
+      "blockNumber": 119,
+      "prevHash": "f7dd7b9fcae421059fd76ccc7ee502ef4134c30f7452dad5ba2f41ace2089c40",
+      "timestamp": "2026-06-14T03:29:24.244Z",
+      "transactions": [
+        {
+          "txId": "tx_f2faab649e5695c11485dbaed801d458",
+          "timestamp": "2026-06-14T03:29:24.244Z",
+          "txName": "crearContrato",
+          "args": {
+            "id": "CON-37",
+            "inmuebleId": "INM-38",
+            "propietarioId": "USR-6",
+            "inquilinoId": "USR-6",
+            "montoAlquiler": 450000,
+            "montoDeposito": 0,
+            "fechaInicio": "2026-03-15",
+            "fechaFin": ""
+          }
+        }
+      ],
+      "blockHash": "42aab47a560ec1aba0059e428e1d998512bbbcc829caaf804f600535d7f898b1"
+    },
+    {
+      "blockNumber": 120,
+      "prevHash": "42aab47a560ec1aba0059e428e1d998512bbbcc829caaf804f600535d7f898b1",
+      "timestamp": "2026-06-14T03:29:25.345Z",
+      "transactions": [
+        {
+          "txId": "tx_d23d15022f36d7b1fa1be8dab4e84fb6",
+          "timestamp": "2026-06-14T03:29:25.345Z",
+          "txName": "crearContrato",
+          "args": {
+            "id": "CON-38",
+            "inmuebleId": "INM-39",
+            "propietarioId": "USR-7",
+            "inquilinoId": "USR-7",
+            "montoAlquiler": 4500,
+            "montoDeposito": 15000,
+            "fechaInicio": "2026-05-24",
+            "fechaFin": "2027-05-19"
+          }
+        }
+      ],
+      "blockHash": "3f8309d305b4be60b04ebfac66802dbb03aebf885ffbdcdc10e8a26cee5f12e3"
+    },
+    {
+      "blockNumber": 121,
+      "prevHash": "3f8309d305b4be60b04ebfac66802dbb03aebf885ffbdcdc10e8a26cee5f12e3",
+      "timestamp": "2026-06-14T03:29:25.353Z",
+      "transactions": [
+        {
+          "txId": "tx_f8ea8f96df9e425f8031d75018f5e991",
+          "timestamp": "2026-06-14T03:29:25.353Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-38",
+            "rolUsuario": "propietario",
+            "hashFirmaDigital": "3156d46d15c33869251cd76819bf1fe9613d776cbc02a603a108fd387056f37a"
+          }
+        }
+      ],
+      "blockHash": "56290adfa33dbd83decd277a16f7b27a41986e6e93f9af3fcc44a73aad4662be"
+    },
+    {
+      "blockNumber": 122,
+      "prevHash": "56290adfa33dbd83decd277a16f7b27a41986e6e93f9af3fcc44a73aad4662be",
+      "timestamp": "2026-06-14T03:29:25.375Z",
+      "transactions": [
+        {
+          "txId": "tx_7b150afabe138e372167affc806cd24e",
+          "timestamp": "2026-06-14T03:29:25.375Z",
+          "txName": "firmarContrato",
+          "args": {
+            "id": "CON-38",
+            "rolUsuario": "inquilino",
+            "hashFirmaDigital": "66690cb855ec70b7f676032fb1f2bc446b6eda9d291da3828511053c67506d76"
+          }
+        }
+      ],
+      "blockHash": "4b040b632056811747be4298b04656e5419e6736ceb31df5d00df9a9e6071f7f"
+    },
+    {
+      "blockNumber": 123,
+      "prevHash": "4b040b632056811747be4298b04656e5419e6736ceb31df5d00df9a9e6071f7f",
+      "timestamp": "2026-06-14T03:29:27.804Z",
+      "transactions": [
+        {
+          "txId": "tx_1a50ce4733123ff751c318eafa19350b",
+          "timestamp": "2026-06-14T03:29:27.804Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-34",
+            "contratoId": "CON-34",
+            "monto": 3500,
+            "fecha": "2026-06-13",
+            "tipoPago": "Efectivo",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "9c93c8c1aada7fd8d3cdcdf5390e71f059c2d9eeb1a6001981fd550854929887"
+    },
+    {
+      "blockNumber": 124,
+      "prevHash": "9c93c8c1aada7fd8d3cdcdf5390e71f059c2d9eeb1a6001981fd550854929887",
+      "timestamp": "2026-06-14T03:29:28.891Z",
+      "transactions": [
+        {
+          "txId": "tx_a89139bf0b251d7fcebc9d3d61b346a7",
+          "timestamp": "2026-06-14T03:29:28.891Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-35",
+            "contratoId": "CON-34",
+            "monto": 3500,
+            "fecha": "2026-05-14",
+            "tipoPago": "Transferencia Bancaria",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "dd9bd63ad0896c1853044f4ba83c0eb2e25739459affbd1d9102631773d16459"
+    },
+    {
+      "blockNumber": 125,
+      "prevHash": "dd9bd63ad0896c1853044f4ba83c0eb2e25739459affbd1d9102631773d16459",
+      "timestamp": "2026-06-14T03:29:29.971Z",
+      "transactions": [
+        {
+          "txId": "tx_40e99a3b57a326e18ce4aa10d3289af5",
+          "timestamp": "2026-06-14T03:29:29.971Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-36",
+            "contratoId": "CON-34",
+            "monto": 3500,
+            "fecha": "2026-04-14",
+            "tipoPago": "QR",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "5761c57be4af204b8fbe6fde2bf630db97e7c75ac4b6421fc1268048aa44bfe1"
+    },
+    {
+      "blockNumber": 126,
+      "prevHash": "5761c57be4af204b8fbe6fde2bf630db97e7c75ac4b6421fc1268048aa44bfe1",
+      "timestamp": "2026-06-14T03:29:31.068Z",
+      "transactions": [
+        {
+          "txId": "tx_1c602c5bf8111d0819100806cbc5fdbb",
+          "timestamp": "2026-06-14T03:29:31.068Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-37",
+            "contratoId": "CON-35",
+            "monto": 1800,
+            "fecha": "2026-06-13",
+            "tipoPago": "Efectivo",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "2dc0ea9716b152bf55b21b2b503c5331fddf75455f7fe2bb5a42e2f0c05dfae2"
+    },
+    {
+      "blockNumber": 127,
+      "prevHash": "2dc0ea9716b152bf55b21b2b503c5331fddf75455f7fe2bb5a42e2f0c05dfae2",
+      "timestamp": "2026-06-14T03:29:33.216Z",
+      "transactions": [
+        {
+          "txId": "tx_4379234d743c9968a93ca1cea91b58ee",
+          "timestamp": "2026-06-14T03:29:33.216Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-39",
+            "contratoId": "CON-37",
+            "monto": 450000,
+            "fecha": "2026-06-08",
+            "tipoPago": "Tarjeta de Crédito",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "dad7d157b0a7bb969432b2e02caa7e6f85459c94147a724db9c1f8de7068a17c"
+    },
+    {
+      "blockNumber": 128,
+      "prevHash": "dad7d157b0a7bb969432b2e02caa7e6f85459c94147a724db9c1f8de7068a17c",
+      "timestamp": "2026-06-14T03:29:34.316Z",
+      "transactions": [
+        {
+          "txId": "tx_ef2180feab04401de5bddeefbbca8526",
+          "timestamp": "2026-06-14T03:29:34.316Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-40",
+            "contratoId": "CON-38",
+            "monto": 4500,
+            "fecha": "2026-06-03",
+            "tipoPago": "QR",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "98c84a43fd99bb48e9b217771ab168d03acb87be67e4de0c6c43476a7ac43252"
+    },
+    {
+      "blockNumber": 129,
+      "prevHash": "98c84a43fd99bb48e9b217771ab168d03acb87be67e4de0c6c43476a7ac43252",
+      "timestamp": "2026-06-14T03:29:35.426Z",
+      "transactions": [
+        {
+          "txId": "tx_ad7255353b80d94f47c663e832cc0c05",
+          "timestamp": "2026-06-14T03:29:35.426Z",
+          "txName": "registrarPago",
+          "args": {
+            "id": "PAG-41",
+            "contratoId": "CON-38",
+            "monto": 4500,
+            "fecha": "2026-05-04",
+            "tipoPago": "Efectivo",
+            "stripeTransactionId": ""
+          }
+        }
+      ],
+      "blockHash": "2fd4f0d863457ddee0813394b1765248437051605b821313fa774f30014deeaa"
+    },
+    {
+      "blockNumber": 130,
+      "prevHash": "2fd4f0d863457ddee0813394b1765248437051605b821313fa774f30014deeaa",
+      "timestamp": "2026-06-14T03:30:53.270Z",
+      "transactions": [
+        {
+          "txId": "tx_092632957bc07b41c77c6068a8abcc5b",
+          "timestamp": "2026-06-14T03:30:53.270Z",
+          "txName": "registrarInmueble",
+          "args": {
+            "id": "INM-34",
+            "titulo": "Casa Moderna La Guardia",
+            "propietarioId": "USR-2",
+            "direccion": "La Guardia, Zona Centro - Calle Principal La Guardia",
+            "hashTituloPropiedad": "0fddebc23dd309842acceedbfd6aae7a0abfbaee6b845cd5f76b6532d56b4d63"
+          }
+        }
+      ],
+      "blockHash": "d3fe4f28e42aba46abdda9467e61eef484c85c4a47029710e862f55e8ac4adb3"
+    }
+  ],
+  "worldState": {
+    "PAG-9": {
+      "docType": "pago",
+      "id": "PAG-9",
+      "contratoId": "CON-6",
+      "monto": 3500,
+      "fecha": "2026-06-13",
+      "tipoPago": "Efectivo",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-14T00:41:50.385Z"
+    },
+    "PAG-10": {
+      "docType": "pago",
+      "id": "PAG-10",
+      "contratoId": "CON-6",
+      "monto": 3500,
+      "fecha": "2026-05-14",
+      "tipoPago": "Transferencia Bancaria",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-14T00:41:50.417Z"
+    },
+    "PAG-11": {
+      "docType": "pago",
+      "id": "PAG-11",
+      "contratoId": "CON-6",
+      "monto": 3500,
+      "fecha": "2026-04-14",
+      "tipoPago": "QR",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-14T00:41:50.446Z"
+    },
+    "PAG-12": {
+      "docType": "pago",
+      "id": "PAG-12",
+      "contratoId": "CON-7",
+      "monto": 1800,
+      "fecha": "2026-06-13",
+      "tipoPago": "Efectivo",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-14T00:41:50.478Z"
+    },
+    "PAG-14": {
+      "docType": "pago",
+      "id": "PAG-14",
+      "contratoId": "CON-9",
+      "monto": 450000,
+      "fecha": "2026-06-08",
+      "tipoPago": "Tarjeta de Crédito",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-14T00:41:50.494Z"
+    },
+    "PAG-15": {
+      "docType": "pago",
+      "id": "PAG-15",
+      "contratoId": "CON-10",
+      "monto": 4500,
+      "fecha": "2026-06-03",
+      "tipoPago": "QR",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-14T00:41:50.524Z"
+    },
+    "PAG-16": {
+      "docType": "pago",
+      "id": "PAG-16",
+      "contratoId": "CON-10",
+      "monto": 4500,
+      "fecha": "2026-05-04",
+      "tipoPago": "Efectivo",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-14T00:41:50.554Z"
+    },
+    "CON-1": {
+      "docType": "contrato",
+      "id": "CON-1",
+      "inmuebleId": "INM-1",
+      "propietarioId": "USR-2",
+      "inquilinoId": "USR-2",
+      "montoAlquiler": 3500,
+      "montoDeposito": 7000,
+      "fechaInicio": "2026-05-14",
+      "fechaFin": "2027-05-14",
+      "firmas": {
+        "propietario": "078638944efc9b124e2fde52b806c12f10f5d21eca236d6b0359dc5392a4da16",
+        "inquilino": "e6eb7ec451a08ab07f654a8827b6896fd79c2104e42227c8fb5b115825b21aee"
+      },
+      "estado": "activo",
+      "timestamp": "2026-06-13T05:19:20.088Z"
+    },
+    "CON-2": {
+      "docType": "contrato",
+      "id": "CON-2",
+      "inmuebleId": "INM-2",
+      "propietarioId": "USR-1",
+      "inquilinoId": "USR-3",
+      "montoAlquiler": 1800,
+      "montoDeposito": 3600,
+      "fechaInicio": "2026-04-14",
+      "fechaFin": "2027-03-10",
+      "firmas": {
+        "propietario": "fb95907e7df1b5249fd78275664c1fd74566afdd28b82bae7ca1ebe24ca416ff",
+        "inquilino": "702bd5406d4d86816c25dcf7b9f6b836b4eddee1bf148cd0e0f0fee1a962610b"
+      },
+      "estado": "activo",
+      "timestamp": "2026-06-13T05:19:20.149Z"
+    },
+    "CON-3": {
+      "docType": "contrato",
+      "id": "CON-3",
+      "inmuebleId": "INM-3",
+      "propietarioId": "USR-4",
+      "inquilinoId": "USR-4",
+      "montoAlquiler": 0,
+      "montoDeposito": 25000,
+      "fechaInicio": "2026-05-29",
+      "fechaFin": "2027-07-03",
+      "firmas": {
+        "propietario": "87c9fc839829df29cd9e075f9b9aa02f5e7ff77e6aebab47936039d433b19d83",
+        "inquilino": "f25f53b6153189292c2e3f6ab66c899280547e6c8da50cd55b5168597a7969b5"
+      },
+      "estado": "activo",
+      "timestamp": "2026-06-13T05:19:20.228Z"
+    },
+    "CON-4": {
+      "docType": "contrato",
+      "id": "CON-4",
+      "inmuebleId": "INM-5",
+      "propietarioId": "USR-6",
+      "inquilinoId": "USR-6",
+      "montoAlquiler": 450000,
+      "montoDeposito": 0,
+      "fechaInicio": "2026-03-15",
+      "fechaFin": "",
+      "firmas": {
+        "propietario": "",
+        "inquilino": ""
+      },
+      "estado": "pendiente",
+      "timestamp": "2026-06-13T05:19:20.259Z"
+    },
+    "CON-5": {
+      "docType": "contrato",
+      "id": "CON-5",
+      "inmuebleId": "INM-6",
+      "propietarioId": "USR-7",
+      "inquilinoId": "USR-7",
+      "montoAlquiler": 4500,
+      "montoDeposito": 15000,
+      "fechaInicio": "2026-05-24",
+      "fechaFin": "2027-05-19",
+      "firmas": {
+        "propietario": "13ae3ac6e889fa0066e36a8012c852e4e636492abba297078d31f09e44b273f6",
+        "inquilino": "7a7203a38d20a8cf996d4fb77d259f3825e301b2f68c44967f48ccfc3bdfb6c0"
+      },
+      "estado": "activo",
+      "timestamp": "2026-06-13T05:19:20.321Z"
+    },
+    "PAG-1": {
+      "docType": "pago",
+      "id": "PAG-1",
+      "contratoId": "CON-1",
+      "monto": 3500,
+      "fecha": "2026-06-13",
+      "tipoPago": "Efectivo",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-13T05:19:20.367Z"
+    },
+    "PAG-2": {
+      "docType": "pago",
+      "id": "PAG-2",
+      "contratoId": "CON-1",
+      "monto": 3500,
+      "fecha": "2026-05-14",
+      "tipoPago": "Transferencia Bancaria",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-13T05:19:20.398Z"
+    },
+    "PAG-3": {
+      "docType": "pago",
+      "id": "PAG-3",
+      "contratoId": "CON-1",
+      "monto": 3500,
+      "fecha": "2026-04-14",
+      "tipoPago": "QR",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-13T05:19:20.428Z"
+    },
+    "PAG-4": {
+      "docType": "pago",
+      "id": "PAG-4",
+      "contratoId": "CON-2",
+      "monto": 1800,
+      "fecha": "2026-06-13",
+      "tipoPago": "Efectivo",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-13T05:19:20.439Z"
+    },
+    "PAG-6": {
+      "docType": "pago",
+      "id": "PAG-6",
+      "contratoId": "CON-4",
+      "monto": 450000,
+      "fecha": "2026-06-08",
+      "tipoPago": "Tarjeta de Crédito",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-13T05:19:20.459Z"
+    },
+    "PAG-7": {
+      "docType": "pago",
+      "id": "PAG-7",
+      "contratoId": "CON-5",
+      "monto": 4500,
+      "fecha": "2026-06-03",
+      "tipoPago": "QR",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-13T05:19:20.490Z"
+    },
+    "PAG-8": {
+      "docType": "pago",
+      "id": "PAG-8",
+      "contratoId": "CON-5",
+      "monto": 4500,
+      "fecha": "2026-05-04",
+      "tipoPago": "Efectivo",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-13T05:19:20.522Z"
+    },
+    "CON-6": {
+      "docType": "contrato",
+      "id": "CON-6",
+      "inmuebleId": "INM-11",
+      "propietarioId": "USR-2",
+      "inquilinoId": "USR-2",
+      "montoAlquiler": 3500,
+      "montoDeposito": 7000,
+      "fechaInicio": "2026-05-14",
+      "fechaFin": "2027-05-14",
+      "firmas": {
+        "propietario": "a9e32e539578316dd6f03417afe3cf035ae90af868d24665dae216a18702a60d",
+        "inquilino": "81602086a61a04b2b58ecf3333464a8ab1999c0ee751a63bf0c34302a9ee2c9b"
+      },
+      "estado": "activo",
+      "timestamp": "2026-06-14T00:41:50.143Z"
+    },
+    "CON-7": {
+      "docType": "contrato",
+      "id": "CON-7",
+      "inmuebleId": "INM-12",
+      "propietarioId": "USR-1",
+      "inquilinoId": "USR-3",
+      "montoAlquiler": 1800,
+      "montoDeposito": 3600,
+      "fechaInicio": "2026-04-14",
+      "fechaFin": "2027-03-10",
+      "firmas": {
+        "propietario": "b1d5588e90cccfea984fe1981a8e36bb76b8396b837d3fdda8c99c60869b6837",
+        "inquilino": "5359896c6231556c2fa1d76e4f67d003d4b0ac8c7e261a060f8faf434d74f419"
+      },
+      "estado": "activo",
+      "timestamp": "2026-06-14T00:41:50.201Z"
+    },
+    "CON-8": {
+      "docType": "contrato",
+      "id": "CON-8",
+      "inmuebleId": "INM-13",
+      "propietarioId": "USR-4",
+      "inquilinoId": "USR-4",
+      "montoAlquiler": 0,
+      "montoDeposito": 25000,
+      "fechaInicio": "2026-05-29",
+      "fechaFin": "2027-07-03",
+      "firmas": {
+        "propietario": "2ff9f98624c78909db61e633cfdaad72ae545aeb0197aa6324a3f47c956380ab",
+        "inquilino": "770d87714506dd842ad39e4799808a1c6c7c2e328ef13e6e517f8d336688f4f1"
+      },
+      "estado": "activo",
+      "timestamp": "2026-06-14T00:41:50.279Z"
+    },
+    "CON-9": {
+      "docType": "contrato",
+      "id": "CON-9",
+      "inmuebleId": "INM-15",
+      "propietarioId": "USR-6",
+      "inquilinoId": "USR-6",
+      "montoAlquiler": 450000,
+      "montoDeposito": 0,
+      "fechaInicio": "2026-03-15",
+      "fechaFin": "",
+      "firmas": {
+        "propietario": "",
+        "inquilino": ""
+      },
+      "estado": "pendiente",
+      "timestamp": "2026-06-14T00:41:50.309Z"
+    },
+    "CON-10": {
+      "docType": "contrato",
+      "id": "CON-10",
+      "inmuebleId": "INM-16",
+      "propietarioId": "USR-7",
+      "inquilinoId": "USR-7",
+      "montoAlquiler": 4500,
+      "montoDeposito": 15000,
+      "fechaInicio": "2026-05-24",
+      "fechaFin": "2027-05-19",
+      "firmas": {
+        "propietario": "e0d1d7b5ed0299a2efa57bab971f68d84b159856682b4e29daf94d0bfc7f6cf7",
+        "inquilino": "1df5292e5b7026366860a0a3a04a40bec5bea3c889166d6ab86a5aee32c05a24"
+      },
+      "estado": "activo",
+      "timestamp": "2026-06-14T00:41:50.345Z"
+    },
+    "CON-11": {
+      "docType": "contrato",
+      "id": "CON-11",
+      "inmuebleId": "INM-21",
+      "propietarioId": "USR-2",
+      "inquilinoId": "USR-2",
+      "montoAlquiler": 3500,
+      "montoDeposito": 7000,
+      "fechaInicio": "2026-05-14",
+      "fechaFin": "2027-05-14",
+      "firmas": {
+        "propietario": "2e10be45ecef66ed532dad809187a122b1ef8b2c6a0d8f85b0752eee0790ad43",
+        "inquilino": "3e56eed0115b0581126dcab4ce38c02567baf51ca923a2c3b8a495bde7f0cdcf"
+      },
+      "estado": "activo",
+      "timestamp": "2026-06-14T00:44:49.154Z"
+    },
+    "CON-12": {
+      "docType": "contrato",
+      "id": "CON-12",
+      "inmuebleId": "INM-22",
+      "propietarioId": "USR-1",
+      "inquilinoId": "USR-3",
+      "montoAlquiler": 1800,
+      "montoDeposito": 3600,
+      "fechaInicio": "2026-04-14",
+      "fechaFin": "2027-03-10",
+      "firmas": {
+        "propietario": "d37a749fd42ea628915661bae14f02d61cdb4462934cc5413d5f571a57483bfd",
+        "inquilino": "360729552de4e3497aae0ce1ea86ae81b33983f903739966835cc6def0402664"
+      },
+      "estado": "activo",
+      "timestamp": "2026-06-14T00:44:49.195Z"
+    },
+    "CON-13": {
+      "docType": "contrato",
+      "id": "CON-13",
+      "inmuebleId": "INM-23",
+      "propietarioId": "USR-4",
+      "inquilinoId": "USR-4",
+      "montoAlquiler": 0,
+      "montoDeposito": 25000,
+      "fechaInicio": "2026-05-29",
+      "fechaFin": "2027-07-03",
+      "firmas": {
+        "propietario": "dd8ebd3ef650264634d8ae95647fc7b96fd837e28817379c6c71b48d6a5f9ec6",
+        "inquilino": "3e2811048a4bdc85c100366f0310cb83fec9a20d1f12aaf7f889b5ec9b422ced"
+      },
+      "estado": "activo",
+      "timestamp": "2026-06-14T00:44:49.260Z"
+    },
+    "CON-14": {
+      "docType": "contrato",
+      "id": "CON-14",
+      "inmuebleId": "INM-25",
+      "propietarioId": "USR-6",
+      "inquilinoId": "USR-6",
+      "montoAlquiler": 450000,
+      "montoDeposito": 0,
+      "fechaInicio": "2026-03-15",
+      "fechaFin": "",
+      "firmas": {
+        "propietario": "",
+        "inquilino": ""
+      },
+      "estado": "pendiente",
+      "timestamp": "2026-06-14T00:44:49.291Z"
+    },
+    "CON-15": {
+      "docType": "contrato",
+      "id": "CON-15",
+      "inmuebleId": "INM-26",
+      "propietarioId": "USR-7",
+      "inquilinoId": "USR-7",
+      "montoAlquiler": 4500,
+      "montoDeposito": 15000,
+      "fechaInicio": "2026-05-24",
+      "fechaFin": "2027-05-19",
+      "firmas": {
+        "propietario": "d0842b33a606e807ca2431db008f31b756825c1428c366df851df2036b97f6c9",
+        "inquilino": "740ffa27419009cb74a4203a62b063f4c0e5331b912c09c5703b164ed6d7608f"
+      },
+      "estado": "activo",
+      "timestamp": "2026-06-14T00:44:49.338Z"
+    },
+    "PAG-17": {
+      "docType": "pago",
+      "id": "PAG-17",
+      "contratoId": "CON-11",
+      "monto": 3500,
+      "fecha": "2026-06-13",
+      "tipoPago": "Efectivo",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-14T00:44:49.383Z"
+    },
+    "PAG-18": {
+      "docType": "pago",
+      "id": "PAG-18",
+      "contratoId": "CON-11",
+      "monto": 3500,
+      "fecha": "2026-05-14",
+      "tipoPago": "Transferencia Bancaria",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-14T00:44:49.414Z"
+    },
+    "PAG-19": {
+      "docType": "pago",
+      "id": "PAG-19",
+      "contratoId": "CON-11",
+      "monto": 3500,
+      "fecha": "2026-04-14",
+      "tipoPago": "QR",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-14T00:44:49.444Z"
+    },
+    "PAG-20": {
+      "docType": "pago",
+      "id": "PAG-20",
+      "contratoId": "CON-12",
+      "monto": 1800,
+      "fecha": "2026-06-13",
+      "tipoPago": "Efectivo",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-14T00:44:49.476Z"
+    },
+    "PAG-22": {
+      "docType": "pago",
+      "id": "PAG-22",
+      "contratoId": "CON-14",
+      "monto": 450000,
+      "fecha": "2026-06-08",
+      "tipoPago": "Tarjeta de Crédito",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-14T00:44:49.507Z"
+    },
+    "PAG-23": {
+      "docType": "pago",
+      "id": "PAG-23",
+      "contratoId": "CON-15",
+      "monto": 4500,
+      "fecha": "2026-06-03",
+      "tipoPago": "QR",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-14T00:44:49.539Z"
+    },
+    "PAG-24": {
+      "docType": "pago",
+      "id": "PAG-24",
+      "contratoId": "CON-15",
+      "monto": 4500,
+      "fecha": "2026-05-04",
+      "tipoPago": "Efectivo",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-14T00:44:49.569Z"
+    },
+    "CON-16": {
+      "docType": "contrato",
+      "id": "CON-16",
+      "inmuebleId": "INM-31",
+      "propietarioId": "USR-2",
+      "inquilinoId": "USR-2",
+      "montoAlquiler": 3500,
+      "montoDeposito": 7000,
+      "fechaInicio": "2026-05-14",
+      "fechaFin": "2027-05-14",
+      "firmas": {
+        "propietario": "bf93ed3d2a075a9ba5b5ada111874b8fdf543170eb5d78f73c6ca1dab0bb11af",
+        "inquilino": "a40518a49e1e5ef3bab3d47baf14158d0655ace4ff05c9ef14cae1c973bb08d3"
+      },
+      "estado": "activo",
+      "timestamp": "2026-06-14T00:57:17.228Z"
+    },
+    "CON-17": {
+      "docType": "contrato",
+      "id": "CON-17",
+      "inmuebleId": "INM-32",
+      "propietarioId": "USR-1",
+      "inquilinoId": "USR-3",
+      "montoAlquiler": 1800,
+      "montoDeposito": 3600,
+      "fechaInicio": "2026-04-14",
+      "fechaFin": "2027-03-10",
+      "firmas": {
+        "propietario": "99c2cd54900c8b198ed85c42512f6ff185d8a2a2bef3e5b8e18999de27fcc92b",
+        "inquilino": "f669e8315050659f40dfacaad4129c33347422ac134a083372885b2979a402a7"
+      },
+      "estado": "activo",
+      "timestamp": "2026-06-14T00:57:17.295Z"
+    },
+    "CON-18": {
+      "docType": "contrato",
+      "id": "CON-18",
+      "inmuebleId": "INM-33",
+      "propietarioId": "USR-4",
+      "inquilinoId": "USR-4",
+      "montoAlquiler": 0,
+      "montoDeposito": 25000,
+      "fechaInicio": "2026-05-29",
+      "fechaFin": "2027-07-03",
+      "firmas": {
+        "propietario": "76ca32da6be9921a771ea5c0f230b6141d63236dbbf0d24678fa3db228fa13af",
+        "inquilino": "435f6ebae3c03eb1b7b65e80cbd40d63c2225002077ce0e8eb8750bcf74b4587"
+      },
+      "estado": "activo",
+      "timestamp": "2026-06-14T00:57:17.315Z"
+    },
+    "CON-19": {
+      "docType": "contrato",
+      "id": "CON-19",
+      "inmuebleId": "INM-35",
+      "propietarioId": "USR-6",
+      "inquilinoId": "USR-6",
+      "montoAlquiler": 450000,
+      "montoDeposito": 0,
+      "fechaInicio": "2026-03-15",
+      "fechaFin": "",
+      "firmas": {
+        "propietario": "",
+        "inquilino": ""
+      },
+      "estado": "pendiente",
+      "timestamp": "2026-06-14T00:57:17.340Z"
+    },
+    "CON-20": {
+      "docType": "contrato",
+      "id": "CON-20",
+      "inmuebleId": "INM-36",
+      "propietarioId": "USR-7",
+      "inquilinoId": "USR-7",
+      "montoAlquiler": 4500,
+      "montoDeposito": 15000,
+      "fechaInicio": "2026-05-24",
+      "fechaFin": "2027-05-19",
+      "firmas": {
+        "propietario": "8fba9aa69a7a5a9a5f1ebaec8edffbb31ae5e215aaca87301b2dd175485bcbfb",
+        "inquilino": "6cc299a994eb1c2d7436f0a6251c5d9038c3acd2f9c5769a28dd6e6a73db7530"
+      },
+      "estado": "activo",
+      "timestamp": "2026-06-14T00:57:17.387Z"
+    },
+    "PAG-25": {
+      "docType": "pago",
+      "id": "PAG-25",
+      "contratoId": "CON-16",
+      "monto": 3500,
+      "fecha": "2026-06-13",
+      "tipoPago": "Efectivo",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-14T00:57:17.417Z"
+    },
+    "PAG-26": {
+      "docType": "pago",
+      "id": "PAG-26",
+      "contratoId": "CON-16",
+      "monto": 3500,
+      "fecha": "2026-05-14",
+      "tipoPago": "Transferencia Bancaria",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-14T00:57:17.427Z"
+    },
+    "PAG-27": {
+      "docType": "pago",
+      "id": "PAG-27",
+      "contratoId": "CON-16",
+      "monto": 3500,
+      "fecha": "2026-04-14",
+      "tipoPago": "QR",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-14T00:57:17.448Z"
+    },
+    "PAG-28": {
+      "docType": "pago",
+      "id": "PAG-28",
+      "contratoId": "CON-17",
+      "monto": 1800,
+      "fecha": "2026-06-13",
+      "tipoPago": "Efectivo",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-14T00:57:17.458Z"
+    },
+    "PAG-30": {
+      "docType": "pago",
+      "id": "PAG-30",
+      "contratoId": "CON-19",
+      "monto": 450000,
+      "fecha": "2026-06-08",
+      "tipoPago": "Tarjeta de Crédito",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-14T00:57:17.496Z"
+    },
+    "PAG-31": {
+      "docType": "pago",
+      "id": "PAG-31",
+      "contratoId": "CON-20",
+      "monto": 4500,
+      "fecha": "2026-06-03",
+      "tipoPago": "QR",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-14T00:57:17.528Z"
+    },
+    "PAG-32": {
+      "docType": "pago",
+      "id": "PAG-32",
+      "contratoId": "CON-20",
+      "monto": 4500,
+      "fecha": "2026-05-04",
+      "tipoPago": "Efectivo",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-14T00:57:17.560Z"
+    },
+    "INM-31": {
+      "docType": "inmueble",
+      "id": "INM-31",
+      "titulo": "Casa Moderna La Guardia",
+      "propietarioId": "USR-2",
+      "direccion": "La Guardia, Zona Centro - Calle Principal La Guardia",
+      "estado": "disponible",
+      "verificacionEstado": "verificado",
+      "hashTituloPropiedad": "0fddebc23dd309842acceedbfd6aae7a0abfbaee6b845cd5f76b6532d56b4d63",
+      "timestamp": "2026-06-14T00:57:17.967Z"
+    },
+    "CON-21": {
+      "docType": "contrato",
+      "id": "CON-21",
+      "inmuebleId": "INM-41",
+      "propietarioId": "USR-2",
+      "inquilinoId": "USR-2",
+      "montoAlquiler": 3500,
+      "montoDeposito": 7000,
+      "fechaInicio": "2026-05-14",
+      "fechaFin": "2027-05-14",
+      "firmas": {
+        "propietario": "5620d21ba49ec06630c31e493431c9d810bf76df2ef655527acb518d0004344f",
+        "inquilino": "54f0ff04038cdd5b016bba4e0453ceb6eb3f66cbc63881ad3c14e6f52b9ec9e0"
+      },
+      "estado": "activo",
+      "timestamp": "2026-06-14T01:26:12.048Z"
+    },
+    "CON-22": {
+      "docType": "contrato",
+      "id": "CON-22",
+      "inmuebleId": "INM-42",
+      "propietarioId": "USR-1",
+      "inquilinoId": "USR-3",
+      "montoAlquiler": 1800,
+      "montoDeposito": 3600,
+      "fechaInicio": "2026-04-14",
+      "fechaFin": "2027-03-10",
+      "firmas": {
+        "propietario": "b4cf82be61a6dae4bf42738ee18e3d333de98947203015d83fcdf061259906b9",
+        "inquilino": "42bda2cf6133d95d86c8f5c574c580da7af32c8ec3665e57730504c693acedb4"
+      },
+      "estado": "activo",
+      "timestamp": "2026-06-14T01:26:12.077Z"
+    },
+    "CON-23": {
+      "docType": "contrato",
+      "id": "CON-23",
+      "inmuebleId": "INM-43",
+      "propietarioId": "USR-4",
+      "inquilinoId": "USR-4",
+      "montoAlquiler": 0,
+      "montoDeposito": 25000,
+      "fechaInicio": "2026-05-29",
+      "fechaFin": "2027-07-03",
+      "firmas": {
+        "propietario": "b8c65ee400577693df6c636db6c6f3d08e14576d5fbcec0828583ec082f075ff",
+        "inquilino": "3d94f23cde757f0a100d078381b11070728133b34119da70b245ac6a3ef62aee"
+      },
+      "estado": "activo",
+      "timestamp": "2026-06-14T01:26:12.104Z"
+    },
+    "CON-24": {
+      "docType": "contrato",
+      "id": "CON-24",
+      "inmuebleId": "INM-45",
+      "propietarioId": "USR-6",
+      "inquilinoId": "USR-6",
+      "montoAlquiler": 450000,
+      "montoDeposito": 0,
+      "fechaInicio": "2026-03-15",
+      "fechaFin": "",
+      "firmas": {
+        "propietario": "",
+        "inquilino": ""
+      },
+      "estado": "pendiente",
+      "timestamp": "2026-06-14T01:26:12.117Z"
+    },
+    "CON-25": {
+      "docType": "contrato",
+      "id": "CON-25",
+      "inmuebleId": "INM-46",
+      "propietarioId": "USR-7",
+      "inquilinoId": "USR-7",
+      "montoAlquiler": 4500,
+      "montoDeposito": 15000,
+      "fechaInicio": "2026-05-24",
+      "fechaFin": "2027-05-19",
+      "firmas": {
+        "propietario": "111669175a28ee62fbab6af745748f2da28c27518a111cee1c2d1388b98207de",
+        "inquilino": "0e60653fcb2766a487da283336851498b445f11ad0de47d6fcf6a78ad51e0d88"
+      },
+      "estado": "activo",
+      "timestamp": "2026-06-14T01:26:12.145Z"
+    },
+    "PAG-33": {
+      "docType": "pago",
+      "id": "PAG-33",
+      "contratoId": "CON-21",
+      "monto": 3500,
+      "fecha": "2026-06-13",
+      "tipoPago": "Efectivo",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-14T01:26:12.166Z"
+    },
+    "PAG-34": {
+      "docType": "pago",
+      "id": "PAG-34",
+      "contratoId": "CON-34",
+      "monto": 3500,
+      "fecha": "2026-06-13",
+      "tipoPago": "Efectivo",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-14T03:29:27.804Z"
+    },
+    "PAG-35": {
+      "docType": "pago",
+      "id": "PAG-35",
+      "contratoId": "CON-34",
+      "monto": 3500,
+      "fecha": "2026-05-14",
+      "tipoPago": "Transferencia Bancaria",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-14T03:29:28.891Z"
+    },
+    "PAG-36": {
+      "docType": "pago",
+      "id": "PAG-36",
+      "contratoId": "CON-34",
+      "monto": 3500,
+      "fecha": "2026-04-14",
+      "tipoPago": "QR",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-14T03:29:29.971Z"
+    },
+    "PAG-38": {
+      "docType": "pago",
+      "id": "PAG-38",
+      "contratoId": "CON-24",
+      "monto": 450000,
+      "fecha": "2026-06-08",
+      "tipoPago": "Tarjeta de Crédito",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-14T01:26:12.217Z"
+    },
+    "PAG-39": {
+      "docType": "pago",
+      "id": "PAG-39",
+      "contratoId": "CON-37",
+      "monto": 450000,
+      "fecha": "2026-06-08",
+      "tipoPago": "Tarjeta de Crédito",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-14T03:29:33.216Z"
+    },
+    "PAG-40": {
+      "docType": "pago",
+      "id": "PAG-40",
+      "contratoId": "CON-38",
+      "monto": 4500,
+      "fecha": "2026-06-03",
+      "tipoPago": "QR",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-14T03:29:34.316Z"
+    },
+    "INM-41": {
+      "docType": "inmueble",
+      "id": "INM-41",
+      "titulo": "Casa Moderna La Guardia",
+      "propietarioId": "USR-2",
+      "direccion": "La Guardia, Zona Centro - Calle Principal La Guardia",
+      "estado": "disponible",
+      "verificacionEstado": "verificado",
+      "hashTituloPropiedad": "0fddebc23dd309842acceedbfd6aae7a0abfbaee6b845cd5f76b6532d56b4d63",
+      "timestamp": "2026-06-14T01:26:12.619Z"
+    },
+    "CON-34": {
+      "docType": "contrato",
+      "id": "CON-34",
+      "inmuebleId": "INM-34",
+      "propietarioId": "USR-2",
+      "inquilinoId": "USR-2",
+      "montoAlquiler": 3500,
+      "montoDeposito": 7000,
+      "fechaInicio": "2026-05-14",
+      "fechaFin": "2027-05-14",
+      "firmas": {
+        "propietario": "8b59e715c835bd37c33a62702f57a3b3d9a4783ee3e723150bcd26fc31dd4769",
+        "inquilino": "4f038893fe4a97bbf695edacc900e1a9d472fdfd110bbc065689786445032586"
+      },
+      "estado": "activo",
+      "timestamp": "2026-06-14T03:29:20.877Z"
+    },
+    "CON-35": {
+      "docType": "contrato",
+      "id": "CON-35",
+      "inmuebleId": "INM-35",
+      "propietarioId": "USR-1",
+      "inquilinoId": "USR-3",
+      "montoAlquiler": 1800,
+      "montoDeposito": 3600,
+      "fechaInicio": "2026-04-14",
+      "fechaFin": "2027-03-10",
+      "firmas": {
+        "propietario": "8589382ba81bd879e1f46dfee6e8622950ec2031388aed79514c73a222ed2cd4",
+        "inquilino": "6278519087295a0689f7fd5772cb73003214f90fcfdf52df140f851fdc36d6a5"
+      },
+      "estado": "activo",
+      "timestamp": "2026-06-14T03:29:22.031Z"
+    },
+    "CON-36": {
+      "docType": "contrato",
+      "id": "CON-36",
+      "inmuebleId": "INM-36",
+      "propietarioId": "USR-4",
+      "inquilinoId": "USR-4",
+      "montoAlquiler": 0,
+      "montoDeposito": 25000,
+      "fechaInicio": "2026-05-29",
+      "fechaFin": "2027-07-03",
+      "firmas": {
+        "propietario": "c95bd0e93f18f149bcadbf00c2322298d12505f3a8983a1ee99395608bc0c8f2",
+        "inquilino": "300ef0108a669c9382ae3f306df7ed6a7f0d97cf28d18569f0b2193cc529fb88"
+      },
+      "estado": "activo",
+      "timestamp": "2026-06-14T03:29:23.165Z"
+    },
+    "CON-37": {
+      "docType": "contrato",
+      "id": "CON-37",
+      "inmuebleId": "INM-38",
+      "propietarioId": "USR-6",
+      "inquilinoId": "USR-6",
+      "montoAlquiler": 450000,
+      "montoDeposito": 0,
+      "fechaInicio": "2026-03-15",
+      "fechaFin": "",
+      "firmas": {
+        "propietario": "",
+        "inquilino": ""
+      },
+      "estado": "pendiente",
+      "timestamp": "2026-06-14T03:29:24.244Z"
+    },
+    "CON-38": {
+      "docType": "contrato",
+      "id": "CON-38",
+      "inmuebleId": "INM-39",
+      "propietarioId": "USR-7",
+      "inquilinoId": "USR-7",
+      "montoAlquiler": 4500,
+      "montoDeposito": 15000,
+      "fechaInicio": "2026-05-24",
+      "fechaFin": "2027-05-19",
+      "firmas": {
+        "propietario": "3156d46d15c33869251cd76819bf1fe9613d776cbc02a603a108fd387056f37a",
+        "inquilino": "66690cb855ec70b7f676032fb1f2bc446b6eda9d291da3828511053c67506d76"
+      },
+      "estado": "activo",
+      "timestamp": "2026-06-14T03:29:25.375Z"
+    },
+    "PAG-37": {
+      "docType": "pago",
+      "id": "PAG-37",
+      "contratoId": "CON-35",
+      "monto": 1800,
+      "fecha": "2026-06-13",
+      "tipoPago": "Efectivo",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-14T03:29:31.068Z"
+    },
+    "PAG-41": {
+      "docType": "pago",
+      "id": "PAG-41",
+      "contratoId": "CON-38",
+      "monto": 4500,
+      "fecha": "2026-05-04",
+      "tipoPago": "Efectivo",
+      "stripeTransactionId": "",
+      "timestamp": "2026-06-14T03:29:35.426Z"
+    },
+    "INM-34": {
+      "docType": "inmueble",
+      "id": "INM-34",
+      "titulo": "Casa Moderna La Guardia",
+      "propietarioId": "USR-2",
+      "direccion": "La Guardia, Zona Centro - Calle Principal La Guardia",
+      "estado": "disponible",
+      "verificacionEstado": "verificado",
+      "hashTituloPropiedad": "0fddebc23dd309842acceedbfd6aae7a0abfbaee6b845cd5f76b6532d56b4d63",
+      "timestamp": "2026-06-14T03:30:53.270Z"
+    }
+  }
+}

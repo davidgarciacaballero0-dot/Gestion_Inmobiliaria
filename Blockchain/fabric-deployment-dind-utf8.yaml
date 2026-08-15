@@ -1,0 +1,245 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fabric-network
+  namespace: default
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: fabric-network
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: fabric-network
+    spec:
+      containers:
+      - command:
+        - orderer
+        env:
+        - name: FABRIC_LOGGING_SPEC
+          value: INFO
+        - name: ORDERER_GENERAL_LISTENADDRESS
+          value: 0.0.0.0
+        - name: ORDERER_GENERAL_LISTENPORT
+          value: "7050"
+        - name: ORDERER_OPERATIONS_LISTENADDRESS
+          value: 0.0.0.0:8443
+        - name: ORDERER_GENERAL_BOOTSTRAPMETHOD
+          value: file
+        - name: ORDERER_GENERAL_BOOTSTRAPFILE
+          value: /fabric/fabric-network/system-genesis-block/genesis.block
+        - name: ORDERER_GENERAL_LOCALMSPID
+          value: OrdererMSP
+        - name: ORDERER_GENERAL_LOCALMSPDIR
+          value: /fabric/fabric-network/crypto-config/ordererOrganizations/autogestion.com/orderers/orderer.autogestion.com/msp
+        - name: ORDERER_GENERAL_TLS_ENABLED
+          value: "true"
+        - name: ORDERER_GENERAL_TLS_PRIVATEKEY
+          value: /fabric/fabric-network/crypto-config/ordererOrganizations/autogestion.com/orderers/orderer.autogestion.com/tls/server.key
+        - name: ORDERER_GENERAL_TLS_CERTIFICATE
+          value: /fabric/fabric-network/crypto-config/ordererOrganizations/autogestion.com/orderers/orderer.autogestion.com/tls/server.crt
+        - name: ORDERER_GENERAL_TLS_ROOTCAS
+          value: /fabric/fabric-network/crypto-config/ordererOrganizations/autogestion.com/orderers/orderer.autogestion.com/tls/ca.crt
+        - name: ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE
+          value: /fabric/fabric-network/crypto-config/ordererOrganizations/autogestion.com/orderers/orderer.autogestion.com/tls/server.crt
+        - name: ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY
+          value: /fabric/fabric-network/crypto-config/ordererOrganizations/autogestion.com/orderers/orderer.autogestion.com/tls/server.key
+        - name: ORDERER_GENERAL_CLUSTER_ROOTCAS
+          value: /fabric/fabric-network/crypto-config/ordererOrganizations/autogestion.com/orderers/orderer.autogestion.com/tls/ca.crt
+        image: hyperledger/fabric-orderer:2.4.0
+        imagePullPolicy: IfNotPresent
+        name: orderer
+        ports:
+        - containerPort: 7050
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /fabric
+          name: fabric-data
+        workingDir: /opt/gopath/src/github.com/hyperledger/fabric
+      - name: dind
+        image: docker:20.10-dind
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - mountPath: /var/run/
+          name: docker-sock
+      - command:
+        - peer
+        - node
+        - start
+        env:
+        - name: CORE_VM_ENDPOINT
+          value: unix:///var/run/docker.sock
+        - name: FABRIC_LOGGING_SPEC
+          value: INFO
+        - name: CORE_PEER_TLS_ENABLED
+          value: "true"
+        - name: CORE_PEER_PROFILE_ENABLED
+          value: "false"
+        - name: CORE_OPERATIONS_LISTENADDRESS
+          value: 0.0.0.0:19444
+        - name: CORE_PEER_TLS_CERT_FILE
+          value: /fabric/fabric-network/crypto-config/peerOrganizations/org1.autogestion.com/peers/peer0.org1.autogestion.com/tls/server.crt
+        - name: CORE_PEER_TLS_KEY_FILE
+          value: /fabric/fabric-network/crypto-config/peerOrganizations/org1.autogestion.com/peers/peer0.org1.autogestion.com/tls/server.key
+        - name: CORE_PEER_TLS_ROOTCERT_FILE
+          value: /fabric/fabric-network/crypto-config/peerOrganizations/org1.autogestion.com/peers/peer0.org1.autogestion.com/tls/ca.crt
+        - name: CORE_PEER_ID
+          value: peer0.org1.autogestion.com
+        - name: CORE_PEER_ADDRESS
+          value: localhost:7051
+        - name: CORE_PEER_LISTENADDRESS
+          value: 0.0.0.0:7051
+        - name: CORE_PEER_CHAINCODEADDRESS
+          value: localhost:7052
+        - name: CORE_PEER_CHAINCODELISTENADDRESS
+          value: 0.0.0.0:7052
+        - name: CORE_PEER_GOSSIP_BOOTSTRAP
+          value: localhost:7051
+        - name: CORE_PEER_GOSSIP_EXTERNALENDPOINT
+          value: localhost:7051
+        - name: CORE_PEER_LOCALMSPID
+          value: Org1MSP
+        - name: CORE_PEER_MSPCONFIGPATH
+          value: /fabric/fabric-network/crypto-config/peerOrganizations/org1.autogestion.com/peers/peer0.org1.autogestion.com/msp
+        image: hyperledger/fabric-peer:2.4.0
+        imagePullPolicy: IfNotPresent
+        name: peer0-org1
+        ports:
+        - containerPort: 7051
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /fabric
+          name: fabric-data
+        - mountPath: /var/run/
+          name: docker-sock
+        workingDir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+      - command:
+        - peer
+        - node
+        - start
+        env:
+        - name: CORE_VM_ENDPOINT
+          value: unix:///var/run/docker.sock
+        - name: FABRIC_LOGGING_SPEC
+          value: INFO
+        - name: CORE_PEER_TLS_ENABLED
+          value: "true"
+        - name: CORE_PEER_PROFILE_ENABLED
+          value: "false"
+        - name: CORE_PEER_TLS_CERT_FILE
+          value: /fabric/fabric-network/crypto-config/peerOrganizations/org2.autogestion.com/peers/peer0.org2.autogestion.com/tls/server.crt
+        - name: CORE_PEER_TLS_KEY_FILE
+          value: /fabric/fabric-network/crypto-config/peerOrganizations/org2.autogestion.com/peers/peer0.org2.autogestion.com/tls/server.key
+        - name: CORE_PEER_TLS_ROOTCERT_FILE
+          value: /fabric/fabric-network/crypto-config/peerOrganizations/org2.autogestion.com/peers/peer0.org2.autogestion.com/tls/ca.crt
+        - name: CORE_PEER_ID
+          value: peer0.org2.autogestion.com
+        - name: CORE_PEER_ADDRESS
+          value: localhost:9051
+        - name: CORE_PEER_LISTENADDRESS
+          value: 0.0.0.0:9051
+        - name: CORE_PEER_CHAINCODEADDRESS
+          value: localhost:9052
+        - name: CORE_PEER_CHAINCODELISTENADDRESS
+          value: 0.0.0.0:9052
+        - name: CORE_PEER_GOSSIP_BOOTSTRAP
+          value: localhost:9051
+        - name: CORE_PEER_GOSSIP_EXTERNALENDPOINT
+          value: localhost:9051
+        - name: CORE_PEER_LOCALMSPID
+          value: Org2MSP
+        - name: CORE_PEER_MSPCONFIGPATH
+          value: /fabric/fabric-network/crypto-config/peerOrganizations/org2.autogestion.com/peers/peer0.org2.autogestion.com/msp
+        - name: CORE_OPERATIONS_LISTENADDRESS
+          value: 0.0.0.0:19443
+        image: hyperledger/fabric-peer:2.4.0
+        imagePullPolicy: IfNotPresent
+        name: peer0-org2
+        ports:
+        - containerPort: 9051
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /fabric
+          name: fabric-data
+        - mountPath: /var/run/
+          name: docker-sock
+        workingDir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+      - command:
+        - /bin/bash
+        env:
+        - name: GOPATH
+          value: /opt/gopath
+        - name: CORE_VM_ENDPOINT
+          value: unix:///var/run/docker.sock
+        - name: FABRIC_LOGGING_SPEC
+          value: INFO
+        - name: CORE_PEER_ID
+          value: cli
+        - name: CORE_PEER_ADDRESS
+          value: peer0.org1.autogestion.com:7051
+        - name: CORE_PEER_LOCALMSPID
+          value: Org1MSP
+        - name: CORE_PEER_TLS_ENABLED
+          value: "true"
+        - name: CORE_PEER_PROFILE_ENABLED
+          value: "false"
+        - name: CORE_OPERATIONS_LISTENADDRESS
+          value: 0.0.0.0:9443
+        - name: CORE_PEER_TLS_CERT_FILE
+          value: /fabric/fabric-network/crypto-config/peerOrganizations/org1.autogestion.com/peers/peer0.org1.autogestion.com/tls/server.crt
+        - name: CORE_PEER_TLS_KEY_FILE
+          value: /fabric/fabric-network/crypto-config/peerOrganizations/org1.autogestion.com/peers/peer0.org1.autogestion.com/tls/server.key
+        - name: CORE_PEER_TLS_ROOTCERT_FILE
+          value: /fabric/fabric-network/crypto-config/peerOrganizations/org1.autogestion.com/peers/peer0.org1.autogestion.com/tls/ca.crt
+        - name: CORE_PEER_MSPCONFIGPATH
+          value: /fabric/fabric-network/crypto-config/peerOrganizations/org1.autogestion.com/users/Admin@org1.autogestion.com/msp
+        image: hyperledger/fabric-tools:2.4.0
+        imagePullPolicy: IfNotPresent
+        name: cli
+        resources: {}
+        stdin: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        tty: true
+        volumeMounts:
+        - mountPath: /fabric
+          name: fabric-data
+        - mountPath: /var/run/
+          name: docker-sock
+        workingDir: /fabric/fabric-network
+      dnsPolicy: ClusterFirst
+      hostAliases:
+      - hostnames:
+        - peer0.org1.autogestion.com
+        - peer0.org2.autogestion.com
+        - orderer.autogestion.com
+        ip: 127.0.0.1
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: fabric-data
+        persistentVolumeClaim:
+          claimName: fabric-pvc
+      - name: docker-sock
+        emptyDir: {}
+

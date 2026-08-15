@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Contrato de {{ tipo_contrato }}</title>
+    <style>
+        @page {
+            margin: 2cm;
+        }
+        body {
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            font-size: 11pt;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #1d4ed8;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+        }
+        .header h1 {
+            color: #1d4ed8;
+            margin: 0;
+            text-transform: uppercase;
+            font-size: 18pt;
+        }
+        .header p {
+            margin: 5px 0 0 0;
+            color: #64748b;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-weight: bold;
+            text-transform: uppercase;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 10px;
+            color: #1e293b;
+            font-size: 12pt;
+        }
+        .grid {
+            display: table;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        .grid-row {
+            display: table-row;
+        }
+        .grid-cell {
+            display: table-cell;
+            padding: 5px 0;
+        }
+        .label {
+            font-weight: bold;
+            width: 30%;
+        }
+        .value {
+            width: 70%;
+        }
+        .legal-text {
+            text-align: justify;
+            white-space: pre-wrap;
+        }
+        .footer {
+            margin-top: 50px;
+        }
+        .signatures {
+            display: table;
+            width: 100%;
+            margin-top: 80px;
+        }
+        .signature-box {
+            display: table-cell;
+            width: 50%;
+            text-align: center;
+        }
+        .signature-line {
+            border-top: 1px solid #333;
+            width: 80%;
+            margin: 0 auto 10px auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Contrato de {{ tipo_contrato }}</h1>
+        <p>Referencia: #{{ contrato_id }} | Fecha: {{ inicio|date:"d/m/Y" }}</p>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Partes Intervinientes</div>
+        <div class="grid">
+            <div class="grid-row">
+                <div class="grid-cell label">Propietario:</div>
+                <div class="grid-cell value">{{ propietario_nombre }} (CI: {{ propietario_ci }})</div>
+            </div>
+            <div class="grid-row">
+                <div class="grid-cell label">Inquilino/Cliente:</div>
+                <div class="grid-cell value">{{ inquilino_nombre }} (CI: {{ inquilino_ci }})</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Detalles del Inmueble</div>
+        <div class="grid">
+            <div class="grid-row">
+                <div class="grid-cell label">Propiedad:</div>
+                <div class="grid-cell value">{{ inmueble_titulo }}</div>
+            </div>
+            <div class="grid-row">
+                <div class="grid-cell label">Dirección:</div>
+                <div class="grid-cell value">{{ inmueble_direccion }}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Condiciones Económicas</div>
+        <div class="grid">
+            <div class="grid-row">
+                <div class="grid-cell label">Monto:</div>
+                <div class="grid-cell value">{{ monto }} {{ moneda }}</div>
+            </div>
+            <div class="grid-row">
+                <div class="grid-cell label">Vigencia:</div>
+                <div class="grid-cell value">Desde {{ inicio|date:"d/m/Y" }} hasta {{ fin|date:"d/m/Y"|default:"Indefinido" }}</div>
+            </div>
+        </div>
+    </div>
+
+    {% if clausulas %}
+    <div class="section">
+        <div class="section-title">Cláusulas del Contrato</div>
+        <div class="legal-text">{{ clausulas }}</div>
+    </div>
+    {% endif %}
+
+    {% if condiciones_uso %}
+    <div class="section">
+        <div class="section-title">Condiciones de Uso</div>
+        <div class="legal-text">{{ condiciones_uso }}</div>
+    </div>
+    {% endif %}
+
+    {% if penalidades %}
+    <div class="section">
+        <div class="section-title">Penalidades</div>
+        <div class="legal-text">{{ penalidades }}</div>
+    </div>
+    {% endif %}
+
+    {% if incluye_servicios %}
+    <div class="section">
+        <div class="section-title">Servicios Incluidos</div>
+        <div class="legal-text">{{ incluye_servicios }}</div>
+    </div>
+    {% endif %}
+
+    {% if restricciones %}
+    <div class="section">
+        <div class="section-title">Restricciones</div>
+        <div class="legal-text">{{ restricciones }}</div>
+    </div>
+    {% endif %}
+
+
+    <div class="footer">
+        <p>El presente documento se firma de conformidad en la ciudad de _______________ a los ____ días del mes de _______________ del año _______.</p>
+        
+        <div class="signatures">
+            <div class="signature-box">
+                <div class="signature-line"></div>
+                <strong>{{ propietario_nombre }}</strong><br>
+                Propietario
+            </div>
+            <div class="signature-box">
+                <div class="signature-line"></div>
+                <strong>{{ inquilino_nombre }}</strong><br>
+                Inquilino / Cliente
+            </div>
+        </div>
+    </div>
+</body>
+</html>

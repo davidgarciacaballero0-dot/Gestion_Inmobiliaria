@@ -1,0 +1,30 @@
+Mis Cosas/
+test/
+.vscode/
+
+# AI Workspace & Agent Configs
+.agents/
+.gemini/
+*.md
+!README.md
+
+# Scripts de depuración/utilidad (Backend)
+Backend/backfill_commissions.py
+Backend/check_db.py
+Backend/check_db_more.py
+Backend/clean_db.py
+Backend/test_reportes_local.py
+Backend/export_inmuebles.py
+
+# Seguridad
+.env
+*.pem
+skills-lock.json
+
+# Logs y cachés temporales
+*.log
+log*.txt
+.firebase/
+Frontend/.firebase/
+*.sqlite3
+

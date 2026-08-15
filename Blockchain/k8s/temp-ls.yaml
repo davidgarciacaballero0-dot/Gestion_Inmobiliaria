@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: temp-ls
+spec:
+  containers:
+  - name: temp-ls
+    image: alpine
+    command: ["ls", "-la", "/fabric/fabric-network/system-genesis-block/"]
+    volumeMounts:
+    - name: vol
+      mountPath: /fabric
+  volumes:
+  - name: vol
+    persistentVolumeClaim:
+      claimName: fabric-pvc
+  restartPolicy: Never
