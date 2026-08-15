@@ -133,10 +133,10 @@ const FinanzasPropietario = () => {
       <div className="print-container" style={{ maxWidth: '1200px', margin: '40px auto', padding: '0 20px' }}>
         <header className="no-print" style={{ marginBottom: '32px', display: 'flex', flexWrap: 'wrap', gap: '16px', justifyContent: 'space-between', alignItems: 'flex-end' }}>
           <div>
-            <h1 style={{ fontSize: '2.2rem', fontWeight: 800, color: '#1e293b', margin: 0, letterSpacing: '-0.02em' }}>
+            <h1 style={{ fontSize: '2.2rem', fontWeight: 800, color: 'var(--color-text)', margin: 0, letterSpacing: '-0.02em' }}>
               Mis Finanzas
             </h1>
-            <p style={{ color: '#64748b', marginTop: '4px' }}>
+            <p style={{ color: 'var(--color-text-secondary)', marginTop: '4px' }}>
               Proyección y análisis de tus ingresos reales (Netos)
             </p>
           </div>
@@ -147,13 +147,13 @@ const FinanzasPropietario = () => {
               onClick={handleDownloadPDF}
               disabled={exporting}
               style={{
-                padding: '12px 24px', borderRadius: '12px', border: '1px solid #e2e8f0',
-                background: '#fff', color: '#1e1b4b', fontWeight: 600, cursor: exporting ? 'not-allowed' : 'pointer',
+                padding: '12px 24px', borderRadius: '12px', border: '1px solid var(--color-border)',
+                background: 'var(--color-bg-card)', color: 'var(--color-text)', fontWeight: 600, cursor: exporting ? 'not-allowed' : 'pointer',
                 display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.95rem',
-                boxShadow: '0 1px 2px rgba(0,0,0,0.05)', transition: 'all 0.2s'
+                boxShadow: 'var(--shadow-sm)', transition: 'all 0.2s'
               }}
-              onMouseOver={e => !exporting && (e.currentTarget.style.background = '#f8fafc', e.currentTarget.style.borderColor = '#cbd5e1')}
-              onMouseOut={e => !exporting && (e.currentTarget.style.background = '#fff', e.currentTarget.style.borderColor = '#e2e8f0')}
+              onMouseOver={e => !exporting && (e.currentTarget.style.background = 'var(--color-bg-hover)')}
+              onMouseOut={e => !exporting && (e.currentTarget.style.background = 'var(--color-bg-card)')}
             >
               {exporting ? <Clock className="spin" size={18} /> : <FileText size={18} />}
               {exporting ? 'Generando PDF...' : 'Exportar Informe PDF'}
@@ -164,13 +164,13 @@ const FinanzasPropietario = () => {
               onClick={handleDownloadExcel}
               disabled={exportingExcel}
               style={{
-                padding: '12px 24px', borderRadius: '12px', border: '1px solid #e2e8f0',
-                background: '#fff', color: '#1e1b4b', fontWeight: 600, cursor: exportingExcel ? 'not-allowed' : 'pointer',
+                padding: '12px 24px', borderRadius: '12px', border: '1px solid var(--color-border)',
+                background: 'var(--color-bg-card)', color: 'var(--color-text)', fontWeight: 600, cursor: exportingExcel ? 'not-allowed' : 'pointer',
                 display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.95rem',
-                boxShadow: '0 1px 2px rgba(0,0,0,0.05)', transition: 'all 0.2s'
+                boxShadow: 'var(--shadow-sm)', transition: 'all 0.2s'
               }}
-              onMouseOver={e => !exportingExcel && (e.currentTarget.style.background = '#f8fafc', e.currentTarget.style.borderColor = '#cbd5e1')}
-              onMouseOut={e => !exportingExcel && (e.currentTarget.style.background = '#fff', e.currentTarget.style.borderColor = '#e2e8f0')}
+              onMouseOver={e => !exportingExcel && (e.currentTarget.style.background = 'var(--color-bg-hover)')}
+              onMouseOut={e => !exportingExcel && (e.currentTarget.style.background = 'var(--color-bg-card)')}
             >
               {exportingExcel ? <Clock className="spin" size={18} /> : <FileSpreadsheet size={18} />}
               {exportingExcel ? 'Generando...' : 'Data Excel'}
@@ -211,8 +211,8 @@ const FinanzasPropietario = () => {
 
         {loading ? (
           <div style={{ textAlign: 'center', padding: '100px 0' }}>
-            <Clock className="spin" size={48} color="#cbd5e1" />
-            <p style={{ color: '#94a3b8', marginTop: '16px' }}>Calculando balances...</p>
+            <Clock className="spin" size={48} color="var(--color-primary)" />
+            <p style={{ color: 'var(--color-text-muted)', marginTop: '16px' }}>Calculando balances...</p>
           </div>
         ) : (
           <>
@@ -221,47 +221,47 @@ const FinanzasPropietario = () => {
               gap: '20px', marginBottom: '32px'
             }}>
 
-              <div style={{ background: '#fff', padding: '24px', borderRadius: '20px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)' }}>
+              <div style={{ background: 'var(--color-bg-card)', padding: '24px', borderRadius: '20px', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-sm)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-                  <div style={{ background: '#f0fdf4', padding: '10px', borderRadius: '12px' }}>
+                  <div style={{ background: 'rgba(22, 163, 74, 0.12)', padding: '10px', borderRadius: '12px' }}>
                     <Wallet size={24} color="#16a34a" />
                   </div>
-                  <span style={{ fontSize: '0.9rem', fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>Ingreso Neto (A tu cuenta)</span>
+                  <span style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--color-text-secondary)', textTransform: 'uppercase' }}>Ingreso Neto (A tu cuenta)</span>
                 </div>
-                <div style={{ fontSize: '2.5rem', fontWeight: 800, color: '#1e293b' }}>
+                <div style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--color-text)' }}>
                   {formatterMonto(reportData?.kpis?.ingreso_neto || 0)}
                 </div>
-                <div className="kpi-desc" style={{ fontSize: '0.85rem', color: '#94a3b8', marginTop: '8px' }}>
+                <div className="kpi-desc" style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', marginTop: '8px' }}>
                   Libre de comisiones
                 </div>
               </div>
 
-              <div style={{ background: '#fff', padding: '24px', borderRadius: '20px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)' }}>
+              <div style={{ background: 'var(--color-bg-card)', padding: '24px', borderRadius: '20px', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-sm)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-                  <div style={{ background: '#fffbeb', padding: '10px', borderRadius: '12px' }}>
+                  <div style={{ background: 'rgba(217, 119, 6, 0.12)', padding: '10px', borderRadius: '12px' }}>
                     <ArrowDownRight size={24} color="#d97706" />
                   </div>
-                  <span style={{ fontSize: '0.9rem', fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>Comisión Descontada</span>
+                  <span style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--color-text-secondary)', textTransform: 'uppercase' }}>Comisión Descontada</span>
                 </div>
-                <div style={{ fontSize: '2.5rem', fontWeight: 800, color: '#1e293b' }}>
+                <div style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--color-text)' }}>
                   {formatterMonto(reportData?.kpis?.total_comisiones || 0)}
                 </div>
-                <div className="kpi-desc" style={{ fontSize: '0.85rem', color: '#94a3b8', marginTop: '8px' }}>
+                <div className="kpi-desc" style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', marginTop: '8px' }}>
                   Retenido por la plataforma
                 </div>
               </div>
 
-              <div style={{ background: '#fff', padding: '24px', borderRadius: '20px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)' }}>
+              <div style={{ background: 'var(--color-bg-card)', padding: '24px', borderRadius: '20px', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-sm)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-                  <div style={{ background: '#f5f3ff', padding: '10px', borderRadius: '12px' }}>
+                  <div style={{ background: 'rgba(139, 92, 246, 0.12)', padding: '10px', borderRadius: '12px' }}>
                     <Activity size={24} color="#8b5cf6" />
                   </div>
-                  <span style={{ fontSize: '0.9rem', fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>Promedio Mensual</span>
+                  <span style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--color-text-secondary)', textTransform: 'uppercase' }}>Promedio Mensual</span>
                 </div>
-                <div style={{ fontSize: '2.5rem', fontWeight: 800, color: '#1e293b' }}>
+                <div style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--color-text)' }}>
                   {formatterMonto(reportData?.kpis?.promedio_mensual || 0)}
                 </div>
-                <div className="kpi-desc" style={{ fontSize: '0.85rem', color: '#94a3b8', marginTop: '8px' }}>
+                <div className="kpi-desc" style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', marginTop: '8px' }}>
                   Calculado sobre los 12 meses del año
                 </div>
               </div>
@@ -271,10 +271,10 @@ const FinanzasPropietario = () => {
             <div className="charts-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px', marginBottom: '32px' }}>
 
               {/* Curva de Ingreso Neto */}
-              <div className="chart-box" style={{ background: '#fff', padding: '32px', borderRadius: '24px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)', gridColumn: 'span 2' }}>
+              <div className="chart-box" style={{ background: 'var(--color-bg-card)', padding: '32px', borderRadius: '24px', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-sm)', gridColumn: 'span 2' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
                   <TrendingUp size={24} color="#6366f1" />
-                  <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#1e293b', margin: 0 }}>
+                  <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--color-text)', margin: 0 }}>
                     {filtros.mes ? 'Ingreso Neto por Inmueble' : 'Curva de Ingreso Neto'}
                   </h2>
                 </div>
@@ -286,25 +286,25 @@ const FinanzasPropietario = () => {
                         data={chartData}
                         margin={{ top: 20, right: 30, left: 20, bottom: 25 }}
                       >
-                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--color-border)" />
                         <XAxis
                           dataKey="mesLabel"
-                          stroke="#94a3b8"
-                          tick={{ fill: '#64748b', fontSize: 13, fontWeight: 500 }}
+                          stroke="var(--color-text-muted)"
+                          tick={{ fill: 'var(--color-text-secondary)', fontSize: 13, fontWeight: 500 }}
                           tickMargin={10}
                         />
                         <YAxis
-                          stroke="#94a3b8"
+                          stroke="var(--color-text-muted)"
                           tickFormatter={(value) => `Bs ${value}`}
-                          tick={{ fill: '#64748b', fontSize: 13 }}
+                          tick={{ fill: 'var(--color-text-secondary)', fontSize: 13 }}
                           axisLine={false}
                           tickLine={false}
                         />
                         <Tooltip
-                          cursor={{ fill: '#f8fafc' }}
+                          cursor={{ fill: 'var(--color-bg-hover)' }}
                           formatter={(value) => [formatterMonto(value), 'Ingreso Neto']}
-                          labelStyle={{ color: '#1e293b', fontWeight: 800, marginBottom: '8px' }}
-                          contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.1)' }}
+                          labelStyle={{ color: 'var(--color-text)', fontWeight: 800, marginBottom: '8px' }}
+                          contentStyle={{ background: 'var(--color-bg-card)', borderRadius: '12px', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-lg)' }}
                         />
                         <Bar
                           dataKey="ingreso_neto"
@@ -321,7 +321,7 @@ const FinanzasPropietario = () => {
                       </BarChart>
                     </ResponsiveContainer>
                   ) : (
-                    <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', color: '#94a3b8', fontStyle: 'italic', textAlign: 'center' }}>
+                    <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', color: 'var(--color-text-muted)', fontStyle: 'italic', textAlign: 'center' }}>
                       No hay datos suficientes para mostrar en este periodo.
                     </div>
                   )}
@@ -329,10 +329,10 @@ const FinanzasPropietario = () => {
               </div>
 
               {/* Distribución (Pie Chart) */}
-              <div className="chart-box" style={{ background: '#fff', padding: '32px', borderRadius: '24px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)' }}>
+              <div className="chart-box" style={{ background: 'var(--color-bg-card)', padding: '32px', borderRadius: '24px', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-sm)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
                   <PieChartIcon size={24} color="#10b981" />
-                  <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#1e293b', margin: 0 }}>
+                  <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--color-text)', margin: 0 }}>
                     Distribución
                   </h2>
                 </div>
@@ -354,12 +354,12 @@ const FinanzasPropietario = () => {
                             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                           ))}
                         </Pie>
-                        <Tooltip formatter={(value) => formatterMonto(value)} />
+                        <Tooltip formatter={(value) => formatterMonto(value)} contentStyle={{ background: 'var(--color-bg-card)', border: '1px solid var(--color-border)', borderRadius: '12px', color: 'var(--color-text)' }} />
                         <RechartsLegend verticalAlign="top" align="center" height={36} />
                       </PieChart>
                     </ResponsiveContainer>
                   ) : (
-                    <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', color: '#94a3b8', fontStyle: 'italic', textAlign: 'center' }}>
+                    <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', color: 'var(--color-text-muted)', fontStyle: 'italic', textAlign: 'center' }}>
                       No hay datos suficientes para mostrar en este periodo.
                     </div>
                   )}
@@ -370,19 +370,19 @@ const FinanzasPropietario = () => {
 
 
             {/* --- EXTRACTO BANCARIO --- */}
-            <div className="chart-box" style={{ marginTop: '24px', padding: '24px', background: '#fff', borderRadius: '24px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)', pageBreakBefore: 'always' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', borderBottom: '3px solid #1e293b', paddingBottom: '12px', marginBottom: '20px' }}>
+            <div className="chart-box" style={{ marginTop: '24px', padding: '24px', background: 'var(--color-bg-card)', borderRadius: '24px', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-sm)', pageBreakBefore: 'always' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', borderBottom: '3px solid var(--color-border)', paddingBottom: '12px', marginBottom: '20px' }}>
                 <div>
-                  <h2 style={{ fontSize: '18px', fontWeight: '900', color: '#1e293b', textTransform: 'uppercase', margin: 0, display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <h2 style={{ fontSize: '18px', fontWeight: '900', color: 'var(--color-text)', textTransform: 'uppercase', margin: 0, display: 'flex', alignItems: 'center', gap: '10px' }}>
                     <Activity size={20} className="no-print" style={{ color: '#6366f1' }} />
                     Extracto de Movimientos
                   </h2>
-                  <p style={{ fontSize: '11px', color: '#64748b', margin: '4px 0 0 0' }}>
+                  <p style={{ fontSize: '11px', color: 'var(--color-text-secondary)', margin: '4px 0 0 0' }}>
                     Registro detallado de ingresos — {obtenerNombreInmuebleFiltrado()}
                   </p>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '8px' }}>
-                  <div className="no-print" style={{ background: '#f1f5f9', padding: '4px 12px', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700, color: '#475569' }}>
+                  <div className="no-print" style={{ background: 'var(--color-bg-secondary)', padding: '4px 12px', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700, color: 'var(--color-text-secondary)' }}>
                     {(reportData?.extracto_pagos || []).length} registro(s)
                   </div>
                   <p className="print-only" style={{ fontSize: '12px', color: '#1e293b', fontWeight: 700, margin: 0 }}>
@@ -407,10 +407,10 @@ const FinanzasPropietario = () => {
                     <tbody>
                       {(reportData?.extracto_pagos || []).map((row, idx) => (
                         <tr key={idx}>
-                          <td>{row.fecha}</td>
-                          <td>{row.inmueble}</td>
-                          <td>{row.inquilino}</td>
-                          <td style={{ textAlign: 'right' }}>{formatterMonto(row.ingreso_bruto)}</td>
+                          <td style={{ color: 'var(--color-text)' }}>{row.fecha}</td>
+                          <td style={{ color: 'var(--color-text)' }}>{row.inmueble}</td>
+                          <td style={{ color: 'var(--color-text)' }}>{row.inquilino}</td>
+                          <td style={{ textAlign: 'right', color: 'var(--color-text)' }}>{formatterMonto(row.ingreso_bruto)}</td>
                           <td style={{ textAlign: 'right', color: '#d97706' }}>{formatterMonto(row.comision)}</td>
                           <td style={{ textAlign: 'right', fontWeight: 'bold', color: '#16a34a' }}>{formatterMonto(row.ingreso_neto)}</td>
                         </tr>
@@ -427,7 +427,7 @@ const FinanzasPropietario = () => {
                   </table>
                 </div>
               ) : (
-                <div style={{ padding: '40px', textAlign: 'center', color: '#94a3b8', fontStyle: 'italic' }}>
+                <div style={{ padding: '40px', textAlign: 'center', color: 'var(--color-text-muted)', fontStyle: 'italic' }}>
                   No se registraron movimientos en el periodo seleccionado.
                 </div>
               )}

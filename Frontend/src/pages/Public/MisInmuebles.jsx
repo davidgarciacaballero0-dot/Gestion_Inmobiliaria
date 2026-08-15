@@ -848,12 +848,12 @@ const MisInmuebles = () => {
                               alignItems: 'center',
                               gap: '6px',
                               padding: '8px 14px',
-                              background: '#ffffff',
+                              background: 'var(--color-bg-card)',
                               border: '1px solid var(--color-border)',
                               borderRadius: '8px',
                               fontWeight: 600,
                               fontSize: '0.85rem',
-                              color: 'var(--color-text-secondary)',
+                              color: 'var(--color-text)',
                               cursor: 'pointer',
                               transition: 'all var(--transition-fast)'
                             }}
@@ -977,16 +977,17 @@ const MisInmuebles = () => {
       {showModal && (
         <div style={{
           position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
-          background: 'rgba(0,0,0,0.5)', zIndex: 1000,
+          background: 'rgba(15, 23, 42, 0.6)', backdropFilter: 'blur(4px)', zIndex: 1000,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           padding: '24px'
         }}>
           <div style={{
-            background: '#fff', borderRadius: '16px', width: '100%', maxWidth: '700px',
-            maxHeight: '90vh', display: 'flex', flexDirection: 'column', overflow: 'hidden'
+            background: 'var(--color-bg-card)', borderRadius: '16px', width: '100%', maxWidth: '700px',
+            maxHeight: '90vh', display: 'flex', flexDirection: 'column', overflow: 'hidden',
+            border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-lg)'
           }}>
-            <div style={{ padding: '20px 24px', borderBottom: '1px solid var(--color-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h2 style={{ margin: 0, fontSize: '1.4rem' }}>{editingId ? 'Editar Inmueble' : 'Registrar Inmueble'}</h2>
+            <div style={{ padding: '20px 24px', borderBottom: '1px solid var(--color-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--color-bg-secondary)' }}>
+              <h2 style={{ margin: 0, fontSize: '1.4rem', color: 'var(--color-text)', fontWeight: 700 }}>{editingId ? 'Editar Inmueble' : 'Registrar Inmueble'}</h2>
               <button
                 onClick={() => setShowModal(false)}
                 style={{ background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer', color: 'var(--color-text-secondary)' }}
@@ -1042,20 +1043,20 @@ const MisInmuebles = () => {
                   </div>
                   <div style={{ flex: 1 }}>
                     <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.9rem', color: 'var(--color-text-secondary)' }}>Superficie (m²)</label>
-                    <input type="text" value={formData.superficie} disabled placeholder="Calculado auto." className="propiedades-filter__input" style={{ width: '100%', background: '#f8fafc', color: '#64748b', fontWeight: 600 }} />
+                    <input type="text" value={formData.superficie} disabled placeholder="Calculado auto." className="propiedades-filter__input" style={{ width: '100%', background: 'var(--color-bg-secondary)', color: 'var(--color-text-muted)', fontWeight: 600 }} />
                   </div>
                 </div>
 
-                <div style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: '10px', padding: '14px 16px' }}>
+                <div style={{ background: 'rgba(245, 158, 11, 0.08)', border: '1px solid rgba(245, 158, 11, 0.3)', borderRadius: '10px', padding: '14px 16px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
-                    <label style={{ fontSize: '0.9rem', fontWeight: 700, color: '#92400e' }}>
+                    <label style={{ fontSize: '0.9rem', fontWeight: 700, color: '#f59e0b' }}>
                       Valor del Activo (Bs)
                     </label>
-                    <span style={{ fontSize: '0.7rem', fontWeight: 700, background: '#fef3c7', color: '#d97706', padding: '2px 8px', borderRadius: '20px', border: '1px solid #fde68a', textTransform: 'uppercase' }}>
+                    <span style={{ fontSize: '0.7rem', fontWeight: 700, background: 'rgba(245, 158, 11, 0.2)', color: '#f59e0b', padding: '2px 8px', borderRadius: '20px', border: '1px solid rgba(245, 158, 11, 0.3)', textTransform: 'uppercase' }}>
                       Interno
                     </span>
                   </div>
-                  <p style={{ fontSize: '0.8rem', color: '#92400e', marginBottom: '10px', lineHeight: '1.4' }}>
+                  <p style={{ fontSize: '0.8rem', color: 'var(--color-text-secondary)', marginBottom: '10px', lineHeight: '1.4' }}>
                     Valor catastral o de referencia del activo físico (DDRR). No se muestra en el catálogo público.
                   </p>
                   <input
@@ -1582,31 +1583,31 @@ const MisInmuebles = () => {
           display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px',
         }}>
           <div style={{
-            background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
+            background: 'var(--color-bg-card)',
             borderRadius: '24px', width: '100%', maxWidth: '520px',
-            boxShadow: '0 25px 50px -12px rgba(99, 102, 241, 0.25)',
+            boxShadow: 'var(--shadow-lg)',
             display: 'flex', flexDirection: 'column', overflow: 'hidden',
-            border: '1px solid rgba(99, 102, 241, 0.1)',
+            border: '1px solid var(--color-border)',
           }}>
             {/* Header */}
             <div style={{
               padding: '20px 24px',
-              borderBottom: '1px solid rgba(99, 102, 241, 0.1)',
+              borderBottom: '1px solid var(--color-border)',
               display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-              background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.03) 0%, rgba(168, 85, 247, 0.03) 100%)'
+              background: 'var(--color-bg-secondary)'
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6366f1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
                   <line x1="12" y1="18" x2="12.01" y2="18" />
                 </svg>
-                <h3 style={{ margin: 0, fontSize: '1.2rem', fontWeight: 800, color: '#1e293b' }}>Guía de Captura Móvil 360°</h3>
+                <h3 style={{ margin: 0, fontSize: '1.2rem', fontWeight: 800, color: 'var(--color-text)' }}>Guía de Captura Móvil 360°</h3>
               </div>
               <button
                 onClick={() => setShowGuiaModal(false)}
                 style={{
                   background: 'rgba(99, 102, 241, 0.05)', border: 'none',
-                  fontSize: '1.2rem', cursor: 'pointer', color: '#64748b',
+                  fontSize: '1.2rem', cursor: 'pointer', color: 'var(--color-text-secondary)',
                   width: '32px', height: '32px', borderRadius: '50%',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   transition: 'background 0.2s'
@@ -1617,7 +1618,7 @@ const MisInmuebles = () => {
             </div>
 
             {/* Progreso en la cabecera */}
-            <div style={{ display: 'flex', height: '4px', background: '#e2e8f0' }}>
+            <div style={{ display: 'flex', height: '4px', background: 'var(--color-border)' }}>
               {[1, 2, 3, 4].map(step => (
                 <div key={step} style={{
                   flex: 1,
@@ -1643,8 +1644,8 @@ const MisInmuebles = () => {
                       <line x1="12" y1="18" x2="12.01" y2="18" />
                     </svg>
                   </div>
-                  <h4 style={{ fontSize: '1.2rem', fontWeight: 700, margin: '0 0 10px', color: '#1e293b' }}>Paso 1: Usa la Cámara de tu Celular</h4>
-                  <p style={{ fontSize: '0.9rem', color: '#64748b', lineHeight: '1.6', margin: 0 }}>
+                  <h4 style={{ fontSize: '1.2rem', fontWeight: 700, margin: '0 0 10px', color: 'var(--color-text)' }}>Paso 1: Usa la Cámara de tu Celular</h4>
+                  <p style={{ fontSize: '0.9rem', color: 'var(--color-text-secondary)', lineHeight: '1.6', margin: 0 }}>
                     Para obtener la mejor resolución y evitar distorsiones en el visor esférico, utiliza la <strong>aplicación de cámara oficial</strong> que viene instalada en tu smartphone (iPhone o Android).
                   </p>
                 </div>
@@ -1663,8 +1664,8 @@ const MisInmuebles = () => {
                       <circle cx="12" cy="13" r="4" />
                     </svg>
                   </div>
-                  <h4 style={{ fontSize: '1.2rem', fontWeight: 700, margin: '0 0 10px', color: '#1e293b' }}>Paso 2: Activa el Modo "Panorámica"</h4>
-                  <p style={{ fontSize: '0.9rem', color: '#64748b', lineHeight: '1.6', margin: 0 }}>
+                  <h4 style={{ fontSize: '1.2rem', fontWeight: 700, margin: '0 0 10px', color: 'var(--color-text)' }}>Paso 2: Activa el Modo "Panorámica"</h4>
+                  <p style={{ fontSize: '0.9rem', color: 'var(--color-text-secondary)', lineHeight: '1.6', margin: 0 }}>
                     Abre tu cámara y desliza los modos de captura hasta encontrar <strong>"PANO" o "Panorámica"</strong>.<br />
                     Sujeta el teléfono en <strong>posición vertical (retrato)</strong>. Esto te dará un campo de visión vertical mucho más amplio y detallado del espacio.
                   </p>
@@ -1683,8 +1684,8 @@ const MisInmuebles = () => {
                       <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67" />
                     </svg>
                   </div>
-                  <h4 style={{ fontSize: '1.2rem', fontWeight: 700, margin: '0 0 10px', color: '#1e293b' }}>Paso 3: Gira despacio sobre tu propio Eje</h4>
-                  <p style={{ fontSize: '0.9rem', color: '#64748b', lineHeight: '1.6', margin: 0 }}>
+                  <h4 style={{ fontSize: '1.2rem', fontWeight: 700, margin: '0 0 10px', color: 'var(--color-text)' }}>Paso 3: Gira despacio sobre tu propio Eje</h4>
+                  <p style={{ fontSize: '0.9rem', color: 'var(--color-text-secondary)', lineHeight: '1.6', margin: 0 }}>
                     Párate en el centro de la habitación. Presiona el botón de captura y <strong>gira lentamente en círculo 360 grados</strong>.<br />
                     Intenta mantener el teléfono al mismo nivel y sigue la línea guía en pantalla para evitar costuras desalineadas o curvas.
                   </p>
@@ -1704,8 +1705,8 @@ const MisInmuebles = () => {
                       <polyline points="22 4 12 14.01 9 11.01" />
                     </svg>
                   </div>
-                  <h4 style={{ fontSize: '1.2rem', fontWeight: 700, margin: '0 0 10px', color: '#1e293b' }}>Paso 4: Guarda y Sube el archivo</h4>
-                  <p style={{ fontSize: '0.9rem', color: '#64748b', lineHeight: '1.6', margin: 0 }}>
+                  <h4 style={{ fontSize: '1.2rem', fontWeight: 700, margin: '0 0 10px', color: 'var(--color-text)' }}>Paso 4: Guarda y Sube el archivo</h4>
+                  <p style={{ fontSize: '0.9rem', color: 'var(--color-text-secondary)', lineHeight: '1.6', margin: 0 }}>
                     Tu celular procesará la imagen guardándola en tu galería con la proporción perfecta <strong>(proporción panorámica 2:1)</strong>.<br />
                     Presiona el botón de selección de fotos en esta pantalla, selecciónala y ¡listo! Nuestro motor 360° se encargará del resto de forma automática.
                   </p>
@@ -1716,9 +1717,9 @@ const MisInmuebles = () => {
             {/* Footer / Controles */}
             <div style={{
               padding: '16px 24px',
-              borderTop: '1px solid rgba(99, 102, 241, 0.1)',
+              borderTop: '1px solid var(--color-border)',
               display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-              background: '#f8fafc'
+              background: 'var(--color-bg-secondary)'
             }}>
               {/* Botón Atrás */}
               <button
@@ -1802,25 +1803,27 @@ const MisInmuebles = () => {
       {showHorarioModal && (
         <div style={{
           position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
-          background: 'rgba(0,0,0,0.5)', zIndex: 1001,
+          background: 'rgba(15, 23, 42, 0.6)', backdropFilter: 'blur(4px)', zIndex: 1001,
           display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px',
         }}>
           <div style={{
-            background: '#fff', borderRadius: '16px', width: '100%', maxWidth: '500px',
+            background: 'var(--color-bg-card)', borderRadius: '16px', width: '100%', maxWidth: '500px',
             maxHeight: '85vh', display: 'flex', flexDirection: 'column', overflow: 'hidden',
+            border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-lg)'
           }}>
             <div style={{
               padding: '20px 24px', borderBottom: '1px solid var(--color-border)',
               display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+              background: 'var(--color-bg-secondary)'
             }}>
               <div>
-                <h2 style={{ margin: 0, fontSize: '1.2rem' }}>Horarios de visita</h2>
-                <p style={{ margin: '4px 0 0', fontSize: '0.8rem', color: '#64748b' }}>
+                <h2 style={{ margin: 0, fontSize: '1.2rem', color: 'var(--color-text)', fontWeight: 700 }}>Horarios de visita</h2>
+                <p style={{ margin: '4px 0 0', fontSize: '0.8rem', color: 'var(--color-text-secondary)' }}>
                   Define cuándo pueden agendar visitas a este inmueble
                 </p>
               </div>
               <button onClick={() => setShowHorarioModal(false)}
-                style={{ background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer', color: '#64748b' }}>
+                style={{ background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer', color: 'var(--color-text-secondary)' }}>
                 &times;
               </button>
             </div>
@@ -1828,15 +1831,15 @@ const MisInmuebles = () => {
             <div style={{ padding: '20px', overflowY: 'auto', flex: 1 }}>
               {/* Formulario para agregar horario */}
               <div style={{
-                background: '#f8fafc', borderRadius: '12px', padding: '16px',
-                marginBottom: '20px', border: '1px solid #e2e8f0',
+                background: 'var(--color-bg-secondary)', borderRadius: '12px', padding: '16px',
+                marginBottom: '20px', border: '1px solid var(--color-border)',
               }}>
-                <p style={{ margin: '0 0 12px', fontWeight: 600, color: '#1e293b', fontSize: '0.9rem' }}>
+                <p style={{ margin: '0 0 12px', fontWeight: 600, color: 'var(--color-text)', fontSize: '0.9rem' }}>
                   Agregar disponibilidad
                 </p>
                 <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'flex-end' }}>
                   <div style={{ flex: 1, minWidth: '120px' }}>
-                    <label style={{ display: 'block', fontSize: '0.8rem', color: '#64748b', marginBottom: '6px' }}>Día</label>
+                    <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--color-text-secondary)', marginBottom: '6px' }}>Día</label>
                     <select
                       value={nuevoHorario.dia_semana}
                       onChange={e => setNuevoHorario(p => ({ ...p, dia_semana: parseInt(e.target.value) }))}
@@ -1846,20 +1849,20 @@ const MisInmuebles = () => {
                     </select>
                   </div>
                   <div style={{ flex: 1, minWidth: '100px' }}>
-                    <label style={{ display: 'block', fontSize: '0.8rem', color: '#64748b', marginBottom: '6px' }}>Desde</label>
+                    <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--color-text-secondary)', marginBottom: '6px' }}>Desde</label>
                     <input type="time" value={nuevoHorario.hora_inicio}
                       onChange={e => setNuevoHorario(p => ({ ...p, hora_inicio: e.target.value }))}
                       className="propiedades-filter__input" style={{ width: '100%' }} />
                   </div>
                   <div style={{ flex: 1, minWidth: '100px' }}>
-                    <label style={{ display: 'block', fontSize: '0.8rem', color: '#64748b', marginBottom: '6px' }}>Hasta</label>
+                    <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--color-text-secondary)', marginBottom: '6px' }}>Hasta</label>
                     <input type="time" value={nuevoHorario.hora_fin}
                       onChange={e => setNuevoHorario(p => ({ ...p, hora_fin: e.target.value }))}
                       className="propiedades-filter__input" style={{ width: '100%' }} />
                   </div>
                   <button onClick={agregarHorario} disabled={guardandoHorario}
                     style={{
-                      background: '#0ea5e9', color: '#fff', border: 'none', borderRadius: '8px',
+                      background: 'var(--color-primary)', color: '#fff', border: 'none', borderRadius: '8px',
                       padding: '10px 16px', cursor: 'pointer', fontWeight: 600, whiteSpace: 'nowrap',
                     }}>
                     {guardandoHorario ? '...' : '+ Agregar'}
@@ -1869,7 +1872,7 @@ const MisInmuebles = () => {
 
               {/* Lista de horarios */}
               {horarios.length === 0 ? (
-                <div style={{ textAlign: 'center', padding: '24px', color: '#94a3b8', fontSize: '0.9rem' }}>
+                <div style={{ textAlign: 'center', padding: '24px', color: 'var(--color-text-muted)', fontSize: '0.9rem' }}>
                   No has definido horarios aún. Los clientes no podrán agendar visitas sin horarios.
                 </div>
               ) : (
@@ -1877,16 +1880,16 @@ const MisInmuebles = () => {
                   {horarios.map(h => (
                     <div key={h.id} style={{
                       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                      padding: '12px 16px', background: '#fff', borderRadius: '8px', border: '1px solid #e2e8f0',
+                      padding: '12px 16px', background: 'var(--color-bg-card)', borderRadius: '8px', border: '1px solid var(--color-border)',
                     }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                         <span style={{
-                          background: '#e0f2fe', color: '#0284c7',
+                          background: 'rgba(14, 165, 233, 0.15)', color: 'var(--color-primary)',
                           padding: '4px 10px', borderRadius: '8px', fontSize: '0.8rem', fontWeight: 600,
                         }}>
                           {DIAS_NOMBRES[h.dia_semana]}
                         </span>
-                        <span style={{ color: '#334155', fontSize: '0.9rem', fontWeight: 500 }}>
+                        <span style={{ color: 'var(--color-text)', fontSize: '0.9rem', fontWeight: 500 }}>
                           {h.hora_inicio?.slice(0, 5)} — {h.hora_fin?.slice(0, 5)}
                         </span>
                       </div>
@@ -1902,11 +1905,11 @@ const MisInmuebles = () => {
 
             <div style={{
               padding: '16px 24px', borderTop: '1px solid var(--color-border)',
-              background: '#f8fafc', display: 'flex', justifyContent: 'flex-end',
+              background: 'var(--color-bg-secondary)', display: 'flex', justifyContent: 'flex-end',
             }}>
               <button onClick={() => setShowHorarioModal(false)}
                 style={{
-                  background: '#0ea5e9', color: '#fff', border: 'none',
+                  background: 'var(--color-primary)', color: '#fff', border: 'none',
                   padding: '10px 24px', borderRadius: '8px', fontWeight: 600, cursor: 'pointer',
                 }}>
                 Listo
