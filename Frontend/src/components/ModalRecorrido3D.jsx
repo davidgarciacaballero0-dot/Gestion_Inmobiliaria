@@ -1,21 +1,24 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { X } from 'lucide-react';
+import { X, Sparkles } from 'lucide-react';
 import 'pannellum/build/pannellum.css';
 import 'pannellum';
 import VisorVRGlasses from './VisorVRGlasses';
+import GuiaVirtualVoz from './GuiaVirtualVoz';
 import './ModalRecorrido3D.css';
 
 /**
  * ModalRecorrido3D — Modal inmersivo a pantalla completa para el Recorrido Virtual 360°.
  *
- * Utiliza Pannellum Multi-Scene API para navegación espacial fluida 3D con hotspots.
+ * Utiliza Pannellum Multi-Scene API para navegación espacial fluida 3D con hotspots
+ * e integra la Guía Virtual con Voz Inteligente.
  *
  * @param {object} props
+ * @param {number} [props.inmuebleId] - ID del inmueble para la IA.
  * @param {Array} props.panoramas - Lista de panoramas del inmueble (con hotspots anidados).
  * @param {string} props.tituloPropiedad - Título de la propiedad.
  * @param {Function} props.onClose - Callback al cerrar el modal.
  */
-const ModalRecorrido3D = ({ panoramas = [], onClose, musica = null }) => {
+const ModalRecorrido3D = ({ inmuebleId = null, panoramas = [], onClose, musica = null }) => {
   const viewerRef = useRef(null);
   const viewerInstanceRef = useRef(null);
   const [blobUrls, setBlobUrls] = useState({});
@@ -24,6 +27,9 @@ const ModalRecorrido3D = ({ panoramas = [], onClose, musica = null }) => {
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [loadingText, setLoadingText] = useState('Iniciando recorrido virtual...');
   const [showVRGlasses, setShowVRGlasses] = useState(false);
+  const [escenaActivaNombre, setEscenaActivaNombre] = useState(
+    panoramas[0]?.descripcion || 'Recorrido General'
+  );
   const audioRef = useRef(null);
 
   // Reproducir música al entrar al Modo VR (gafas), detener al salir
@@ -203,8 +209,17 @@ const ModalRecorrido3D = ({ panoramas = [], onClose, musica = null }) => {
 
       viewerInstanceRef.current = viewer;
 
-      // Escuchar cambios de escena para animar el zoom-out
-      viewer.on('scenechange', () => {
+      // Escuchar cambios de escena para animar el zoom-out y actualizar guía de voz
+      viewer.on('scenechange', (sceneId) => {
+        // Encontrar panorama correspondiente
+        const panoId = sceneId?.replace('scene_', '');
+        const panoEncontrado = panoramas.find((p) => String(p.id) === String(panoId));
+        if (panoEncontrado) {
+          const desc = panoEncontrado.descripcion || '';
+          const habNombre = desc.includes('|') ? desc.split('|')[1].trim() : desc || 'Habitación';
+          setEscenaActivaNombre(habNombre);
+        }
+
         // Efecto premium: Animar zoom-out (hfov = 100) en la nueva escena (simula entrar físicamente)
         setTimeout(() => {
           if (viewerInstanceRef.current) {
@@ -290,6 +305,14 @@ const ModalRecorrido3D = ({ panoramas = [], onClose, musica = null }) => {
         className="modal-recorrido__viewer"
         id="modal-pannellum-container"
       />
+
+      {/* ─── Guía Virtual con Voz Inteligente ─── */}
+      {!cargandoDescarga && inmuebleId && (
+        <GuiaVirtualVoz
+          inmuebleId={inmuebleId}
+          habitacionActiva={escenaActivaNombre}
+        />
+      )}
 
       {showVRGlasses && (
         <VisorVRGlasses 

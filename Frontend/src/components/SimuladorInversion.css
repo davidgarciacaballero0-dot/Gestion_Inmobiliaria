@@ -1,0 +1,251 @@
+/* SimuladorInversion.css — Estilos para el Dashboard Financiero de Valuación AVM e Inversión */
+
+.simulador-inversion-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  font-family: inherit;
+  color: var(--color-text, #1e293b);
+}
+
+/* ─── Grid de Tarjetas KPI Superiores ─── */
+.simulador-kpis-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.simulador-kpi-card {
+  background: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.simulador-kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+}
+
+.simulador-kpi-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.simulador-kpi-icon.primary { background: rgba(14, 165, 233, 0.12); color: #0ea5e9; }
+.simulador-kpi-icon.success { background: rgba(16, 185, 129, 0.12); color: #059669; }
+.simulador-kpi-icon.warning { background: rgba(245, 158, 11, 0.12); color: #d97706; }
+.simulador-kpi-icon.info { background: rgba(14, 165, 233, 0.12); color: #0284c7; }
+
+.simulador-kpi-content h4 {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text-secondary, #64748b);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0 0 6px 0;
+}
+
+.simulador-kpi-value {
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: var(--color-text, #0f172a);
+  margin: 0;
+}
+
+.simulador-kpi-sub {
+  font-size: 0.76rem;
+  color: var(--color-text-secondary, #64748b);
+  margin-top: 4px;
+}
+
+/* ─── Grid Principal: Sliders + Gráficos ─── */
+.simulador-main-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1.9fr;
+  gap: 24px;
+}
+
+@media (max-width: 1024px) {
+  .simulador-main-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Panel de Controles / Sliders */
+.simulador-panel-sliders {
+  background: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.simulador-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-border, #e2e8f0);
+  padding-bottom: 14px;
+}
+
+.simulador-panel-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-text, #0f172a);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.simulador-slider-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.simulador-slider-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--color-text, #334155);
+}
+
+.simulador-slider-val {
+  font-weight: 700;
+  color: #0ea5e9;
+  background: rgba(14, 165, 233, 0.1);
+  padding: 2px 10px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+}
+
+.simulador-range-input {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--color-border, #cbd5e1);
+  outline: none;
+  cursor: pointer;
+  accent-color: #0ea5e9;
+}
+
+/* Panel de Gráficos y Resultados */
+.simulador-panel-charts {
+  background: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+/* Diagnóstico con IA */
+.simulador-ai-diagnostic {
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.05) 0%, rgba(2, 132, 199, 0.08) 100%);
+  border: 1px solid rgba(14, 165, 233, 0.2);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.simulador-ai-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0ea5e9;
+}
+
+.simulador-ai-text {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--color-text, #334155);
+  margin: 0;
+}
+
+/* Tabla de Comparables */
+.simulador-comparables-table-wrapper {
+  overflow-x: auto;
+  border-radius: 14px;
+  border: 1px solid var(--color-border, #e2e8f0);
+}
+
+.simulador-comparables-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.86rem;
+}
+
+.simulador-comparables-table th {
+  background: var(--color-bg-secondary, #f8fafc);
+  padding: 12px 16px;
+  font-weight: 700;
+  color: var(--color-text-secondary, #475569);
+  border-bottom: 1px solid var(--color-border, #e2e8f0);
+}
+
+.simulador-comparables-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--color-border, #e2e8f0);
+  color: var(--color-text, #1e293b);
+}
+
+.simulador-comparables-table tr:last-child td {
+  border-bottom: none;
+}
+
+.simulador-comparables-table tr:hover td {
+  background: rgba(14, 165, 233, 0.03);
+}
+
+/* Botón de Exportar Reporte PDF */
+.simulador-export-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.35);
+  transition: all 0.2s ease;
+}
+
+.simulador-export-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(14, 165, 233, 0.45);
+}
+
+.simulador-export-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}

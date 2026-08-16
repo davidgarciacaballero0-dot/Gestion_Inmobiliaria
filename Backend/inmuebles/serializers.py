@@ -1,5 +1,9 @@
 from rest_framework import serializers
-from .models import TipoInmueble, Inmueble, Publicacion, Multimedia, TipoContrato, Contrato, Comision, Favorito, Direccion, Hotspot, VerificacionTitulo
+from .models import (
+    TipoInmueble, Inmueble, Publicacion, Multimedia, TipoContrato, Contrato,
+    Comision, Favorito, Direccion, Hotspot, VerificacionTitulo,
+    AccesoRecorrido360, AmobladoVirtual, ValuacionInmueble
+)
 
 
 class TipoInmuebleSerializer(serializers.ModelSerializer):
@@ -40,12 +44,28 @@ class PublicacionSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'creado', 'actualizado']
 
 
+class AmobladoVirtualSerializer(serializers.ModelSerializer):
+    inmueble_titulo = serializers.CharField(source='inmueble.titulo', read_only=True)
+    estilo_display = serializers.CharField(source='get_estilo_display', read_only=True)
+    imagen_original = serializers.CharField(source='multimedia_original.archivo', read_only=True)
+
+    class Meta:
+        model = AmobladoVirtual
+        fields = [
+            'id', 'inmueble', 'inmueble_titulo', 'multimedia_original',
+            'imagen_original', 'estilo', 'estilo_display', 'imagen_amoblada',
+            'descripcion_estilo', 'tipo', 'creado'
+        ]
+        read_only_fields = ['id', 'creado']
+
+
 class InmuebleSerializer(serializers.ModelSerializer):
     tipo_nombre = serializers.CharField(source='tipo.nombre', read_only=True)
     propietario_nombre = serializers.CharField(
         source='propietario.get_full_name', read_only=True
     )
     multimedia = MultimediaSerializer(many=True, read_only=True)
+    amoblados_virtuales = AmobladoVirtualSerializer(many=True, read_only=True)
     direccion = DireccionSerializer()
     precio = serializers.SerializerMethodField(read_only=True)
     tipo_oferta = serializers.SerializerMethodField(read_only=True)
@@ -281,8 +301,6 @@ class CitaSerializer(serializers.ModelSerializer):
         return data
 
 
-from .models import AccesoRecorrido360
-
 class AccesoRecorrido360Serializer(serializers.ModelSerializer):
     cliente_nombre = serializers.CharField(source='cliente.get_full_name', read_only=True)
     propietario_nombre = serializers.CharField(source='propietario.get_full_name', read_only=True)
@@ -293,4 +311,60 @@ class AccesoRecorrido360Serializer(serializers.ModelSerializer):
         model = AccesoRecorrido360
         fields = '__all__'
         read_only_fields = ['id', 'creado', 'propietario', 'visitas', 'ultimo_acceso_visor']
+
+
+# ─── 1. Serializers para Guía Virtual con Voz ─────────────────────────────────
+
+class GuiaVirtualNarracionSerializer(serializers.Serializer):
+    inmueble_id = serializers.IntegerField(required=True)
+    habitacion = serializers.CharField(required=True, max_length=150)
+    orientacion = serializers.DictField(required=False, default=dict)
+
+
+class GuiaVirtualConsultaSerializer(serializers.Serializer):
+    inmueble_id = serializers.IntegerField(required=True)
+    pregunta = serializers.CharField(required=True, max_length=1000)
+    habitacion_actual = serializers.CharField(required=False, allow_blank=True, default='')
+
+
+class GuiaVirtualAgendarSerializer(serializers.Serializer):
+    inmueble_id = serializers.IntegerField(required=True)
+    fecha = serializers.DateField(required=True)
+    hora_inicio = serializers.CharField(required=True, max_length=10)
+    hora_fin = serializers.CharField(required=False, allow_blank=True, default='')
+    notas = serializers.CharField(required=False, allow_blank=True, default='')
+
+
+# ─── 2. Serializers para Amoblado Virtual con IA (Virtual Staging) ────────────
+
+
+class GenerarAmobladoVirtualSerializer(serializers.Serializer):
+    inmueble_id = serializers.IntegerField(required=True)
+    multimedia_id = serializers.IntegerField(required=False, allow_null=True)
+    estilo = serializers.ChoiceField(choices=AmobladoVirtual.EstiloStaging.choices, default=AmobladoVirtual.EstiloStaging.MODERNO)
+    tipo = serializers.ChoiceField(choices=AmobladoVirtual.TipoMultimedia.choices, default=AmobladoVirtual.TipoMultimedia.FOTO_2D)
+
+
+# ─── 3. Serializers para Valuación Automática y Simulador Financiero ──────────
+
+from .models import ValuacionInmueble
+
+class ValuacionInmuebleSerializer(serializers.ModelSerializer):
+    inmueble_titulo = serializers.CharField(source='inmueble.titulo', read_only=True)
+    inmueble_ciudad = serializers.CharField(source='inmueble.direccion.ciudad', read_only=True)
+    inmueble_zona = serializers.CharField(source='inmueble.direccion.zona', read_only=True)
+
+    class Meta:
+        model = ValuacionInmueble
+        fields = '__all__'
+        read_only_fields = ['id', 'fecha_calculo']
+
+
+class SimulacionInversionSerializer(serializers.Serializer):
+    inmueble_id = serializers.IntegerField(required=False, allow_null=True)
+    precio_compra = serializers.FloatField(required=False, default=120000.0)
+    alquiler_mensual = serializers.FloatField(required=False, default=850.0)
+    tasa_ocupacion = serializers.FloatField(required=False, default=95.0)
+    gastos_operativos_pct = serializers.FloatField(required=False, default=10.0)
+    plusvalia_anual_pct = serializers.FloatField(required=False, default=3.5)
 

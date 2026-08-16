@@ -3,22 +3,16 @@ import { Maximize2, Minimize2, Layers, Compass } from 'lucide-react';
 import 'pannellum/build/pannellum.css';
 import 'pannellum';
 import ModalRecorrido3D from './ModalRecorrido3D';
+import GuiaVirtualVoz from './GuiaVirtualVoz';
 import api from '../services/api';
 import './Visor360.css';
+
 /**
- * Visor360 — Componente de exploración inmersiva con panoramas 360°.
+ * Visor360 — Componente de exploración inmersiva con panoramas 360° y Guía Virtual con Voz.
  *
- * Soporta navegación de dos niveles:
- *   1. Selector de pisos (pills)
- *   2. Tabs de habitaciones dentro del piso seleccionado
- *
- * Convención del campo `descripcion` de Multimedia:
- *   "Piso N | Habitación"  →  ej: "Piso 1 | Sala", "Piso 2 | Dormitorio"
- *   Si no contiene "|", se asume "Piso 1 | {descripcion}"
- *
- * @param {{ panoramas: Array<{id: number, archivo: string, descripcion: string}> }} props
+ * @param {{ inmuebleId?: number, panoramas: Array<{id: number, archivo: string, descripcion: string}>, accesoId?: number, musica?: string }} props
  */
-const Visor360 = ({ panoramas = [], accesoId = null, musica = null }) => {
+const Visor360 = ({ inmuebleId = null, panoramas = [], accesoId = null, musica = null }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const viewerRef = useRef(null);
@@ -313,6 +307,7 @@ const Visor360 = ({ panoramas = [], accesoId = null, musica = null }) => {
 
       {isModalOpen && (
         <ModalRecorrido3D
+          inmuebleId={inmuebleId}
           panoramas={panoramas}
           onClose={() => setIsModalOpen(false)}
           musica={musica}
@@ -363,6 +358,14 @@ const Visor360 = ({ panoramas = [], accesoId = null, musica = null }) => {
         {/* Pannellum viewer */}
         <div ref={viewerRef} className="visor360__viewer" id="visor360-pannellum" />
 
+        {/* Guía Virtual con Voz Inteligente en Visor Inline */}
+        {inmuebleId && (
+          <GuiaVirtualVoz
+            inmuebleId={inmuebleId}
+            habitacionActiva={escenaActiva?.habitacion || 'Vista 360°'}
+          />
+        )}
+
         {/* Barra inferior de controles */}
         <div className="visor360__controls">
           <div className="visor360__scene-label">
@@ -372,22 +375,22 @@ const Visor360 = ({ panoramas = [], accesoId = null, musica = null }) => {
             <span>{escenaActiva?.habitacion || 'Vista 360°'}</span>
           </div>
           <button
-          className="visor360__fullscreen-btn"
-          onClick={toggleFullscreen}
-          type="button"
-        >
-          {isFullscreen ? (
-            <>
-              <Minimize2 size={14} />
-              Salir de pantalla completa
-            </>
-          ) : (
-            <>
-              <Maximize2 size={14} />
-              Pantalla completa
-            </>
-          )}
-        </button>
+            className="visor360__fullscreen-btn"
+            onClick={toggleFullscreen}
+            type="button"
+          >
+            {isFullscreen ? (
+              <>
+                <Minimize2 size={14} />
+                Salir de pantalla completa
+              </>
+            ) : (
+              <>
+                <Maximize2 size={14} />
+                Pantalla completa
+              </>
+            )}
+          </button>
         </div>
       </div>
     </div>

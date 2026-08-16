@@ -14,6 +14,8 @@ import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import ResenaSection from '../../components/ResenaSection';
 import ModalAgendarCita from '../../components/ModalAgendarCita';
 import Visor360 from '../../components/Visor360';
+import AntesDespuesSlider from '../../components/AntesDespuesSlider';
+import SimuladorInversion from '../../components/SimuladorInversion';
 
 let DefaultIcon = L.icon({
   iconUrl: icon,
@@ -315,9 +317,43 @@ const PropiedadDetalle = () => {
                       }}
                       type="button"
                     >
-                      Recorrido 3D (360°)
+                      🗣️ Recorrido 3D con Voz
                     </button>
                   )}
+                  <button
+                    onClick={() => setTabActiva('staging')}
+                    style={{
+                      padding: '16px 20px',
+                      background: 'none',
+                      border: 'none',
+                      borderBottom: tabActiva === 'staging' ? '3px solid var(--color-primary)' : '3px solid transparent',
+                      color: tabActiva === 'staging' ? 'var(--color-primary)' : 'var(--color-text-secondary)',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      transition: 'all 0.2s',
+                      fontSize: '0.92rem'
+                    }}
+                    type="button"
+                  >
+                    🛋️ Amoblado Virtual (IA)
+                  </button>
+                  <button
+                    onClick={() => setTabActiva('simulador')}
+                    style={{
+                      padding: '16px 20px',
+                      background: 'none',
+                      border: 'none',
+                      borderBottom: tabActiva === 'simulador' ? '3px solid var(--color-primary)' : '3px solid transparent',
+                      color: tabActiva === 'simulador' ? 'var(--color-primary)' : 'var(--color-text-secondary)',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      transition: 'all 0.2s',
+                      fontSize: '0.92rem'
+                    }}
+                    type="button"
+                  >
+                    📊 Simulador Financiero & ROI
+                  </button>
 
                 </div>
 
@@ -413,7 +449,7 @@ const PropiedadDetalle = () => {
                   </div>
                 )}
 
-                {/* ─── Pestaña: Recorrido 360° ─── */}
+                {/* ─── Pestaña: Recorrido 360° con Voz ─── */}
                 {tabActiva === '360' && panoramas360.length > 0 && (
                   <div style={{ padding: '16px', background: 'var(--color-bg)' }}>
                     {accesoLoading ? (
@@ -431,7 +467,13 @@ const PropiedadDetalle = () => {
                         {!acceso360.propietario && acceso360.fechaExpiracion && (
                           <RenderPaseBadge expiracion={acceso360.fechaExpiracion} />
                         )}
-                        <Visor360 panoramas={panoramas360} tituloPropiedad={inmueble.titulo} accesoId={acceso360.accesoId} musica={musicaVR?.archivo || '/inspirar.mp3'} />
+                        <Visor360
+                          inmuebleId={inmueble.id}
+                          panoramas={panoramas360}
+                          tituloPropiedad={inmueble.titulo}
+                          accesoId={acceso360.accesoId}
+                          musica={musicaVR?.archivo || '/inspirar.mp3'}
+                        />
                       </div>
                     ) : (
                       <div style={{
@@ -510,6 +552,34 @@ const PropiedadDetalle = () => {
                         </div>
                       </div>
                     )}
+                  </div>
+                )}
+
+                {/* ─── Pestaña: Amoblado Virtual con IA (Staging) ─── */}
+                {tabActiva === 'staging' && (
+                  <div style={{ padding: '20px', background: 'var(--color-bg)' }}>
+                    <div style={{ marginBottom: 16 }}>
+                      <h3 style={{ fontSize: '1.25rem', fontWeight: 800, margin: '0 0 6px 0', color: 'var(--color-text)' }}>
+                        🛋️ Virtual Staging con Inteligencia Artificial
+                      </h3>
+                      <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.88rem', margin: 0 }}>
+                        Visualiza el potencial de este inmueble amueblado en 4 estilos fotorrealistas. Arrastra la barra para comparar el antes y después.
+                      </p>
+                    </div>
+                    <AntesDespuesSlider
+                      imagenOriginal={principalMedia?.archivo}
+                      amoblados={inmueble?.amoblados_virtuales || []}
+                    />
+                  </div>
+                )}
+
+                {/* ─── Pestaña: Valuación & Simulador Financiero de Inversión ─── */}
+                {tabActiva === 'simulador' && (
+                  <div style={{ padding: '24px', background: 'var(--color-bg)' }}>
+                    <SimuladorInversion
+                      inmuebleId={inmueble.id}
+                      precioReferencia={activePub?.precio ? parseFloat(activePub.precio) : 120000}
+                    />
                   </div>
                 )}
 

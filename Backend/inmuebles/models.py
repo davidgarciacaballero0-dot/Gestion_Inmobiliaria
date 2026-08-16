@@ -678,3 +678,102 @@ class AccesoRecorrido360(models.Model):
         return f'Acceso: {self.cliente.email} -> {self.inmueble.titulo} (Exp: {self.fecha_expiracion})'
 
 
+class AmobladoVirtual(models.Model):
+    """
+    Representa una versión amoblada virtualmente con IA de una imagen o panorama 360°
+    de un inmueble (Virtual Staging).
+    """
+
+    class EstiloStaging(models.TextChoices):
+        MODERNO = 'moderno', 'Moderno'
+        MINIMALISTA = 'minimalista', 'Minimalista'
+        EJECUTIVO = 'ejecutivo', 'Ejecutivo'
+        BOLIVIANO = 'boliviano', 'Boliviano'
+
+    class TipoMultimedia(models.TextChoices):
+        FOTO_2D = 'foto_2d', 'Fotografía 2D'
+        PANORAMA360 = 'panorama360', 'Panorama 360°'
+
+    inmueble = models.ForeignKey(
+        Inmueble,
+        on_delete=models.CASCADE,
+        related_name='amoblados_virtuales',
+        help_text="Inmueble al que pertenece el amoblado virtual"
+    )
+    multimedia_original = models.ForeignKey(
+        Multimedia,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='amoblados_generados',
+        help_text="Foto o panorama vacío original"
+    )
+    estilo = models.CharField(
+        max_length=30,
+        choices=EstiloStaging.choices,
+        default=EstiloStaging.MODERNO,
+        db_index=True
+    )
+    imagen_amoblada = models.CharField(
+        max_length=500,
+        help_text="URL de la imagen amoblada con IA (Cloudinary / CDN)"
+    )
+    descripcion_estilo = models.TextField(
+        blank=True,
+        help_text="Descripción de los elementos de diseño incorporados por la IA"
+    )
+    tipo = models.CharField(
+        max_length=20,
+        choices=TipoMultimedia.choices,
+        default=TipoMultimedia.FOTO_2D
+    )
+    creado = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'inmuebles_amoblado_virtual'
+        verbose_name = 'Amoblado Virtual (Staging)'
+        verbose_name_plural = 'Amoblados Virtuales (Staging)'
+        ordering = ['-creado']
+
+    def __str__(self) -> str:
+        return f'Staging {self.get_estilo_display()} ({self.tipo}) — {self.inmueble.titulo}'
+
+
+class ValuacionInmueble(models.Model):
+    """
+    Almacena el resultado de la valuación automática (AVM) y métricas financieras
+    de inversión inmobiliaria calculadas mediante análisis hedónico e IA.
+    """
+    inmueble = models.ForeignKey(
+        Inmueble,
+        on_delete=models.CASCADE,
+        related_name='valuaciones',
+        help_text="Inmueble evaluado"
+    )
+    precio_alquiler_min = models.DecimalField(max_digits=12, decimal_places=2, help_text="Precio mínimo estimado de alquiler mensual (USD)")
+    precio_alquiler_optimo = models.DecimalField(max_digits=12, decimal_places=2, help_text="Precio sugerido óptimo de alquiler mensual (USD)")
+    precio_alquiler_max = models.DecimalField(max_digits=12, decimal_places=2, help_text="Precio máximo estimado de alquiler mensual (USD)")
+    
+    precio_venta_min = models.DecimalField(max_digits=14, decimal_places=2, help_text="Precio mínimo estimado de venta (USD)")
+    precio_venta_optimo = models.DecimalField(max_digits=14, decimal_places=2, help_text="Precio sugerido óptimo de venta (USD)")
+    precio_venta_max = models.DecimalField(max_digits=14, decimal_places=2, help_text="Precio máximo estimado de venta (USD)")
+
+    confianza_porcentaje = models.PositiveIntegerField(default=90, help_text="Porcentaje de confianza estadística del modelo (0-100%)")
+    roi_anual_estimado = models.DecimalField(max_digits=6, decimal_places=2, default=8.0, help_text="Retorno sobre inversión estimado (%)")
+    cap_rate_estimado = models.DecimalField(max_digits=6, decimal_places=2, default=7.5, help_text="Tasa de capitalización anual (%)")
+    dias_vacancia_estimados = models.PositiveIntegerField(default=15, help_text="Días promedio estimados que el inmueble pasa sin inquilino")
+
+    comparables_analizados = models.JSONField(default=list, blank=True, help_text="Lista de propiedades comparables analizadas en la zona")
+    analisis_mercado_ia = models.TextField(blank=True, help_text="Diagnóstico y recomendaciones de mercado redactadas por la IA")
+    fecha_calculo = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'inmuebles_valuacion'
+        verbose_name = 'Valuación Automática'
+        verbose_name_plural = 'Valuaciones Automáticas'
+        ordering = ['-fecha_calculo']
+
+    def __str__(self) -> str:
+        return f'Valuación #{self.id} — {self.inmueble.titulo} (Sugerido: ${self.precio_alquiler_optimo}/mes)'
+
+

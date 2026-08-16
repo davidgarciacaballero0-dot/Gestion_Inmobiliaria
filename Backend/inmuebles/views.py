@@ -1365,3 +1365,195 @@ Instrucción del Usuario: {prompt}"""
             final_datos.append(row)
 
         return final_datos
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# 🗣️ VIEWSETS: 1. GUÍA VIRTUAL CON VOZ 3D
+# ═════════════════════════════════════════════════════════════════════════════
+
+from .serializers import (
+    GuiaVirtualNarracionSerializer,
+    GuiaVirtualConsultaSerializer,
+    GuiaVirtualAgendarSerializer,
+    AmobladoVirtualSerializer,
+    GenerarAmobladoVirtualSerializer,
+    ValuacionInmuebleSerializer,
+    SimulacionInversionSerializer,
+)
+from .models import AmobladoVirtual, ValuacionInmueble
+from .services import (
+    generar_narracion_espacial,
+    procesar_consulta_guia_virtual,
+    agendar_cita_desde_guia,
+    generar_amoblado_virtual,
+    calcular_valuacion_inmueble,
+    simular_metricas_inversion,
+)
+
+
+class GuiaVirtualViewSet(viewsets.ViewSet):
+    """
+    Controlador para la Guía Virtual con Voz Inteligente en Recorridos 3D.
+    Maneja la narración contextual por sala, Q&A interactivo y agendamiento 24/7.
+    """
+    permission_classes = [permissions.AllowAny]
+
+    @action(detail=False, methods=['post'], url_path='narrar')
+    def narrar(self, request):
+        serializer = GuiaVirtualNarracionSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        data = serializer.validated_data
+
+        try:
+            resultado = generar_narracion_espacial(
+                inmueble_id=data['inmueble_id'],
+                habitacion_nombre=data['habitacion'],
+                orientacion=data.get('orientacion')
+            )
+            return Response({"success": True, "data": resultado}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"success": False, "error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=False, methods=['post'], url_path='consultar')
+    def consultar(self, request):
+        serializer = GuiaVirtualConsultaSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        data = serializer.validated_data
+
+        try:
+            resultado = procesar_consulta_guia_virtual(
+                inmueble_id=data['inmueble_id'],
+                pregunta=data['pregunta'],
+                habitacion_actual=data.get('habitacion_actual', ''),
+                usuario=request.user if request.user.is_authenticated else None
+            )
+            return Response({"success": True, "data": resultado}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"success": False, "error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=False, methods=['post'], url_path='agendar', permission_classes=[permissions.IsAuthenticated])
+    def agendar(self, request):
+        serializer = GuiaVirtualAgendarSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        data = serializer.validated_data
+
+        try:
+            resultado = agendar_cita_desde_guia(
+                inmueble_id=data['inmueble_id'],
+                usuario=request.user,
+                fecha=data['fecha'].strftime('%Y-%m-%d'),
+                hora_inicio=data['hora_inicio'],
+                hora_fin=data.get('hora_fin'),
+                notas=data.get('notas', '')
+            )
+            return Response({"success": True, "data": resultado}, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            return Response({"success": False, "error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# 🏠 VIEWSETS: 2. AMOBLADO VIRTUAL CON IA (VIRTUAL STAGING)
+# ═════════════════════════════════════════════════════════════════════════════
+
+class AmobladoVirtualViewSet(viewsets.ModelViewSet):
+    """
+    CRUD y generador de versiones amobladas virtualmente con IA (Virtual Staging)
+    para fotos 2D y panoramas 360° en 4 estilos (Moderno, Minimalista, Ejecutivo, Boliviano).
+    """
+    queryset = AmobladoVirtual.objects.all().select_related('inmueble', 'multimedia_original')
+    serializer_class = AmobladoVirtualSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        inmueble_id = self.request.query_params.get('inmueble')
+        multimedia_id = self.request.query_params.get('multimedia')
+        estilo = self.request.query_params.get('estilo')
+        tipo = self.request.query_params.get('tipo')
+
+        if inmueble_id:
+            qs = qs.filter(inmueble_id=inmueble_id)
+        if multimedia_id:
+            qs = qs.filter(multimedia_original_id=multimedia_id)
+        if estilo:
+            qs = qs.filter(estilo=estilo)
+        if tipo:
+            qs = qs.filter(tipo=tipo)
+        return qs
+
+    @action(detail=False, methods=['post'], url_path='generar', permission_classes=[permissions.IsAuthenticated])
+    def generar(self, request):
+        serializer = GenerarAmobladoVirtualSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        data = serializer.validated_data
+
+        try:
+            resultado = generar_amoblado_virtual(
+                inmueble_id=data['inmueble_id'],
+                multimedia_id=data.get('multimedia_id'),
+                estilo=data.get('estilo', 'moderno'),
+                tipo=data.get('tipo', 'foto_2d')
+            )
+            return Response({"success": True, "data": resultado}, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            return Response({"success": False, "error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# 📊 VIEWSETS: 3. VALUACIÓN AUTOMÁTICA (AVM) Y SIMULADOR DE INVERSIÓN
+# ═════════════════════════════════════════════════════════════════════════════
+
+class ValuacionViewSet(viewsets.ViewSet):
+    """
+    Controlador para valuación automática (AVM) y simulador financiero de rentabilidad e inversión.
+    """
+    permission_classes = [permissions.AllowAny]
+
+    @action(detail=False, methods=['get'], url_path='por-inmueble')
+    def por_inmueble(self, request):
+        inmueble_id = request.query_params.get('inmueble_id')
+        if not inmueble_id:
+            return Response({"success": False, "error": "Parámetro inmueble_id es requerido."}, status=status.HTTP_400_BAD_REQUEST)
+
+        valuacion = ValuacionInmueble.objects.filter(inmueble_id=inmueble_id).first()
+        if not valuacion:
+            # Si no existe valuación previa, calcularla automáticamente
+            try:
+                data = calcular_valuacion_inmueble(int(inmueble_id))
+                return Response({"success": True, "data": data}, status=status.HTTP_200_OK)
+            except Exception as e:
+                return Response({"success": False, "error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = ValuacionInmuebleSerializer(valuacion)
+        return Response({"success": True, "data": serializer.data}, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['post'], url_path='calcular', permission_classes=[permissions.IsAuthenticated])
+    def calcular(self, request):
+        inmueble_id = request.data.get('inmueble_id')
+        if not inmueble_id:
+            return Response({"success": False, "error": "inmueble_id es requerido."}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            data = calcular_valuacion_inmueble(int(inmueble_id))
+            return Response({"success": True, "data": data}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"success": False, "error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=False, methods=['post'], url_path='simular')
+    def simular(self, request):
+        serializer = SimulacionInversionSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        data = serializer.validated_data
+
+        try:
+            resultado = simular_metricas_inversion(
+                inmueble_id=data.get('inmueble_id'),
+                precio_compra=data.get('precio_compra', 120000.0),
+                alquiler_mensual=data.get('alquiler_mensual', 850.0),
+                tasa_ocupacion=data.get('tasa_ocupacion', 95.0),
+                gastos_operativos_pct=data.get('gastos_operativos_pct', 10.0),
+                plusvalia_anual_pct=data.get('plusvalia_anual_pct', 3.5)
+            )
+            return Response({"success": True, "data": resultado}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"success": False, "error": str(e)}, status=status.HTTP_400_BAD_REQUEST)

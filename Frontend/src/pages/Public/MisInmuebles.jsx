@@ -24,6 +24,11 @@ import useAuth from '../../hooks/useAuth';
 import api from '../../services/api';
 import './Propiedades.css';
 import EditorRecorrido from '../../components/EditorRecorrido';
+import SimuladorInversion from '../../components/SimuladorInversion';
+import AntesDespuesSlider from '../../components/AntesDespuesSlider';
+import stagingService from '../../services/stagingService';
+import valuacionService from '../../services/valuacionService';
+import { Sparkles, DollarSign, Wand2 } from 'lucide-react';
 
 const LocationPicker = ({ position, setPosition }) => {
   useMapEvents({
@@ -105,6 +110,63 @@ const MisInmuebles = () => {
   const [verificacionData, setVerificacionData] = useState(null);
   const [archivoVerificacion, setArchivoVerificacion] = useState(null);
   const [verificando, setVerificando] = useState(false);
+
+  // ─── Estados para Valuación AVM e IA Staging ─────────────────────────
+  const [showValuacionModal, setShowValuacionModal] = useState(false);
+  const [inmuebleValuacion, setInmuebleValuacion] = useState(null);
+  const [showStagingModal, setShowStagingModal] = useState(false);
+  const [inmuebleStaging, setInmuebleStaging] = useState(null);
+  const [generandoStaging, setGenerandoStaging] = useState(false);
+  const [estiloStagingGenerar, setEstiloStagingGenerar] = useState('moderno');
+
+  const abrirValuacion = (inm) => {
+    setInmuebleValuacion(inm);
+    setShowValuacionModal(true);
+  };
+
+  const abrirStaging = (inm) => {
+    setInmuebleStaging(inm);
+    setShowStagingModal(true);
+  };
+
+  const ejecutarGenerarStaging = async () => {
+    if (!inmuebleStaging) return;
+    setGenerandoStaging(true);
+    try {
+      const res = await stagingService.generarAmoblado({
+        inmueble_id: inmuebleStaging.id,
+        estilo: estiloStagingGenerar,
+        tipo: 'foto_2d',
+      });
+      const nuevoAmoblado = res?.data || res;
+
+      setInmuebleStaging(prev => {
+        if (!prev) return prev;
+        const prevAmoblados = prev.amoblados_virtuales ? [...prev.amoblados_virtuales] : [];
+        const filtrados = prevAmoblados.filter(a => a.estilo !== estiloStagingGenerar);
+        return {
+          ...prev,
+          amoblados_virtuales: [...filtrados, nuevoAmoblado]
+        };
+      });
+
+      showAlert({
+        title: '¡Amoblado Virtual Generado!',
+        message: `El amoblado estilo "${estiloStagingGenerar}" ha sido generado exitosamente con Inteligencia Artificial.`,
+        status: 'success',
+      });
+      fetchData();
+    } catch (err) {
+      console.error(err);
+      showAlert({
+        title: 'Error de generación',
+        message: 'No se pudo generar el amoblado virtual en este momento. Inténtelo de nuevo.',
+        status: 'error',
+      });
+    } finally {
+      setGenerandoStaging(false);
+    }
+  };
 
   const DIAS_NOMBRES = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
 
@@ -930,6 +992,26 @@ const MisInmuebles = () => {
                                 <path d="M2 12h20" />
                               </svg>
                               <span>Recorrido 3D y Hotspots (IA)</span>
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => abrirValuacion(inm)}
+                              className="propiedad-card__admin-btn"
+                              style={{ color: '#d97706' }}
+                            >
+                              <DollarSign size={16} />
+                              <span>Valuador Inteligente (IA / AVM)</span>
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => abrirStaging(inm)}
+                              className="propiedad-card__admin-btn"
+                              style={{ color: '#8b5cf6' }}
+                            >
+                              <Wand2 size={16} />
+                              <span>Amoblado Virtual (IA Staging)</span>
                             </button>
 
                             <button
@@ -2388,6 +2470,179 @@ const MisInmuebles = () => {
           }}
         />
       )}
+
+      {/* ─── Modal: Valuador Inteligente (IA / AVM) ────────────────────── */}
+      {showValuacionModal && inmuebleValuacion && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
+          background: 'rgba(15, 23, 42, 0.75)', backdropFilter: 'blur(6px)', zIndex: 1002,
+          display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px',
+        }}>
+          <div style={{
+            background: 'var(--color-bg-card)', borderRadius: '20px', width: '100%', maxWidth: '980px',
+            maxHeight: '90vh', display: 'flex', flexDirection: 'column', overflow: 'hidden',
+            border: '1px solid var(--color-border)', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
+          }}>
+            <div style={{
+              padding: '20px 24px', borderBottom: '1px solid var(--color-border)',
+              display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+              background: 'var(--color-bg-secondary)'
+            }}>
+              <div>
+                <h2 style={{ margin: 0, fontSize: '1.25rem', color: 'var(--color-text)', fontWeight: 800, display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <Sparkles size={20} color="#f59e0b" />
+                  Valuación con IA & Recomendación de Precio
+                </h2>
+                <p style={{ margin: '4px 0 0', fontSize: '0.84rem', color: 'var(--color-text-secondary)' }}>
+                  Propiedad: <strong>{inmuebleValuacion.titulo}</strong>
+                </p>
+              </div>
+              <button
+                onClick={() => setShowValuacionModal(false)}
+                style={{ background: 'none', border: 'none', fontSize: '1.6rem', cursor: 'pointer', color: 'var(--color-text-secondary)', lineHeight: 1 }}
+              >
+                &times;
+              </button>
+            </div>
+
+            <div style={{ padding: '24px', overflowY: 'auto', flex: 1 }}>
+              <SimuladorInversion
+                inmuebleId={inmuebleValuacion.id}
+                precioReferencia={inmuebleValuacion.precio ? parseFloat(inmuebleValuacion.precio) : 120000}
+              />
+            </div>
+
+            <div style={{ padding: '14px 24px', borderTop: '1px solid var(--color-border)', background: 'var(--color-bg-secondary)', display: 'flex', justifyContent: 'flex-end' }}>
+              <button
+                onClick={() => setShowValuacionModal(false)}
+                style={{
+                  background: 'var(--color-primary)', color: '#fff', border: 'none',
+                  padding: '10px 24px', borderRadius: '10px', fontWeight: 600, cursor: 'pointer',
+                }}
+              >
+                Cerrar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ─── Modal: Amoblado Virtual (Virtual Staging) ─────────────────── */}
+      {showStagingModal && inmuebleStaging && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
+          background: 'rgba(15, 23, 42, 0.8)', backdropFilter: 'blur(8px)', zIndex: 1002,
+          display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px',
+        }}>
+          <div style={{
+            background: 'var(--color-bg-card)', borderRadius: '20px', width: '100%', maxWidth: '940px',
+            maxHeight: '92vh', display: 'flex', flexDirection: 'column', overflow: 'hidden',
+            border: '1px solid var(--color-border)', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.35)'
+          }}>
+            <div style={{
+              padding: '18px 24px', borderBottom: '1px solid var(--color-border)',
+              display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+              background: 'var(--color-bg-secondary)'
+            }}>
+              <div>
+                <h2 style={{ margin: 0, fontSize: '1.2rem', color: 'var(--color-text)', fontWeight: 800, display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <Wand2 size={20} color="#0ea5e9" />
+                  Estudio de Amoblado Virtual con IA (Virtual Staging)
+                </h2>
+                <p style={{ margin: '4px 0 0', fontSize: '0.84rem', color: 'var(--color-text-secondary)' }}>
+                  Genera amoblados fotorrealistas para maximizar el atractivo visual de <strong>{inmuebleStaging.titulo}</strong>
+                </p>
+              </div>
+              <button
+                onClick={() => setShowStagingModal(false)}
+                style={{ background: 'none', border: 'none', fontSize: '1.6rem', cursor: 'pointer', color: 'var(--color-text-secondary)', lineHeight: 1 }}
+              >
+                &times;
+              </button>
+            </div>
+
+            <div style={{
+              padding: '20px 24px',
+              overflowY: 'auto',
+              maxHeight: 'calc(92vh - 130px)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 18
+            }}>
+              {/* Barra de Generación Rápida */}
+              <div style={{
+                background: 'linear-gradient(135deg, rgba(14, 165, 233, 0.08) 0%, rgba(2, 132, 199, 0.12) 100%)',
+                padding: '16px 20px', borderRadius: '14px', border: '1px solid rgba(14, 165, 233, 0.25)',
+                display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12
+              }}>
+                <div>
+                  <h4 style={{ margin: '0 0 4px', fontSize: '0.95rem', fontWeight: 700, color: 'var(--color-text)' }}>
+                    Generar Nuevo Estilo con IA
+                  </h4>
+                  <p style={{ margin: 0, fontSize: '0.82rem', color: 'var(--color-text-secondary)' }}>
+                    Aplica algoritmos de diseño de interiores sobre la fotografía principal.
+                  </p>
+                </div>
+                <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+                  <select
+                    value={estiloStagingGenerar}
+                    onChange={(e) => setEstiloStagingGenerar(e.target.value)}
+                    style={{
+                      padding: '9px 14px', borderRadius: '8px', border: '1px solid var(--color-border)',
+                      background: 'var(--color-bg-card)', color: 'var(--color-text)', fontSize: '0.88rem', fontWeight: 600
+                    }}
+                  >
+                    <option value="moderno">Estilo Moderno</option>
+                    <option value="minimalista">Estilo Minimalista</option>
+                    <option value="ejecutivo">Estilo Ejecutivo</option>
+                    <option value="boliviano">Estilo Boliviano Contemporáneo</option>
+                  </select>
+                  <button
+                    onClick={ejecutarGenerarStaging}
+                    disabled={generandoStaging}
+                    style={{
+                      background: 'linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%)',
+                      color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '8px',
+                      fontWeight: 700, fontSize: '0.88rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 7,
+                      boxShadow: '0 4px 12px rgba(14, 165, 233, 0.35)',
+                      opacity: generandoStaging ? 0.7 : 1,
+                    }}
+                  >
+                    <Sparkles size={16} />
+                    {generandoStaging ? 'Diseñando con IA...' : 'Generar amoblado virtual con IA'}
+                  </button>
+                </div>
+              </div>
+
+              {/* Comparador Split-Screen */}
+              <AntesDespuesSlider
+                imagenOriginal={
+                  inmuebleStaging.multimedia?.find(m => m.principal)?.archivo ||
+                  inmuebleStaging.multimedia?.[0]?.archivo ||
+                  'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80'
+                }
+                amoblados={inmuebleStaging.amoblados_virtuales || []}
+                estiloInicial={estiloStagingGenerar}
+                onSelectEstilo={(estilo) => setEstiloStagingGenerar(estilo)}
+              />
+            </div>
+
+            <div style={{ padding: '12px 24px', borderTop: '1px solid var(--color-border)', background: 'var(--color-bg-secondary)', display: 'flex', justifyContent: 'flex-end' }}>
+              <button
+                onClick={() => setShowStagingModal(false)}
+                style={{
+                  background: 'var(--color-primary, #0ea5e9)', color: '#fff', border: 'none',
+                  padding: '9px 24px', borderRadius: '10px', fontWeight: 600, cursor: 'pointer',
+                  fontSize: '0.9rem',
+                }}
+              >
+                Cerrar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {ModalComponent}
     </div>
   );

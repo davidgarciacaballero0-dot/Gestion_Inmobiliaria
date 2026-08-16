@@ -5,8 +5,8 @@ import {
 } from 'recharts';
 import reportesService from '../../services/reportesService';
 import FiltroReportes from '../../components/FiltroReportes';
-
-import { Clock, TrendingUp, Wallet, ArrowDownRight, Activity, Download, FileSpreadsheet, FileText, PieChart as PieChartIcon } from 'lucide-react';
+import SimuladorInversion from '../../components/SimuladorInversion';
+import { Clock, TrendingUp, Wallet, ArrowDownRight, Activity, Download, FileSpreadsheet, FileText, PieChart as PieChartIcon, Sparkles } from 'lucide-react';
 import html2pdf from 'html2pdf.js';
 import * as XLSX from 'xlsx';
 import '../Admin/Finanzas.css';
@@ -431,6 +431,21 @@ const FinanzasPropietario = () => {
                   No se registraron movimientos en el periodo seleccionado.
                 </div>
               )}
+            </div>
+
+            {/* ─── Herramienta de Proyección & Valuador AVM para Propietarios ─── */}
+            <div className="no-print" style={{
+              background: 'var(--color-bg-card)',
+              borderRadius: '16px',
+              padding: '24px',
+              border: '1px solid var(--color-border)',
+              boxShadow: 'var(--shadow-sm)',
+              marginTop: '24px'
+            }}>
+              <SimuladorInversion
+                inmuebleId={filtros.inmueble_id ? Number(filtros.inmueble_id) : null}
+                precioReferencia={reportData?.kpis?.ingreso_bruto ? reportData.kpis.ingreso_bruto * 10 : 120000}
+              />
             </div>
 
           </>
