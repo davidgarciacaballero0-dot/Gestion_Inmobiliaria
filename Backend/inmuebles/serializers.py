@@ -125,10 +125,12 @@ class InmuebleSerializer(serializers.ModelSerializer):
 
 
 class InmuebleListSerializer(serializers.ModelSerializer):
-    """Serializer ligero para listados."""
+    """Serializer ligero para listados con multimedia y soporte de amoblado."""
     tipo_nombre = serializers.CharField(source='tipo.nombre', read_only=True)
     is_favorito = serializers.SerializerMethodField()
     imagen_principal = serializers.SerializerMethodField()
+    multimedia = MultimediaSerializer(many=True, read_only=True)
+    amoblados_virtuales = AmobladoVirtualSerializer(many=True, read_only=True)
     direccion = DireccionSerializer(read_only=True)
     precio = serializers.SerializerMethodField(read_only=True)
     tipo_oferta = serializers.SerializerMethodField(read_only=True)
@@ -139,8 +141,8 @@ class InmuebleListSerializer(serializers.ModelSerializer):
         model = Inmueble
         fields = [
             'id', 'titulo', 'tipo_nombre', 'direccion',
-            'precio', 'tipo_oferta', 'estado', 'habitaciones', 'banos',
-            'imagen_principal', 'creado', 'is_favorito',
+            'precio', 'tipo_oferta', 'estado', 'habitaciones', 'banos', 'garaje',
+            'imagen_principal', 'multimedia', 'amoblados_virtuales', 'creado', 'is_favorito',
             'largo', 'ancho', 'superficie',
             'verificacion_estado', 'verificacion_score'
         ]
@@ -335,14 +337,18 @@ class GuiaVirtualAgendarSerializer(serializers.Serializer):
     notas = serializers.CharField(required=False, allow_blank=True, default='')
 
 
-# ─── 2. Serializers para Amoblado Virtual con IA (Virtual Staging) ────────────
+# ─── 2. Serializers para Amoblado Virtual con IA (Virtual Staging / Diseñador) ─
 
 
 class GenerarAmobladoVirtualSerializer(serializers.Serializer):
     inmueble_id = serializers.IntegerField(required=True)
     multimedia_id = serializers.IntegerField(required=False, allow_null=True)
-    estilo = serializers.ChoiceField(choices=AmobladoVirtual.EstiloStaging.choices, default=AmobladoVirtual.EstiloStaging.MODERNO)
-    tipo = serializers.ChoiceField(choices=AmobladoVirtual.TipoMultimedia.choices, default=AmobladoVirtual.TipoMultimedia.FOTO_2D)
+    estilo = serializers.CharField(required=False, allow_blank=True, default='moderno')
+    ambiente = serializers.CharField(required=False, allow_blank=True, default='sala')
+    prompt = serializers.CharField(required=False, allow_blank=True, default='')
+    tipo = serializers.CharField(required=False, allow_blank=True, default='foto_2d')
+    imagen = serializers.FileField(required=False, allow_null=True)
+    guardar_en_inmueble = serializers.BooleanField(required=False, default=False)
 
 
 # ─── 3. Serializers para Valuación Automática y Simulador Financiero ──────────

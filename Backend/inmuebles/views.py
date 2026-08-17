@@ -203,6 +203,18 @@ class MultimediaViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(media)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+    @action(detail=True, methods=['patch'], url_path='asignar-ambiente', permission_classes=[permissions.IsAuthenticated])
+    def asignar_ambiente(self, request, pk=None):
+        """Asigna o actualiza la habitación/ambiente al que corresponde una foto existente."""
+        media = self.get_object()
+        if media.inmueble.propietario != request.user and not (request.user.is_staff or getattr(request.user, 'rol', '') == 'admin'):
+            return Response({"success": False, "error": "No tienes autorización para clasificar fotos de este inmueble."}, status=status.HTTP_403_FORBIDDEN)
+        
+        ambiente = request.data.get('ambiente', '').strip()
+        media.descripcion = ambiente
+        media.save(update_fields=['descripcion'])
+        return Response({"success": True, "data": self.get_serializer(media).data})
+
 
 class HotspotViewSet(viewsets.ModelViewSet):
     """CRUD para puntos de transición (hotspots) entre panoramas."""
@@ -1481,18 +1493,29 @@ class AmobladoVirtualViewSet(viewsets.ModelViewSet):
             qs = qs.filter(tipo=tipo)
         return qs
 
-    @action(detail=False, methods=['post'], url_path='generar', permission_classes=[permissions.IsAuthenticated])
+    @action(
+        detail=False,
+        methods=['post'],
+        url_path='generar',
+        permission_classes=[permissions.AllowAny],
+        parser_classes=[MultiPartParser, FormParser, JSONParser]
+    )
     def generar(self, request):
         serializer = GenerarAmobladoVirtualSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
 
         try:
+            imagen_archivo = request.FILES.get('imagen') or data.get('imagen')
             resultado = generar_amoblado_virtual(
                 inmueble_id=data['inmueble_id'],
                 multimedia_id=data.get('multimedia_id'),
                 estilo=data.get('estilo', 'moderno'),
-                tipo=data.get('tipo', 'foto_2d')
+                ambiente=data.get('ambiente', 'sala'),
+                prompt=data.get('prompt', ''),
+                tipo=data.get('tipo', 'foto_2d'),
+                imagen=imagen_archivo,
+                guardar_en_inmueble=data.get('guardar_en_inmueble', False)
             )
             return Response({"success": True, "data": resultado}, status=status.HTTP_201_CREATED)
         except Exception as e:

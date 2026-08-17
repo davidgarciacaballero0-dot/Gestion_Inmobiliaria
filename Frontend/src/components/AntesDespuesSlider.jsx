@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
-import { Sparkles, MoveHorizontal, Info, Layers } from 'lucide-react';
+import { Sparkles, MoveHorizontal, Info, Layers, Layout, Briefcase, Map, Maximize } from 'lucide-react';
 import './AntesDespuesSlider.css';
 
 /**
@@ -25,21 +25,25 @@ const AntesDespuesSlider = ({
   const ESTILOS_INFO = {
     moderno: {
       nombre: 'Moderno',
+      icon: Layout,
       descripcion: 'Mobiliario vanguardista de líneas limpias, sofá modular en lino gris, mesa de vidrio templado e iluminación ambiental LED.',
       imgDefault: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1600&q=80',
     },
     minimalista: {
       nombre: 'Minimalista',
+      icon: Maximize,
       descripcion: 'Espacios despejados con paleta neutra en blanco nórdico y madera roble. Muebles suspendidos y ausencia de saturación visual.',
       imgDefault: 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=1600&q=80',
     },
     ejecutivo: {
       nombre: 'Ejecutivo',
+      icon: Briefcase,
       descripcion: 'Escritorio de madera nogal con acabados en bronce cepillado, sillón ergonómico de cuero genuino y biblioteca empotrada.',
       imgDefault: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1600&q=80',
     },
     boliviano: {
       nombre: 'Boliviano',
+      icon: Map,
       descripcion: 'Diseño contemporáneo con madera Mara tallada a mano, sutiles textiles andinos en lana de alpaca y cerámica artesanal chiquitana.',
       imgDefault: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1600&q=80',
     },
@@ -47,7 +51,7 @@ const AntesDespuesSlider = ({
 
   // Determinar la imagen amoblada correspondiente al estilo seleccionado
   const amobladoEncontrado = amoblados.find((a) => a.estilo === estiloActivo);
-  const imagenAmobladaActual = amobladoEncontrado?.imagen_amoblada || ESTILOS_INFO[estiloActivo]?.imgDefault;
+  const imagenAmobladaActual = amobladoEncontrado?.imagen_amoblada || imagenOriginal;
   const descripcionActual = amobladoEncontrado?.descripcion_estilo || ESTILOS_INFO[estiloActivo]?.descripcion;
 
   // Manejador del arrastre del slider
@@ -62,37 +66,25 @@ const AntesDespuesSlider = ({
   }, []);
 
   const handlePointerDown = () => setIsDragging(true);
+  const handlePointerUp = () => setIsDragging(false);
 
   useEffect(() => {
-    const handlePointerMove = (e) => {
-      if (!isDragging) return;
-      handleMove(e.clientX || (e.touches && e.touches[0]?.clientX));
-    };
-
-    const handlePointerUp = () => {
-      if (isDragging) setIsDragging(false);
-    };
-
-    if (isDragging) {
-      window.addEventListener('pointermove', handlePointerMove);
-      window.addEventListener('pointerup', handlePointerUp);
-      window.addEventListener('touchmove', handlePointerMove);
-      window.addEventListener('touchend', handlePointerUp);
-    }
-
+    window.addEventListener('pointerup', handlePointerUp);
+    window.addEventListener('pointermove', (e) => isDragging && handleMove(e.clientX));
     return () => {
-      window.removeEventListener('pointermove', handlePointerMove);
       window.removeEventListener('pointerup', handlePointerUp);
-      window.removeEventListener('touchmove', handlePointerMove);
-      window.removeEventListener('touchend', handlePointerUp);
+      window.removeEventListener('pointermove', (e) => isDragging && handleMove(e.clientX));
     };
   }, [isDragging, handleMove]);
 
+  // Si amoblados cambia y no hay amobladoEncontrado para el estilo activo, 
+  // pero sí hay uno recién generado, autoseleccionar el último
   useEffect(() => {
-    if (estiloInicial) {
-      setEstiloActivo(estiloInicial);
+    if (amoblados.length > 0) {
+      const ultimo = amoblados[amoblados.length - 1];
+      setEstiloActivo(ultimo.estilo);
     }
-  }, [estiloInicial]);
+  }, [amoblados]);
 
   const handleEstiloChange = (estiloKey) => {
     setEstiloActivo(estiloKey);
@@ -109,15 +101,19 @@ const AntesDespuesSlider = ({
           <Sparkles size={14} style={{ display: 'inline', marginRight: 4, color: '#0ea5e9' }} />
           Estilo de Amoblado:
         </span>
-        {Object.entries(ESTILOS_INFO).map(([key, info]) => (
-          <button
-            key={key}
-            className={`staging-style-btn ${estiloActivo === key ? 'active' : ''}`}
-            onClick={() => handleEstiloChange(key)}
-          >
-            {info.nombre}
-          </button>
-        ))}
+        {Object.entries(ESTILOS_INFO).map(([key, info]) => {
+          const Icon = info.icon;
+          return (
+            <button
+              key={key}
+              className={`staging-style-btn ${estiloActivo === key ? 'active' : ''}`}
+              onClick={() => handleEstiloChange(key)}
+            >
+              <Icon size={14} style={{ marginRight: 6 }} />
+              {info.nombre}
+            </button>
+          );
+        })}
       </div>
 
       {/* Canvas de Comparación Split-Screen */}

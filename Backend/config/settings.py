@@ -107,17 +107,22 @@ if db_url and (db_url.startswith('postgres://') or db_url.startswith('postgresql
         }
     }
 else:
+    db_host = os.getenv('DB_HOST', 'localhost')
+    db_options = {}
+    if not db_host.startswith('/cloudsql') and (os.getenv('DB_ENGINE') or '').endswith('postgresql'):
+        sslmode = os.getenv('DB_SSLMODE')
+        if sslmode:
+            db_options['sslmode'] = sslmode
+
     DATABASES = {
         'default': {
             'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.postgresql'),
             'NAME': os.getenv('DB_NAME', 'inmobiliaria_db'),
             'USER': os.getenv('DB_USER', 'postgres'),
             'PASSWORD': os.getenv('DB_PASSWORD', ''),
-            'HOST': os.getenv('DB_HOST', 'localhost'),
+            'HOST': db_host,
             'PORT': os.getenv('DB_PORT', '5432'),
-            'OPTIONS': {
-                'sslmode': os.getenv('DB_SSLMODE', 'require'),
-            } if (os.getenv('DB_ENGINE') or '').endswith('postgresql') else {}
+            'OPTIONS': db_options,
         }
     }
 
@@ -199,6 +204,9 @@ LOCAL_AI_MODEL = os.getenv('LOCAL_AI_MODEL', 'meta-llama-3.1-8b-instruct')
 BLOCKCHAIN_GATEWAY_URL = os.getenv('BLOCKCHAIN_GATEWAY_URL', 'http://localhost:4000')
 if BLOCKCHAIN_GATEWAY_URL and not BLOCKCHAIN_GATEWAY_URL.endswith('/api/blockchain'):
     BLOCKCHAIN_GATEWAY_URL = BLOCKCHAIN_GATEWAY_URL.rstrip('/') + '/api/blockchain'
+
+# ─── Google Gemini AI Studio (Virtual Staging & Diseñador de Interiores con IA) ───
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY', '').strip()
 
 
 

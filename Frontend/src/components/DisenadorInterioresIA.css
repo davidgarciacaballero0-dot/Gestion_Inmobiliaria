@@ -1,0 +1,736 @@
+/* ═════════════════════════════════════════════════════════════════════════════
+   🏛️ ESTILOS: DISEÑADOR DE INTERIORES & AMOBLADO VIRTUAL IA
+   ═════════════════════════════════════════════════════════════════════════════ */
+
+.disenador-ia-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  font-family: inherit;
+}
+
+/* ─── Encabezado ─────────────────────────────────────────────────────────── */
+.disenador-ia-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.disenador-ia-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--color-text);
+  letter-spacing: -0.01em;
+}
+
+.disenador-ia-subtitle {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--color-text-secondary);
+  line-height: 1.45;
+}
+
+/* ─── Secciones ──────────────────────────────────────────────────────────── */
+.disenador-ia-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.disenador-ia-section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+/* ─── 1. Selector de Ambientes / Habitaciones ────────────────────────────── */
+.disenador-ia-ambientes-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.disenador-ia-ambiente-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-card);
+  color: var(--color-text);
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.disenador-ia-ambiente-btn:hover {
+  background: var(--color-bg-hover, rgba(14, 165, 233, 0.06));
+  border-color: #0ea5e9;
+  transform: translateY(-1px);
+}
+
+.disenador-ia-ambiente-btn.active {
+  background: #0ea5e9;
+  color: #ffffff;
+  border-color: #0ea5e9;
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+}
+
+.disenador-ia-ambiente-icon {
+  font-size: 1rem;
+}
+
+.disenador-ia-ambiente-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.08);
+  color: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 10px;
+  margin-left: 2px;
+}
+
+.disenador-ia-ambiente-btn.active .disenador-ia-ambiente-count {
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+.disenador-ia-empty-rooms {
+  padding: 16px;
+  background: var(--color-bg-secondary, #f8fafc);
+  border: 1px dashed var(--color-border);
+  border-radius: 10px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+}
+
+/* ─── 2. Selector de Fotos y Subida ──────────────────────────────────────── */
+.disenador-ia-fotos-container {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  align-items: center;
+  scrollbar-width: thin;
+}
+
+.disenador-ia-upload-card {
+  flex-shrink: 0;
+  width: 145px;
+  height: 105px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.disenador-ia-upload-btn {
+  width: 100%;
+  height: 100%;
+  border: 2px dashed #0ea5e9;
+  background: rgba(14, 165, 233, 0.04);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  color: #0ea5e9;
+  font-weight: 700;
+  font-size: 0.78rem;
+  padding: 8px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.disenador-ia-upload-btn:hover {
+  background: rgba(14, 165, 233, 0.1);
+  transform: scale(1.02);
+}
+
+.disenador-ia-upload-btn small {
+  font-size: 0.68rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.disenador-ia-uploaded-preview {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid #0ea5e9;
+  box-shadow: 0 4px 10px rgba(14, 165, 233, 0.25);
+}
+
+.disenador-ia-uploaded-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.disenador-ia-uploaded-tag {
+  position: absolute;
+  bottom: 4px;
+  left: 4px;
+  background: rgba(14, 165, 233, 0.9);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.disenador-ia-remove-upload-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: rgba(239, 68, 68, 0.85);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.disenador-ia-remove-upload-btn:hover {
+  background: #ef4444;
+  transform: scale(1.1);
+}
+
+.disenador-ia-foto-item {
+  position: relative;
+  flex-shrink: 0;
+  width: 145px;
+  height: 105px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid var(--color-border);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: var(--color-bg-card);
+}
+
+.disenador-ia-foto-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.disenador-ia-foto-item:hover {
+  border-color: #0ea5e9;
+  transform: translateY(-2px);
+}
+
+.disenador-ia-foto-item.selected {
+  border-color: #0ea5e9;
+  box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.35);
+}
+
+.disenador-ia-foto-check {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: #0ea5e9;
+  color: #fff;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.disenador-ia-foto-tag {
+  position: absolute;
+  bottom: 4px;
+  left: 4px;
+  background: rgba(15, 23, 42, 0.78);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  max-width: 90%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.disenador-ia-foto-tag.sin-tag {
+  background: rgba(100, 116, 139, 0.85);
+}
+
+.disenador-ia-tag-btn {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  background: rgba(15, 23, 42, 0.75);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  padding: 3px 6px;
+  font-size: 0.68rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  transition: all 0.2s ease;
+}
+
+.disenador-ia-tag-btn:hover {
+  background: #0ea5e9;
+  border-color: #0ea5e9;
+}
+
+.disenador-ia-tag-menu {
+  position: absolute;
+  top: 30px;
+  left: 6px;
+  background: var(--color-bg-card, #ffffff);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-lg, 0 10px 25px rgba(0, 0, 0, 0.15));
+  border-radius: 8px;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 100;
+  min-width: 140px;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.disenador-ia-tag-menu-title {
+  font-size: 0.70rem;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  padding: 2px 6px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.disenador-ia-tag-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  padding: 5px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s ease;
+}
+
+.disenador-ia-tag-menu-item:hover {
+  background: rgba(14, 165, 233, 0.1);
+  color: #0ea5e9;
+}
+
+.disenador-ia-no-photos-box {
+  padding: 18px 24px;
+  background: var(--color-bg-secondary, #f8fafc);
+  border: 1px dashed var(--color-border);
+  border-radius: 10px;
+  font-size: 0.82rem;
+  color: var(--color-text-secondary);
+  text-align: center;
+  width: 100%;
+}
+
+.disenador-ia-checkbox-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: var(--color-text);
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 4px;
+}
+
+.disenador-ia-checkbox-wrapper input {
+  accent-color: #0ea5e9;
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
+
+/* ─── 3. Prompt Card y Controles ─────────────────────────────────────────── */
+.disenador-ia-prompt-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: all 0.2s ease;
+}
+
+.disenador-ia-prompt-card:focus-within {
+  border-color: #0ea5e9;
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.12);
+}
+
+.disenador-ia-textarea {
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: var(--color-text);
+  font-size: 0.90rem;
+  font-family: inherit;
+  resize: none;
+  outline: none;
+  line-height: 1.45;
+}
+
+.disenador-ia-textarea::placeholder {
+  color: var(--color-text-secondary);
+  opacity: 0.8;
+}
+
+.disenador-ia-prompt-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  border-top: 1px solid var(--color-border);
+  padding-top: 10px;
+  flex-wrap: wrap;
+}
+
+.disenador-ia-voice-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-secondary, #f8fafc);
+  color: var(--color-text);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.disenador-ia-voice-btn:hover {
+  background: rgba(14, 165, 233, 0.08);
+  border-color: #0ea5e9;
+  color: #0284c7;
+}
+
+.disenador-ia-voice-btn.recording {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: #ef4444;
+  color: #ef4444;
+  animation: pulse-red 1.5s infinite;
+}
+
+.disenador-ia-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 18px;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  color: #ffffff;
+  font-size: 0.86rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.35);
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.disenador-ia-submit-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(14, 165, 233, 0.45);
+}
+
+.disenador-ia-submit-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.disenador-ia-voice-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  color: #b91c1c;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.disenador-ia-voice-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ef4444;
+  animation: blink 1s infinite;
+}
+
+/* ─── 4. Sugerencias Rápidas ─────────────────────────────────────────────── */
+.disenador-ia-sugerencias-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.disenador-ia-chips-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.disenador-ia-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-card);
+  color: var(--color-text);
+  font-size: 0.80rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.disenador-ia-chip:hover {
+  border-color: #0ea5e9;
+  background: rgba(14, 165, 233, 0.06);
+}
+
+.disenador-ia-chip.active {
+  background: rgba(14, 165, 233, 0.12);
+  border-color: #0ea5e9;
+  color: #0284c7;
+  font-weight: 700;
+}
+
+/* ─── Alertas ────────────────────────────────────────────────────────────── */
+.disenador-ia-alert {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+
+.disenador-ia-alert.success {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #059669;
+}
+
+.disenador-ia-alert.error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #dc2626;
+}
+
+/* ─── Ficha de Desglose de Interiorismo ──────────────────────────────────── */
+.disenador-ia-breakdown-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: var(--shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.05));
+}
+
+.disenador-ia-breakdown-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #0ea5e9;
+}
+
+.disenador-ia-breakdown-header h4 {
+  margin: 0;
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.disenador-ia-breakdown-desc {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.disenador-ia-palette-group,
+.disenador-ia-furniture-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.disenador-ia-group-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.disenador-ia-palette-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.disenador-ia-swatch {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  background: var(--color-bg-secondary, #f8fafc);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+}
+
+.disenador-ia-swatch-box {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.disenador-ia-swatch-code {
+  font-size: 0.75rem;
+  font-family: monospace;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.disenador-ia-furniture-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.disenador-ia-furniture-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  background: var(--color-bg-secondary, #f8fafc);
+  border: 1px solid var(--color-border);
+  font-size: 0.80rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.disenador-ia-furniture-tag svg {
+  color: #0ea5e9;
+}
+
+.disenador-ia-advice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+@media (max-width: 600px) {
+  .disenador-ia-advice-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.disenador-ia-advice-item {
+  display: flex;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--color-bg-secondary, #f8fafc);
+  border: 1px solid var(--color-border);
+  font-size: 0.80rem;
+  color: var(--color-text-secondary);
+}
+
+.disenador-ia-advice-item.tip {
+  border-left: 3px solid #0ea5e9;
+}
+
+.disenador-ia-advice-item strong {
+  display: block;
+  font-size: 0.82rem;
+  color: var(--color-text);
+  margin-bottom: 2px;
+}
+
+.disenador-ia-advice-item p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.disenador-ia-advice-item svg {
+  flex-shrink: 0;
+  color: #0ea5e9;
+  margin-top: 2px;
+}
+
+/* ─── Animaciones ────────────────────────────────────────────────────────── */
+.spin-icon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse-red {
+  0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+  70% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}

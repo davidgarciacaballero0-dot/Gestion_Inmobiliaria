@@ -374,7 +374,7 @@ class ResenaViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_permissions(self):
-        if self.action in ['list', 'retrieve']:
+        if self.action in ['list', 'retrieve', 'promedio']:
             return [permissions.AllowAny()]
         return [permissions.IsAuthenticated()]
 

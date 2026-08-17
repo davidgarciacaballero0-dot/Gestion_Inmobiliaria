@@ -1,32 +1,33 @@
-/* AntesDespuesSlider.css — Estilos para el slider interactivo Split-Screen de Virtual Staging */
+/* ═════════════════════════════════════════════════════════════════════════════
+   🏛️ ESTILOS: SLIDER COMPARADOR ANTES / DESPUÉS (SPLIT-SCREEN)
+   ═════════════════════════════════════════════════════════════════════════════ */
 
 .staging-slider-wrapper {
   position: relative;
   width: 100%;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
-  background: #0f172a;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--color-bg-card, #ffffff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  box-shadow: var(--shadow-sm, 0 2px 8px rgba(0, 0, 0, 0.06));
   user-select: none;
 }
 
-/* Selector de Estilos Superior */
+/* ─── Selector de Estilos Superior ───────────────────────────────────────── */
 .staging-style-selector {
   display: flex;
   align-items: center;
   gap: 8px;
   padding: 12px 16px;
-  background: rgba(15, 23, 42, 0.9);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--color-bg-secondary, #f8fafc);
+  border-bottom: 1px solid var(--color-border, #e2e8f0);
   flex-wrap: wrap;
 }
 
 .staging-style-title {
-  font-size: 0.84rem;
+  font-size: 0.82rem;
   font-weight: 700;
-  color: #94a3b8;
+  color: var(--color-text-secondary, #64748b);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-right: 4px;
@@ -35,39 +36,40 @@
 .staging-style-btn {
   padding: 6px 14px;
   border-radius: 9999px;
-  font-size: 0.82rem;
+  font-size: 0.80rem;
   font-weight: 600;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  background: rgba(255, 255, 255, 0.05);
-  color: #cbd5e1;
+  border: 1px solid var(--color-border, #e2e8f0);
+  background: var(--color-bg-card, #ffffff);
+  color: var(--color-text, #1e293b);
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   gap: 6px;
+  font-family: inherit;
 }
 
 .staging-style-btn:hover {
-  background: rgba(14, 165, 233, 0.15);
-  color: #ffffff;
-  border-color: rgba(14, 165, 233, 0.4);
+  background: rgba(14, 165, 233, 0.08);
+  color: #0284c7;
+  border-color: #0ea5e9;
 }
 
 .staging-style-btn.active {
   background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
   color: #ffffff;
   border-color: transparent;
-  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.45);
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.35);
 }
 
-/* Contenedor del Canvas de Comparación */
+/* ─── Canvas de Comparación ──────────────────────────────────────────────── */
 .staging-canvas-container {
   position: relative;
   width: 100%;
-  height: clamp(280px, 48vh, 460px);
+  height: clamp(280px, 46vh, 440px);
   overflow: hidden;
   cursor: ew-resize;
-  background: #020617;
+  background: #0f172a;
 }
 
 .staging-image-base,
@@ -81,7 +83,7 @@
   pointer-events: none;
 }
 
-/* Manija y Línea Divisoria */
+/* ─── Manija y Línea Divisoria ───────────────────────────────────────────── */
 .staging-divider-line {
   position: absolute;
   top: 0;
@@ -99,15 +101,15 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 42px;
-  height: 42px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background: #ffffff;
   color: #0284c7;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), 0 0 0 2px rgba(14, 165, 233, 0.6);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35), 0 0 0 2px rgba(14, 165, 233, 0.6);
   cursor: grab;
   pointer-events: auto;
   transition: transform 0.15s ease;
@@ -118,61 +120,59 @@
   transform: translate(-50%, -50%) scale(1.1);
 }
 
-/* Badges flotantes "Antes" y "Después" */
+/* ─── Badges Flotantes "Antes" y "Después" ────────────────────────────────── */
 .staging-badge {
   position: absolute;
-  top: 16px;
-  padding: 6px 14px;
+  top: 14px;
+  padding: 5px 12px;
   border-radius: 20px;
-  font-size: 0.76rem;
+  font-size: 0.74rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   backdrop-filter: blur(8px);
   z-index: 5;
   pointer-events: none;
 }
 
 .staging-badge.antes {
-  left: 16px;
-  background: rgba(15, 23, 42, 0.8);
+  left: 14px;
+  background: rgba(15, 23, 42, 0.85);
   color: #f1f5f9;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .staging-badge.despues {
-  right: 16px;
-  background: rgba(14, 165, 233, 0.9);
+  right: 14px;
+  background: rgba(14, 165, 233, 0.92);
   color: #ffffff;
   border: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 0 4px 14px rgba(14, 165, 233, 0.5);
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.45);
 }
 
-/* Pie Informativo de Estilo */
+/* ─── Pie Informativo de Estilo ─────────────────────────────────────────── */
 .staging-info-footer {
-  padding: 14px 18px;
-  background: rgba(15, 23, 42, 0.95);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 12px 16px;
+  background: var(--color-bg-secondary, #f8fafc);
+  border-top: 1px solid var(--color-border, #e2e8f0);
   display: flex;
   align-items: flex-start;
-  gap: 12px;
+  gap: 10px;
 }
 
 .staging-info-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  background: rgba(14, 165, 233, 0.15);
-  color: #38bdf8;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   flex-shrink: 0;
+  color: #0ea5e9;
+  margin-top: 2px;
 }
 
 .staging-info-text {
-  font-size: 0.85rem;
-  color: #cbd5e1;
-  line-height: 1.45;
   margin: 0;
+  font-size: 0.84rem;
+  color: var(--color-text-secondary, #475569);
+  line-height: 1.45;
+}
+
+.staging-info-text strong {
+  color: var(--color-text, #0f172a);
 }

@@ -1350,66 +1350,266 @@ def agendar_cita_desde_guia(inmueble_id: int, usuario, fecha: str, hora_inicio: 
 
 
 # ═════════════════════════════════════════════════════════════════════════════
-# 🏠 2. SERVICIOS DE AMOBLADO VIRTUAL CON IA (VIRTUAL STAGING 360° Y 2D)
+# 🏠 2. SERVICIOS DE AMOBLADO VIRTUAL CON IA (VIRTUAL STAGING / DISEÑADOR IA)
 # ═════════════════════════════════════════════════════════════════════════════
 
-def generar_amoblado_virtual(inmueble_id: int, multimedia_id: int = None, estilo: str = 'moderno', tipo: str = 'foto_2d') -> dict:
+def generar_amoblado_virtual(
+    inmueble_id: int,
+    multimedia_id: int = None,
+    estilo: str = 'moderno',
+    ambiente: str = 'sala',
+    prompt: str = '',
+    tipo: str = 'foto_2d',
+    imagen = None,
+    guardar_en_inmueble: bool = False
+) -> dict:
     """
-    Genera una versión amoblada virtualmente con IA para una foto 2D o panorama 360°
-    de un inmueble, con soporte para 4 estilos (Moderno, Minimalista, Ejecutivo, Boliviano).
+    Genera una propuesta arquitectónica y versión amoblada virtualmente con IA
+    (Google Gemini AI Studio) para fotos 2D o 360°, adaptada al ambiente seleccionado
+    (Sala, Dormitorio, Cocina, Oficina, Baño, Terraza, etc.).
+    Permite además subir nuevas fotografías para probar remodelaciones antes de publicar.
     """
+    import os
+    import json
+    import requests
+    from django.conf import settings
     from .models import Inmueble, Multimedia, AmobladoVirtual
-    
+
     inmueble = Inmueble.objects.get(id=inmueble_id)
     multimedia_obj = Multimedia.objects.filter(id=multimedia_id, inmueble=inmueble).first() if multimedia_id else None
+    url_subida = None
 
-    # Presets curados de staging fotorrealista de alta resolución por estilo
-    STAGING_PRESETS = {
-        'moderno': {
-            'foto_2d': 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1600&q=80',
+    # Procesar archivo subido directamente si existe
+    if imagen:
+        try:
+            import cloudinary
+            import cloudinary.uploader
+            cloudinary.config(
+                cloud_name=os.getenv('CLOUDINARY_CLOUD_NAME', 'dwerzrgya'),
+                api_key=os.getenv('CLOUDINARY_API_KEY', '581815563668339'),
+                api_secret=os.getenv('CLOUDINARY_API_SECRET', '47K8oE_3q3Y_iG14N495T4xJz1w')
+            )
+            upload_data = cloudinary.uploader.upload(imagen, folder="inmuebles/staging")
+            url_subida = upload_data.get('secure_url') or upload_data.get('url')
+
+            if guardar_en_inmueble and url_subida:
+                multimedia_obj = Multimedia.objects.create(
+                    inmueble=inmueble,
+                    tipo=Multimedia.TipoArchivo.IMAGEN,
+                    archivo=url_subida,
+                    descripcion=f"Ambiente: {ambiente.capitalize()}"
+                )
+        except Exception as err:
+            print(f"[Cloudinary Staging Upload Error]: {err}")
+
+    # Catálogo curado de visuales fotorrealistas de alta fidelidad organizadas por ambiente y estilo
+    CATALOGO_AMBIENTES = {
+        'sala': {
+            'moderno': 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1600&q=80',
+            'minimalista': 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=1600&q=80',
+            'ejecutivo': 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1600&q=80',
+            'boliviano': 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1600&q=80',
+            'nordico': 'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=1600&q=80',
+            'industrial': 'https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=1600&q=80',
+            'japandi': 'https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=1600&q=80',
             'panorama360': 'https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=2000&q=80',
-            'descripcion': 'Estilo Moderno: Sofá modular tapizado en lino gris, mesa de centro en vidrio templado con estructura de acero negro mate, lámpara de arco LED regulable y vegetación interior Monstera Deliciosa.'
         },
-        'minimalista': {
-            'foto_2d': 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=1600&q=80',
-            'panorama360': 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=2000&q=80',
-            'descripcion': 'Estilo Minimalista: Paleta cromática en blanco nórdico y roble natural. Mobiliario suspendido de líneas puras, iluminación difusa indirecta y ausencia total de saturación visual.'
-        },
-        'ejecutivo': {
-            'foto_2d': 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1600&q=80',
+        'dormitorio': {
+            'moderno': 'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=1600&q=80',
+            'minimalista': 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1600&q=80',
+            'ejecutivo': 'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=1600&q=80',
+            'boliviano': 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=1600&q=80',
+            'nordico': 'https://images.unsplash.com/photo-1540518614846-7ede433c4ef7?auto=format&fit=crop&w=1600&q=80',
+            'industrial': 'https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=1600&q=80',
+            'japandi': 'https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=1600&q=80',
             'panorama360': 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2000&q=80',
-            'descripcion': 'Estilo Ejecutivo: Escritorio ergonómico de madera nogal con pasacables ocultos, sillón de cuero genuino capitoné, biblioteca empotrada con iluminación cálida focalizada y acabados en bronce cepillado.'
         },
-        'boliviano': {
-            'foto_2d': 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1600&q=80',
+        'cocina': {
+            'moderno': 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=1600&q=80',
+            'minimalista': 'https://images.unsplash.com/photo-1556909212-d5b604d0c90d?auto=format&fit=crop&w=1600&q=80',
+            'ejecutivo': 'https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=1600&q=80',
+            'boliviano': 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1600&q=80',
+            'nordico': 'https://images.unsplash.com/photo-1556912172-45b7abe8b7e1?auto=format&fit=crop&w=1600&q=80',
+            'industrial': 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=1600&q=80',
+            'japandi': 'https://images.unsplash.com/photo-1556909212-d5b604d0c90d?auto=format&fit=crop&w=1600&q=80',
             'panorama360': 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2000&q=80',
-            'descripcion': 'Estilo Boliviano Contemporáneo: Mobiliario artesanal en madera Mara tallada con acabados naturales, tapicería con sutiles acentos textiles andinos contemporáneos en lana de alpaca, jarrones de cerámica chiquitana y plantas autóctonas.'
-        }
+        },
+        'oficina': {
+            'moderno': 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1600&q=80',
+            'minimalista': 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=1600&q=80',
+            'ejecutivo': 'https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=1600&q=80',
+            'boliviano': 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1600&q=80',
+            'nordico': 'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=1600&q=80',
+            'industrial': 'https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=1600&q=80',
+            'japandi': 'https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=1600&q=80',
+            'panorama360': 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2000&q=80',
+        },
+        'bano': {
+            'moderno': 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1600&q=80',
+            'minimalista': 'https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=1600&q=80',
+            'ejecutivo': 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80',
+            'boliviano': 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1600&q=80',
+            'nordico': 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1600&q=80',
+            'industrial': 'https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=1600&q=80',
+            'japandi': 'https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=1600&q=80',
+            'panorama360': 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2000&q=80',
+        },
+        'terraza': {
+            'moderno': 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=80',
+            'minimalista': 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1600&q=80',
+            'ejecutivo': 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80',
+            'boliviano': 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1600&q=80',
+            'nordico': 'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=1600&q=80',
+            'industrial': 'https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=1600&q=80',
+            'japandi': 'https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=1600&q=80',
+            'panorama360': 'https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=2000&q=80',
+        },
     }
 
-    preset = STAGING_PRESETS.get(estilo, STAGING_PRESETS['moderno'])
-    url_amoblada = preset['panorama360'] if tipo == 'panorama360' or (multimedia_obj and multimedia_obj.tipo == 'panorama360') else preset['foto_2d']
-    descripcion = preset['descripcion']
+    # Normalizar ambiente y estilo
+    ambiente_norm = (ambiente or 'sala').lower()
+    if ambiente_norm not in CATALOGO_AMBIENTES:
+        ambiente_norm = 'sala'
+
+    prompt_normalizado = (prompt or estilo or '').lower()
+    estilo_clave = 'moderno'
+    if any(w in prompt_normalizado for w in ['nordic', 'nórdic', 'escandinav', 'hygge']):
+        estilo_clave = 'nordico'
+    elif any(w in prompt_normalizado for w in ['minimal', 'zen', 'despejad', 'neutro']):
+        estilo_clave = 'minimalista'
+    elif any(w in prompt_normalizado for w in ['ejecutiv', 'oficina', 'escritorio', 'estudio', 'cuero']):
+        estilo_clave = 'ejecutivo'
+    elif any(w in prompt_normalizado for w in ['bolivia', 'rústic', 'rustico', 'mara', 'andino', 'artesanal']):
+        estilo_clave = 'boliviano'
+    elif any(w in prompt_normalizado for w in ['industria', 'loft', 'ladrillo', 'concreto', 'hierro']):
+        estilo_clave = 'industrial'
+    elif any(w in prompt_normalizado for w in ['japandi', 'bambu', 'wabi']):
+        estilo_clave = 'japandi'
+    elif estilo in CATALOGO_AMBIENTES[ambiente_norm]:
+        estilo_clave = estilo
+
+    catalogo_ambiente = CATALOGO_AMBIENTES[ambiente_norm]
+    
+    if url_subida:
+        url_amoblada = url_subida
+    elif multimedia_obj and multimedia_obj.archivo:
+        url_amoblada = multimedia_obj.archivo
+    else:
+        if tipo == 'panorama360' or (multimedia_obj and multimedia_obj.tipo == 'panorama360'):
+            url_amoblada = catalogo_ambiente.get('panorama360', catalogo_ambiente['moderno'])
+        else:
+            url_amoblada = catalogo_ambiente.get(estilo_clave, catalogo_ambiente['moderno'])
+
+    descripcion_diseno = f"Diseño de {ambiente_norm.capitalize()} en estilo {estilo_clave.capitalize()} con distribución espacial armónica y fotorrealista."
+    detalle_diseno = {
+        'estilo_nombre': f"{estilo_clave.capitalize()} ({ambiente_norm.capitalize()})",
+        'ambiente': ambiente_norm.capitalize(),
+        'descripcion': descripcion_diseno,
+        'mobiliario_principal': [f'Mobiliario especializado para {ambiente_norm}', 'Iluminación ambiental cálida', 'Elementos arquitectónicos decorativos'],
+        'paleta_colores': ['#F4F1EA', '#D4AF37', '#2C3E50', '#8E9A9D'],
+        'iluminacion': 'Esquema de luz ambiental regulable 2700K y acentos decorativos.',
+        'sugerencia_decorativa': f'Optimiza el potencial del {ambiente_norm} para maximizar el atractivo y valor de la propiedad.'
+    }
+
+    # ─── Consulta a Google Gemini AI Studio ─────────────────────────────────
+    gemini_key = getattr(settings, 'GEMINI_API_KEY', '').strip()
+    
+    if gemini_key:
+        instruccion_usuario = prompt if prompt.strip() else f"Aplica un diseño de interiores fotorrealista en estilo {estilo_clave.capitalize()} para el ambiente {ambiente_norm}."
+        
+        # 1. Intentar generación visual directa (Modelos de Imagen Gemini / Nano Banana)
+        modelos_imagen = ['gemini-3.1-flash-lite-image', 'gemini-3.1-flash-image']
+        for mod_img in modelos_imagen:
+            try:
+                url_img_api = f'https://generativelanguage.googleapis.com/v1beta/models/{mod_img}:generateContent?key={gemini_key}'
+                payload_img = {
+                    'contents': [{'parts': [{'text': f"Photorealistic interior design remodel of {ambiente_norm}: {instruccion_usuario}. Highly detailed, 8k resolution."}]}],
+                    'generationConfig': {'responseModalities': ['IMAGE', 'TEXT']}
+                }
+                resp_img = requests.post(url_img_api, json=payload_img, timeout=15)
+                if resp_img.status_code == 200:
+                    data_img = resp_img.json()
+                    parts = data_img.get('candidates', [{}])[0].get('content', {}).get('parts', [])
+                    for part in parts:
+                        if 'inlineData' in part:
+                            mime = part['inlineData'].get('mimeType', 'image/png')
+                            b64 = part['inlineData'].get('data', '')
+                            if b64:
+                                url_amoblada = f"data:{mime};base64,{b64}"
+                                break
+                    if url_amoblada.startswith('data:image'):
+                        break
+            except Exception as ex_img:
+                print(f"[Gemini Image Generator] Error con modelo de imagen {mod_img}: {ex_img}")
+
+        # 2. Análisis Arquitectónico y Estilístico (Modelo Multimodal de Texto)
+        prompt_sistema = (
+            f"Eres un Arquitecto Diseñador de Interiores de élite especializado en Virtual Staging inmobiliario de alta gama.\n"
+            f"Inmueble: {inmueble.titulo} en {getattr(inmueble.direccion, 'ciudad', 'Bolivia')}, tipo {getattr(inmueble.tipo, 'nombre', 'Residencial')}.\n"
+            f"Ambiente arquitectónico a amoblar/remodelar: {ambiente_norm.upper()}.\n"
+            f"Instrucción del usuario (recibida por texto o dictado por voz):\n"
+            f"\"{instruccion_usuario}\"\n\n"
+            f"Genera una propuesta de interiorismo profesional, formal y fotorrealista adaptada exactamente a este ambiente ({ambiente_norm}). Responde estrictamente en formato JSON con la siguiente estructura:\n"
+            f"{{\n"
+            f"  \"estilo_nombre\": \"Nombre formal del estilo arquitectónico (ej. Moderno Contemporáneo)\",\n"
+            f"  \"ambiente\": \"{ambiente_norm.capitalize()}\",\n"
+            f"  \"descripcion\": \"Descripción arquitectónica profesional del amoblado, distribución y materiales para este {ambiente_norm} (máximo 3 oraciones)\",\n"
+            f"  \"mobiliario_principal\": [\"Mueble 1 clave con materiales\", \"Mueble 2\", \"Mueble 3\"],\n"
+            f"  \"paleta_colores\": [\"#HEX1\", \"#HEX2\", \"#HEX3\", \"#HEX4\"],\n"
+            f"  \"iluminacion\": \"Esquema lumínico especializado para este espacio\",\n"
+            f"  \"sugerencia_decorativa\": \"Tip arquitectónico de valorización inmobiliaria\"\n"
+            f"}}"
+        )
+
+        modelos_a_intentar = ['gemini-3.1-flash-lite', 'gemini-3-flash-preview', 'gemini-flash-latest']
+        for modelo in modelos_a_intentar:
+            try:
+                url_api = f'https://generativelanguage.googleapis.com/v1beta/models/{modelo}:generateContent?key={gemini_key}'
+                payload = {
+                    'contents': [{'parts': [{'text': prompt_sistema}]}],
+                    'generationConfig': {
+                        'responseMimeType': 'application/json',
+                        'temperature': 0.7,
+                    }
+                }
+                resp = requests.post(url_api, json=payload, timeout=12)
+                if resp.status_code == 200:
+                    data_json = resp.json()
+                    texto_ia = data_json['candidates'][0]['content']['parts'][0]['text']
+                    parsed = json.loads(texto_ia)
+                    if isinstance(parsed, dict) and 'descripcion' in parsed:
+                        detalle_diseno.update(parsed)
+                        descripcion_diseno = f"{parsed.get('estilo_nombre', estilo_clave.capitalize())}: {parsed['descripcion']}"
+                        break
+            except Exception as ex:
+                print(f"[Gemini Staging] Error con modelo {modelo}: {ex}")
+                continue
 
     # Guardar en base de datos
+    estilo_para_guardar = estilo_clave if estilo_clave in [c[0] for c in AmobladoVirtual.EstiloStaging.choices] else 'moderno'
     amoblado = AmobladoVirtual.objects.create(
         inmueble=inmueble,
         multimedia_original=multimedia_obj,
-        estilo=estilo,
+        estilo=estilo_para_guardar,
         imagen_amoblada=url_amoblada,
-        descripcion_estilo=descripcion,
+        descripcion_estilo=descripcion_diseno,
         tipo=AmobladoVirtual.TipoMultimedia.PANORAMA360 if (tipo == 'panorama360' or (multimedia_obj and multimedia_obj.tipo == 'panorama360')) else AmobladoVirtual.TipoMultimedia.FOTO_2D
     )
+
+    imagen_orig_url = multimedia_obj.archivo if multimedia_obj else url_subida
 
     return {
         "id": amoblado.id,
         "inmueble_id": inmueble.id,
         "multimedia_original_id": multimedia_obj.id if multimedia_obj else None,
-        "imagen_original": multimedia_obj.archivo if multimedia_obj else None,
+        "imagen_original": imagen_orig_url,
+        "ambiente": ambiente_norm,
         "estilo": amoblado.estilo,
-        "estilo_label": amoblado.get_estilo_display(),
+        "estilo_label": detalle_diseno.get('estilo_nombre', amoblado.get_estilo_display()),
         "imagen_amoblada": amoblado.imagen_amoblada,
         "descripcion_estilo": amoblado.descripcion_estilo,
+        "detalle_diseno": detalle_diseno,
+        "prompt_utilizado": prompt,
         "tipo": amoblado.tipo,
         "creado": amoblado.creado.isoformat()
     }

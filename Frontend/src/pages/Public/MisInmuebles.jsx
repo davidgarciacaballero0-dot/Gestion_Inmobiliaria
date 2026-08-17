@@ -26,6 +26,7 @@ import './Propiedades.css';
 import EditorRecorrido from '../../components/EditorRecorrido';
 import SimuladorInversion from '../../components/SimuladorInversion';
 import AntesDespuesSlider from '../../components/AntesDespuesSlider';
+import DisenadorInterioresIA from '../../components/DisenadorInterioresIA';
 import stagingService from '../../services/stagingService';
 import valuacionService from '../../services/valuacionService';
 import { Sparkles, DollarSign, Wand2 } from 'lucide-react';
@@ -111,36 +112,52 @@ const MisInmuebles = () => {
   const [archivoVerificacion, setArchivoVerificacion] = useState(null);
   const [verificando, setVerificando] = useState(false);
 
-  // ─── Estados para Valuación AVM e IA Staging ─────────────────────────
-  const [showValuacionModal, setShowValuacionModal] = useState(false);
-  const [inmuebleValuacion, setInmuebleValuacion] = useState(null);
-  const [showStagingModal, setShowStagingModal] = useState(false);
-  const [inmuebleStaging, setInmuebleStaging] = useState(null);
+  // ─── Estados para Panel Lateral Integrado (Valuador IA y Amoblado IA) ───
+  const [panelLateral, setPanelLateral] = useState(null); // 'valuacion' | 'staging' | null
+  const [inmuebleSeleccionadoPanel, setInmuebleSeleccionadoPanel] = useState(null);
   const [generandoStaging, setGenerandoStaging] = useState(false);
   const [estiloStagingGenerar, setEstiloStagingGenerar] = useState('moderno');
 
   const abrirValuacion = (inm) => {
-    setInmuebleValuacion(inm);
-    setShowValuacionModal(true);
+    if (panelLateral === 'valuacion' && inmuebleSeleccionadoPanel?.id === inm.id) {
+      setPanelLateral(null);
+      setInmuebleSeleccionadoPanel(null);
+    } else {
+      setInmuebleSeleccionadoPanel(inm);
+      setPanelLateral('valuacion');
+    }
   };
 
-  const abrirStaging = (inm) => {
-    setInmuebleStaging(inm);
-    setShowStagingModal(true);
+  const abrirStaging = async (inm) => {
+    if (panelLateral === 'staging' && inmuebleSeleccionadoPanel?.id === inm.id) {
+      setPanelLateral(null);
+      setInmuebleSeleccionadoPanel(null);
+    } else {
+      setInmuebleSeleccionadoPanel(inm);
+      setPanelLateral('staging');
+      try {
+        const res = await api.get(`/inmuebles/lista/${inm.id}/`);
+        if (res.data) {
+          setInmuebleSeleccionadoPanel(res.data);
+        }
+      } catch (e) {
+        console.warn("Could not fetch detailed property for staging:", e);
+      }
+    }
   };
 
   const ejecutarGenerarStaging = async () => {
-    if (!inmuebleStaging) return;
+    if (!inmuebleSeleccionadoPanel) return;
     setGenerandoStaging(true);
     try {
       const res = await stagingService.generarAmoblado({
-        inmueble_id: inmuebleStaging.id,
+        inmueble_id: inmuebleSeleccionadoPanel.id,
         estilo: estiloStagingGenerar,
         tipo: 'foto_2d',
       });
       const nuevoAmoblado = res?.data || res;
 
-      setInmuebleStaging(prev => {
+      setInmuebleSeleccionadoPanel(prev => {
         if (!prev) return prev;
         const prevAmoblados = prev.amoblados_virtuales ? [...prev.amoblados_virtuales] : [];
         const filtrados = prevAmoblados.filter(a => a.estilo !== estiloStagingGenerar);
@@ -833,224 +850,380 @@ const MisInmuebles = () => {
               </button>
             </div>
           ) : (
-            <div className="propiedades-grid">
-              {inmuebles.map(inm => {
-                const estadoStyle = estadoColors[inm.estado] || estadoColors.disponible;
-                return (
-                  <div key={inm.id} className="propiedad-card">
-                    <div className="propiedad-card__image" style={{ height: '200px', position: 'relative' }}>
-                      {inm.imagen_principal ? (
-                        <img src={inm.imagen_principal} alt={inm.titulo} />
-                      ) : (
-                        <div className="propiedad-card__placeholder">
-                          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>
-                        </div>
-                      )}
-                      <div style={{ position: 'absolute', top: '10px', left: '10px', display: 'flex', flexDirection: 'column', gap: '6px', zIndex: 2 }}>
-                        <span className="propiedad-card__badge" style={{ background: estadoStyle.bg, color: estadoStyle.color, position: 'static' }}>
-                          {inm.estado}
-                        </span>
-                        {inm.verificacion_estado && (
-                          <span
-                            className="propiedad-card__badge"
-                            style={{
-                              background: inm.verificacion_estado === 'verificado' ? '#dcfce7' :
-                                inm.verificacion_estado === 'observado' ? '#fef3c7' : '#fee2e2',
-                              color: inm.verificacion_estado === 'verificado' ? '#15803d' :
-                                inm.verificacion_estado === 'observado' ? '#d97706' : '#dc2626',
-                              position: 'static',
-                              display: 'inline-flex',
-                              alignItems: 'center',
-                              gap: '4px',
-                              fontWeight: 700
-                            }}
-                          >
-                            {inm.verificacion_estado === 'verificado' ? '✓ Título Ok' :
-                              inm.verificacion_estado === 'observado' ? '⚠ Obs. Título' : '✗ Inválido'}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                    <div className="propiedad-card__body">
-                      <h3 className="propiedad-card__title">{inm.titulo}</h3>
-                      <p className="propiedad-card__location">{inm.ciudad}{inm.zona ? `, ${inm.zona}` : ''}</p>
+            <div style={{
+              display: 'flex',
+              gap: '24px',
+              alignItems: 'flex-start',
+              flexDirection: 'row',
+              width: '100%',
+            }}>
+              {/* COLUMNA IZQUIERDA: Grid o Lista de Inmuebles */}
+              <div style={{
+                flex: panelLateral ? '0 0 360px' : '1',
+                maxWidth: panelLateral ? '380px' : '100%',
+                width: panelLateral ? '360px' : '100%',
+                transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+              }}>
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: panelLateral ? '1fr' : 'repeat(auto-fill, minmax(280px, 1fr))',
+                  gap: '24px'
+                }}>
+                  {inmuebles.map(inm => {
+                    const estadoStyle = estadoColors[inm.estado] || estadoColors.disponible;
+                    const isValuacionActive = panelLateral === 'valuacion' && inmuebleSeleccionadoPanel?.id === inm.id;
+                    const isStagingActive = panelLateral === 'staging' && inmuebleSeleccionadoPanel?.id === inm.id;
 
-                      <div style={{ marginTop: '16px', borderTop: '1px solid var(--color-border)', paddingTop: '16px' }}>
-                        <div style={{ marginBottom: '12px' }}>
-                          <span className="propiedad-card__price" style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--color-primary)' }}>
-                            {inm.precio ? (
-                              <>{`Bs. ${parseFloat(inm.precio).toLocaleString()}`}
-                                {inm.tipo_oferta === 'alquiler' && <small style={{ fontSize: '0.75rem', fontWeight: 'normal', marginLeft: '4px' }}>/mes</small>}
-                                {inm.tipo_oferta === 'anticretico' && <small style={{ fontSize: '0.75rem', fontWeight: 'normal', marginLeft: '4px' }}>(Anticrético)</small>}
-                              </>
-                            ) : (
-                              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', color: '#f59e0b', fontWeight: 600, background: '#fef3c7', padding: '4px 10px', borderRadius: '20px', border: '1px solid #fde68a' }}>
-                                <AlertCircle size={13} /> Sin publicación activa
+                    return (
+                      <div
+                        key={inm.id}
+                        className="propiedad-card"
+                        style={{
+                          border: (isValuacionActive || isStagingActive) ? '2px solid var(--color-primary, #0ea5e9)' : '1px solid var(--color-border)',
+                          boxShadow: (isValuacionActive || isStagingActive) ? '0 10px 25px -5px rgba(14, 165, 233, 0.25)' : undefined
+                        }}
+                      >
+                        <div className="propiedad-card__image" style={{ height: '200px', position: 'relative' }}>
+                          {inm.imagen_principal ? (
+                            <img src={inm.imagen_principal} alt={inm.titulo} />
+                          ) : (
+                            <div className="propiedad-card__placeholder">
+                              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>
+                            </div>
+                          )}
+                          <div style={{ position: 'absolute', top: '10px', left: '10px', display: 'flex', flexDirection: 'column', gap: '6px', zIndex: 2 }}>
+                            <span className="propiedad-card__badge" style={{ background: estadoStyle.bg, color: estadoStyle.color, position: 'static' }}>
+                              {inm.estado}
+                            </span>
+                            {inm.verificacion_estado && (
+                              <span
+                                className="propiedad-card__badge"
+                                style={{
+                                  background: inm.verificacion_estado === 'verificado' ? '#dcfce7' :
+                                    inm.verificacion_estado === 'observado' ? '#fef3c7' : '#fee2e2',
+                                  color: inm.verificacion_estado === 'verificado' ? '#15803d' :
+                                    inm.verificacion_estado === 'observado' ? '#d97706' : '#dc2626',
+                                  position: 'static',
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  gap: '4px',
+                                  fontWeight: 700
+                                }}
+                              >
+                                {inm.verificacion_estado === 'verificado' ? '✓ Título Ok' :
+                                  inm.verificacion_estado === 'observado' ? '⚠ Obs. Título' : '✗ Inválido'}
                               </span>
                             )}
-                          </span>
-                        </div>
-
-                        {/* Botones principales de la tarjeta */}
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '8px' }}>
-                          <Link
-                            to={`/propiedades/${inm.id}`}
-                            className="propiedad-card__cta"
-                            style={{ flex: 1, textAlign: 'center', padding: '8px 12px', fontSize: '0.85rem' }}
-                          >
-                            Ver Detalles
-                          </Link>
-
-                          <button
-                            type="button"
-                            className={`propiedad-card__admin-toggle ${expandedCardId === inm.id ? 'propiedad-card__admin-toggle--active' : ''}`}
-                            onClick={() => setExpandedCardId(expandedCardId === inm.id ? null : inm.id)}
-                            style={{
-                              display: 'inline-flex',
-                              alignItems: 'center',
-                              gap: '6px',
-                              padding: '8px 14px',
-                              background: 'var(--color-bg-card)',
-                              border: '1px solid var(--color-border)',
-                              borderRadius: '8px',
-                              fontWeight: 600,
-                              fontSize: '0.85rem',
-                              color: 'var(--color-text)',
-                              cursor: 'pointer',
-                              transition: 'all var(--transition-fast)'
-                            }}
-                          >
-                            <Settings size={16} />
-                            <span>Gestionar</span>
-                            {expandedCardId === inm.id ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
-                          </button>
-                        </div>
-
-                        {/* PANEL DE DESGLOSE ADMINISTRATIVO (COLLAPSIBLE) */}
-                        {expandedCardId === inm.id && (
-                          <div className="propiedad-card__admin-pane" style={{
-                            marginTop: '12px',
-                            background: 'var(--color-bg-secondary)',
-                            borderRadius: '8px',
-                            padding: '12px',
-                            border: '1px solid var(--color-border)',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: '8px',
-                            animation: 'slideDown var(--transition-fast) ease-out'
-                          }}>
-                            <span style={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '4px' }}>
-                              Acciones de Administración
-                            </span>
-
-                            <button
-                              type="button"
-                              onClick={() => abrirPublicaciones(inm.id)}
-                              className="propiedad-card__admin-btn"
-                              style={{ color: '#10b981' }}
-                            >
-                              <Tag size={16} />
-                              <span>Publicar / Ofertas</span>
-                            </button>
-
-                            <button
-                              type="button"
-                              onClick={() => abrirVerificacion(inm.id)}
-                              className="propiedad-card__admin-btn"
-                              style={{
-                                color: inm.verificacion_estado === 'verificado' ? '#10b981' :
-                                  inm.verificacion_estado === 'observado' ? '#eab308' :
-                                    inm.verificacion_estado === 'rechazado' ? '#ef4444' : 'var(--color-text-secondary)'
-                              }}
-                            >
-                              {inm.verificacion_estado === 'verificado' ? <ShieldCheck size={16} /> : <FileText size={16} />}
-                              <span>Análisis Legal de Título (IA)</span>
-                            </button>
-
-                            <button
-                              type="button"
-                              onClick={() => abrirHorarios(inm.id)}
-                              className="propiedad-card__admin-btn"
-                              style={{ color: '#0ea5e9' }}
-                            >
-                              <Clock size={16} />
-                              <span>Gestionar Horarios de Visita</span>
-                            </button>
-
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setEditorInmueble(inm);
-                                setShowEditorRecorrido(true);
-                              }}
-                              className="propiedad-card__admin-btn"
-                              style={{ color: '#6366f1' }}
-                            >
-                              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <circle cx="12" cy="12" r="10" />
-                                <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
-                                <path d="M2 12h20" />
-                              </svg>
-                              <span>Recorrido 3D y Hotspots (IA)</span>
-                            </button>
-
-                            <button
-                              type="button"
-                              onClick={() => abrirValuacion(inm)}
-                              className="propiedad-card__admin-btn"
-                              style={{ color: '#d97706' }}
-                            >
-                              <DollarSign size={16} />
-                              <span>Valuador Inteligente (IA / AVM)</span>
-                            </button>
-
-                            <button
-                              type="button"
-                              onClick={() => abrirStaging(inm)}
-                              className="propiedad-card__admin-btn"
-                              style={{ color: '#8b5cf6' }}
-                            >
-                              <Wand2 size={16} />
-                              <span>Amoblado Virtual (IA Staging)</span>
-                            </button>
-
-                            <button
-                              type="button"
-                              onClick={() => handleEdit(inm)}
-                              className="propiedad-card__admin-btn"
-                              style={{ color: 'var(--color-text-secondary)' }}
-                            >
-                              <Edit3 size={16} />
-                              <span>Editar Información Ficha</span>
-                            </button>
-
-                            <button
-                              type="button"
-                              onClick={() => handleToggleVisibilidad(inm)}
-                              className="propiedad-card__admin-btn"
-                              style={{ color: inm.estado === 'oculto' ? 'var(--color-primary)' : 'var(--color-text-secondary)' }}
-                            >
-                              {inm.estado === 'oculto' ? <Eye size={16} /> : <EyeOff size={16} />}
-                              <span>{inm.estado === 'oculto' ? 'Publicar Inmueble' : 'Ocultar Inmueble'}</span>
-                            </button>
-
-                            <div style={{ borderTop: '1px solid var(--color-border)', margin: '4px 0' }}></div>
-
-                            <button
-                              type="button"
-                              onClick={() => handleDelete(inm.id)}
-                              className="propiedad-card__admin-btn propiedad-card__admin-btn--danger"
-                            >
-                              <Trash2 size={16} />
-                              <span>Eliminar Publicación</span>
-                            </button>
                           </div>
+                        </div>
+                        <div className="propiedad-card__body">
+                          <h3 className="propiedad-card__title">{inm.titulo}</h3>
+                          <p className="propiedad-card__location">{inm.ciudad}{inm.zona ? `, ${inm.zona}` : ''}</p>
+
+                          <div style={{ marginTop: '16px', borderTop: '1px solid var(--color-border)', paddingTop: '16px' }}>
+                            <div style={{ marginBottom: '12px' }}>
+                              <span className="propiedad-card__price" style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--color-primary)' }}>
+                                {inm.precio ? (
+                                  <>{`Bs. ${parseFloat(inm.precio).toLocaleString()}`}
+                                    {inm.tipo_oferta === 'alquiler' && <small style={{ fontSize: '0.75rem', fontWeight: 'normal', marginLeft: '4px' }}>/mes</small>}
+                                    {inm.tipo_oferta === 'anticretico' && <small style={{ fontSize: '0.75rem', fontWeight: 'normal', marginLeft: '4px' }}>(Anticrético)</small>}
+                                  </>
+                                ) : (
+                                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', color: '#f59e0b', fontWeight: 600, background: '#fef3c7', padding: '4px 10px', borderRadius: '20px', border: '1px solid #fde68a' }}>
+                                    <AlertCircle size={13} /> Sin publicación activa
+                                  </span>
+                                )}
+                              </span>
+                            </div>
+
+                            {/* Botones principales de la tarjeta */}
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '8px' }}>
+                              <Link
+                                to={`/propiedades/${inm.id}`}
+                                className="propiedad-card__cta"
+                                style={{ flex: 1, textAlign: 'center', padding: '8px 12px', fontSize: '0.85rem' }}
+                              >
+                                Ver Detalles
+                              </Link>
+
+                              <button
+                                type="button"
+                                className={`propiedad-card__admin-toggle ${expandedCardId === inm.id ? 'propiedad-card__admin-toggle--active' : ''}`}
+                                onClick={() => setExpandedCardId(expandedCardId === inm.id ? null : inm.id)}
+                                style={{
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  gap: '6px',
+                                  padding: '8px 14px',
+                                  background: 'var(--color-bg-card)',
+                                  border: '1px solid var(--color-border)',
+                                  borderRadius: '8px',
+                                  fontWeight: 600,
+                                  fontSize: '0.85rem',
+                                  color: 'var(--color-text)',
+                                  cursor: 'pointer',
+                                  transition: 'all var(--transition-fast)'
+                                }}
+                              >
+                                <Settings size={16} />
+                                <span>Gestionar</span>
+                                {expandedCardId === inm.id ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                              </button>
+                            </div>
+
+                            {/* PANEL DE DESGLOSE ADMINISTRATIVO (COLLAPSIBLE) */}
+                            {expandedCardId === inm.id && (
+                              <div className="propiedad-card__admin-pane" style={{
+                                marginTop: '12px',
+                                background: 'var(--color-bg-secondary)',
+                                borderRadius: '8px',
+                                padding: '12px',
+                                border: '1px solid var(--color-border)',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: '8px',
+                                animation: 'slideDown var(--transition-fast) ease-out'
+                              }}>
+                                <span style={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '4px' }}>
+                                  Acciones de Administración
+                                </span>
+
+                                <button
+                                  type="button"
+                                  onClick={() => abrirPublicaciones(inm.id)}
+                                  className="propiedad-card__admin-btn"
+                                  style={{ color: '#10b981' }}
+                                >
+                                  <Tag size={16} />
+                                  <span>Publicar / Ofertas</span>
+                                </button>
+
+                                <button
+                                  type="button"
+                                  onClick={() => abrirVerificacion(inm.id)}
+                                  className="propiedad-card__admin-btn"
+                                  style={{
+                                    color: inm.verificacion_estado === 'verificado' ? '#10b981' :
+                                      inm.verificacion_estado === 'observado' ? '#eab308' :
+                                        inm.verificacion_estado === 'rechazado' ? '#ef4444' : 'var(--color-text-secondary)'
+                                  }}
+                                >
+                                  {inm.verificacion_estado === 'verificado' ? <ShieldCheck size={16} /> : <FileText size={16} />}
+                                  <span>Análisis Legal de Título (IA)</span>
+                                </button>
+
+                                <button
+                                  type="button"
+                                  onClick={() => abrirHorarios(inm.id)}
+                                  className="propiedad-card__admin-btn"
+                                  style={{ color: '#0ea5e9' }}
+                                >
+                                  <Clock size={16} />
+                                  <span>Gestionar Horarios de Visita</span>
+                                </button>
+
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setEditorInmueble(inm);
+                                    setShowEditorRecorrido(true);
+                                  }}
+                                  className="propiedad-card__admin-btn"
+                                  style={{ color: '#6366f1' }}
+                                >
+                                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+                                    <path d="M2 12h20" />
+                                  </svg>
+                                  <span>Recorrido 3D y Hotspots (IA)</span>
+                                </button>
+
+                                <button
+                                  type="button"
+                                  onClick={() => abrirValuacion(inm)}
+                                  className="propiedad-card__admin-btn"
+                                  style={{
+                                    color: '#0ea5e9',
+                                    background: isValuacionActive ? 'rgba(14, 165, 233, 0.12)' : 'var(--color-bg-card)',
+                                    borderColor: isValuacionActive ? '#0ea5e9' : 'var(--color-border)',
+                                    fontWeight: isValuacionActive ? 700 : 600
+                                  }}
+                                >
+                                  <DollarSign size={16} />
+                                  <span>Valuador Inteligente IA</span>
+                                </button>
+
+                                <button
+                                  type="button"
+                                  onClick={() => abrirStaging(inm)}
+                                  className="propiedad-card__admin-btn"
+                                  style={{
+                                    color: '#0ea5e9',
+                                    background: isStagingActive ? 'rgba(14, 165, 233, 0.12)' : 'var(--color-bg-card)',
+                                    borderColor: isStagingActive ? '#0ea5e9' : 'var(--color-border)',
+                                    fontWeight: isStagingActive ? 700 : 600
+                                  }}
+                                >
+                                  <Wand2 size={16} />
+                                  <span>Amoblado Virtual IA</span>
+                                </button>
+
+                                <button
+                                  type="button"
+                                  onClick={() => handleEdit(inm)}
+                                  className="propiedad-card__admin-btn"
+                                  style={{ color: 'var(--color-text-secondary)' }}
+                                >
+                                  <Edit3 size={16} />
+                                  <span>Editar Información Ficha</span>
+                                </button>
+
+                                <button
+                                  type="button"
+                                  onClick={() => handleToggleVisibilidad(inm)}
+                                  className="propiedad-card__admin-btn"
+                                  style={{ color: inm.estado === 'oculto' ? 'var(--color-primary)' : 'var(--color-text-secondary)' }}
+                                >
+                                  {inm.estado === 'oculto' ? <Eye size={16} /> : <EyeOff size={16} />}
+                                  <span>{inm.estado === 'oculto' ? 'Publicar Inmueble' : 'Ocultar Inmueble'}</span>
+                                </button>
+
+                                <div style={{ borderTop: '1px solid var(--color-border)', margin: '4px 0' }}></div>
+
+                                <button
+                                  type="button"
+                                  onClick={() => handleDelete(inm.id)}
+                                  className="propiedad-card__admin-btn propiedad-card__admin-btn--danger"
+                                >
+                                  <Trash2 size={16} />
+                                  <span>Eliminar Publicación</span>
+                                </button>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* COLUMNA DERECHA: PANEL LATERAL INTEGRADO EN LA PÁGINA */}
+              {panelLateral && inmuebleSeleccionadoPanel && (
+                <div style={{
+                  flex: '1 1 650px',
+                  minWidth: '340px',
+                  background: 'var(--color-bg-card)',
+                  borderRadius: '20px',
+                  border: '1px solid var(--color-border)',
+                  boxShadow: 'var(--shadow-md)',
+                  padding: '24px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '20px',
+                  position: 'sticky',
+                  top: '90px',
+                  maxHeight: 'calc(100vh - 110px)',
+                  overflowY: 'auto',
+                  animation: 'fadeIn 0.25s ease-out'
+                }}>
+                  {/* Header del Panel */}
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'flex-start',
+                    borderBottom: '1px solid var(--color-border)',
+                    paddingBottom: '16px'
+                  }}>
+                    <div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        {panelLateral === 'valuacion' ? (
+                          <>
+                            <Sparkles size={22} color="#0ea5e9" />
+                            <h2 style={{ margin: 0, fontSize: '1.3rem', color: 'var(--color-text)', fontWeight: 800 }}>
+                              Valuador Inteligente IA
+                            </h2>
+                          </>
+                        ) : (
+                          <>
+                            <Wand2 size={22} color="#0ea5e9" />
+                            <h2 style={{ margin: 0, fontSize: '1.3rem', color: 'var(--color-text)', fontWeight: 800 }}>
+                              Amoblado Virtual IA
+                            </h2>
+                          </>
                         )}
                       </div>
+                      <p style={{ margin: '4px 0 0', fontSize: '0.88rem', color: 'var(--color-text-secondary)' }}>
+                        Propiedad: <strong>{inmuebleSeleccionadoPanel.titulo}</strong>
+                      </p>
                     </div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setPanelLateral(null);
+                        setInmuebleSeleccionadoPanel(null);
+                      }}
+                      style={{
+                        background: 'var(--color-bg-secondary)',
+                        border: '1px solid var(--color-border)',
+                        borderRadius: '8px',
+                        padding: '6px 14px',
+                        fontSize: '0.85rem',
+                        fontWeight: 600,
+                        cursor: 'pointer',
+                        color: 'var(--color-text-secondary)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        transition: 'all 0.2s'
+                      }}
+                      onMouseEnter={(e) => { e.currentTarget.style.color = '#ef4444'; e.currentTarget.style.borderColor = '#fca5a5'; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-text-secondary)'; e.currentTarget.style.borderColor = 'var(--color-border)'; }}
+                    >
+                      Cerrar ✕
+                    </button>
                   </div>
-                );
-              })}
+
+                  {/* Contenido del Panel: Valuador */}
+                  {panelLateral === 'valuacion' && (
+                    <SimuladorInversion
+                      key={inmuebleSeleccionadoPanel.id}
+                      inmuebleId={inmuebleSeleccionadoPanel.id}
+                      precioReferencia={inmuebleSeleccionadoPanel.precio ? parseFloat(inmuebleSeleccionadoPanel.precio) : 120000}
+                    />
+                  )}
+
+                  {/* Contenido del Panel: Diseñador de Interiores IA */}
+                  {panelLateral === 'staging' && (
+                    <DisenadorInterioresIA
+                      key={inmuebleSeleccionadoPanel.id}
+                      inmuebleId={inmuebleSeleccionadoPanel.id}
+                      inmuebleTitulo={inmuebleSeleccionadoPanel.titulo}
+                      inmueble={inmuebleSeleccionadoPanel}
+                      multimedia={inmuebleSeleccionadoPanel.multimedia || []}
+                      imagenOriginal={
+                        inmuebleSeleccionadoPanel.multimedia?.find(m => m.principal)?.archivo ||
+                        inmuebleSeleccionadoPanel.multimedia?.[0]?.archivo ||
+                        'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80'
+                      }
+                      amobladosIniciales={inmuebleSeleccionadoPanel.amoblados_virtuales || []}
+                      esPropietario={true}
+                      onAmobladoGenerado={(nuevoAmoblado) => {
+                        setInmuebleSeleccionadoPanel(prev => {
+                          if (!prev) return prev;
+                          const prevAmoblados = prev.amoblados_virtuales ? [...prev.amoblados_virtuales] : [];
+                          return {
+                            ...prev,
+                            amoblados_virtuales: [...prevAmoblados, nuevoAmoblado]
+                          };
+                        });
+                        fetchData();
+                      }}
+                    />
+                  )}
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -2469,178 +2642,6 @@ const MisInmuebles = () => {
             setEditorInmueble(null);
           }}
         />
-      )}
-
-      {/* ─── Modal: Valuador Inteligente (IA / AVM) ────────────────────── */}
-      {showValuacionModal && inmuebleValuacion && (
-        <div style={{
-          position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
-          background: 'rgba(15, 23, 42, 0.75)', backdropFilter: 'blur(6px)', zIndex: 1002,
-          display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px',
-        }}>
-          <div style={{
-            background: 'var(--color-bg-card)', borderRadius: '20px', width: '100%', maxWidth: '980px',
-            maxHeight: '90vh', display: 'flex', flexDirection: 'column', overflow: 'hidden',
-            border: '1px solid var(--color-border)', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
-          }}>
-            <div style={{
-              padding: '20px 24px', borderBottom: '1px solid var(--color-border)',
-              display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-              background: 'var(--color-bg-secondary)'
-            }}>
-              <div>
-                <h2 style={{ margin: 0, fontSize: '1.25rem', color: 'var(--color-text)', fontWeight: 800, display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <Sparkles size={20} color="#f59e0b" />
-                  Valuación con IA & Recomendación de Precio
-                </h2>
-                <p style={{ margin: '4px 0 0', fontSize: '0.84rem', color: 'var(--color-text-secondary)' }}>
-                  Propiedad: <strong>{inmuebleValuacion.titulo}</strong>
-                </p>
-              </div>
-              <button
-                onClick={() => setShowValuacionModal(false)}
-                style={{ background: 'none', border: 'none', fontSize: '1.6rem', cursor: 'pointer', color: 'var(--color-text-secondary)', lineHeight: 1 }}
-              >
-                &times;
-              </button>
-            </div>
-
-            <div style={{ padding: '24px', overflowY: 'auto', flex: 1 }}>
-              <SimuladorInversion
-                inmuebleId={inmuebleValuacion.id}
-                precioReferencia={inmuebleValuacion.precio ? parseFloat(inmuebleValuacion.precio) : 120000}
-              />
-            </div>
-
-            <div style={{ padding: '14px 24px', borderTop: '1px solid var(--color-border)', background: 'var(--color-bg-secondary)', display: 'flex', justifyContent: 'flex-end' }}>
-              <button
-                onClick={() => setShowValuacionModal(false)}
-                style={{
-                  background: 'var(--color-primary)', color: '#fff', border: 'none',
-                  padding: '10px 24px', borderRadius: '10px', fontWeight: 600, cursor: 'pointer',
-                }}
-              >
-                Cerrar
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* ─── Modal: Amoblado Virtual (Virtual Staging) ─────────────────── */}
-      {showStagingModal && inmuebleStaging && (
-        <div style={{
-          position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
-          background: 'rgba(15, 23, 42, 0.8)', backdropFilter: 'blur(8px)', zIndex: 1002,
-          display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px',
-        }}>
-          <div style={{
-            background: 'var(--color-bg-card)', borderRadius: '20px', width: '100%', maxWidth: '940px',
-            maxHeight: '92vh', display: 'flex', flexDirection: 'column', overflow: 'hidden',
-            border: '1px solid var(--color-border)', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.35)'
-          }}>
-            <div style={{
-              padding: '18px 24px', borderBottom: '1px solid var(--color-border)',
-              display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-              background: 'var(--color-bg-secondary)'
-            }}>
-              <div>
-                <h2 style={{ margin: 0, fontSize: '1.2rem', color: 'var(--color-text)', fontWeight: 800, display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <Wand2 size={20} color="#0ea5e9" />
-                  Estudio de Amoblado Virtual con IA (Virtual Staging)
-                </h2>
-                <p style={{ margin: '4px 0 0', fontSize: '0.84rem', color: 'var(--color-text-secondary)' }}>
-                  Genera amoblados fotorrealistas para maximizar el atractivo visual de <strong>{inmuebleStaging.titulo}</strong>
-                </p>
-              </div>
-              <button
-                onClick={() => setShowStagingModal(false)}
-                style={{ background: 'none', border: 'none', fontSize: '1.6rem', cursor: 'pointer', color: 'var(--color-text-secondary)', lineHeight: 1 }}
-              >
-                &times;
-              </button>
-            </div>
-
-            <div style={{
-              padding: '20px 24px',
-              overflowY: 'auto',
-              maxHeight: 'calc(92vh - 130px)',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 18
-            }}>
-              {/* Barra de Generación Rápida */}
-              <div style={{
-                background: 'linear-gradient(135deg, rgba(14, 165, 233, 0.08) 0%, rgba(2, 132, 199, 0.12) 100%)',
-                padding: '16px 20px', borderRadius: '14px', border: '1px solid rgba(14, 165, 233, 0.25)',
-                display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12
-              }}>
-                <div>
-                  <h4 style={{ margin: '0 0 4px', fontSize: '0.95rem', fontWeight: 700, color: 'var(--color-text)' }}>
-                    Generar Nuevo Estilo con IA
-                  </h4>
-                  <p style={{ margin: 0, fontSize: '0.82rem', color: 'var(--color-text-secondary)' }}>
-                    Aplica algoritmos de diseño de interiores sobre la fotografía principal.
-                  </p>
-                </div>
-                <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
-                  <select
-                    value={estiloStagingGenerar}
-                    onChange={(e) => setEstiloStagingGenerar(e.target.value)}
-                    style={{
-                      padding: '9px 14px', borderRadius: '8px', border: '1px solid var(--color-border)',
-                      background: 'var(--color-bg-card)', color: 'var(--color-text)', fontSize: '0.88rem', fontWeight: 600
-                    }}
-                  >
-                    <option value="moderno">Estilo Moderno</option>
-                    <option value="minimalista">Estilo Minimalista</option>
-                    <option value="ejecutivo">Estilo Ejecutivo</option>
-                    <option value="boliviano">Estilo Boliviano Contemporáneo</option>
-                  </select>
-                  <button
-                    onClick={ejecutarGenerarStaging}
-                    disabled={generandoStaging}
-                    style={{
-                      background: 'linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%)',
-                      color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '8px',
-                      fontWeight: 700, fontSize: '0.88rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 7,
-                      boxShadow: '0 4px 12px rgba(14, 165, 233, 0.35)',
-                      opacity: generandoStaging ? 0.7 : 1,
-                    }}
-                  >
-                    <Sparkles size={16} />
-                    {generandoStaging ? 'Diseñando con IA...' : 'Generar amoblado virtual con IA'}
-                  </button>
-                </div>
-              </div>
-
-              {/* Comparador Split-Screen */}
-              <AntesDespuesSlider
-                imagenOriginal={
-                  inmuebleStaging.multimedia?.find(m => m.principal)?.archivo ||
-                  inmuebleStaging.multimedia?.[0]?.archivo ||
-                  'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80'
-                }
-                amoblados={inmuebleStaging.amoblados_virtuales || []}
-                estiloInicial={estiloStagingGenerar}
-                onSelectEstilo={(estilo) => setEstiloStagingGenerar(estilo)}
-              />
-            </div>
-
-            <div style={{ padding: '12px 24px', borderTop: '1px solid var(--color-border)', background: 'var(--color-bg-secondary)', display: 'flex', justifyContent: 'flex-end' }}>
-              <button
-                onClick={() => setShowStagingModal(false)}
-                style={{
-                  background: 'var(--color-primary, #0ea5e9)', color: '#fff', border: 'none',
-                  padding: '9px 24px', borderRadius: '10px', fontWeight: 600, cursor: 'pointer',
-                  fontSize: '0.9rem',
-                }}
-              >
-                Cerrar
-              </button>
-            </div>
-          </div>
-        </div>
       )}
 
       {ModalComponent}
