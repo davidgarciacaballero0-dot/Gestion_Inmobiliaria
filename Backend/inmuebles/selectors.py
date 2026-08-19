@@ -118,4 +118,77 @@ def get_verificacion_by_inmueble(inmueble_id: int):
         return VerificacionTitulo.objects.get(inmueble_id=inmueble_id)
     except VerificacionTitulo.DoesNotExist:
         return None
+
+
+def get_inmuebles_para_busqueda_mapa(tipo_oferta=None, precio_max=None):
+    """
+    Obtiene todos los inmuebles activos con coordenadas GPS válidas para filtrado espacial.
+    """
+    from .models import Inmueble, Publicacion
+    qs = Inmueble.objects.select_related('direccion', 'propietario', 'tipo').prefetch_related(
+        'multimedia', 'publicaciones'
+    ).filter(
+        estado=Inmueble.EstadoInmueble.DISPONIBLE,
+        gps__isnull=False
+    ).exclude(gps__exact='')
+
+    if tipo_oferta or precio_max:
+        pub_filter = {'estado': Publicacion.EstadoPublicacion.ACTIVA}
+        if tipo_oferta:
+            pub_filter['tipo_oferta'] = tipo_oferta
+        if precio_max:
+            pub_filter['precio__lte'] = precio_max
+        qs = qs.filter(publicaciones__in=Publicacion.objects.filter(**pub_filter))
+
+    return qs.distinct()
+
+
+def get_inmuebles_para_busqueda_semantica(tipo_oferta=None, precio_max=None):
+    """
+    Obtiene todos los inmuebles activos con detalles completos para búsqueda semántica / multimodal.
+    """
+    from .models import Inmueble, Publicacion
+    qs = Inmueble.objects.select_related('direccion', 'propietario', 'tipo').prefetch_related(
+        'multimedia', 'publicaciones'
+    ).filter(
+        estado=Inmueble.EstadoInmueble.DISPONIBLE
+    )
+
+    if tipo_oferta or precio_max:
+        pub_filter = {'estado': Publicacion.EstadoPublicacion.ACTIVA}
+        if tipo_oferta:
+            pub_filter['tipo_oferta'] = tipo_oferta
+        if precio_max:
+            pub_filter['precio__lte'] = precio_max
+        qs = qs.filter(publicaciones__in=Publicacion.objects.filter(**pub_filter))
+
+    return qs.distinct()
+
+
+def punto_dentro_de_poligono(lat: float, lng: float, poligono: list) -> bool:
+    """
+    Verifica si un punto (lat, lng) se encuentra dentro de un polígono [[lat, lng], ...]
+    utilizando el algoritmo Ray-Casting (filtrado espacial de zonas dibujadas).
+    """
+    if not poligono or len(poligono) < 3:
+        return True
+
+    dentro = False
+    n = len(poligono)
+    p1_lat, p1_lng = float(poligono[0][0]), float(poligono[0][1])
+
+    for i in range(1, n + 1):
+        p2_lat, p2_lng = float(poligono[i % n][0]), float(poligono[i % n][1])
+        if min(p1_lng, p2_lng) < lng <= max(p1_lng, p2_lng):
+            if lat <= max(p1_lat, p2_lat):
+                if p1_lng != p2_lng:
+                    x_inters = (lng - p1_lng) * (p2_lat - p1_lat) / (p2_lng - p1_lng) + p1_lat
+                if p1_lat == p2_lat or lat <= x_inters:
+                    dentro = not dentro
+        p1_lat, p1_lng = p2_lat, p2_lng
+
+    return dentro
+
+
+
 

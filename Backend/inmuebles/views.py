@@ -1370,11 +1370,10 @@ Instrucción del Usuario: {prompt}"""
         # 2. Filtrar columnas
         available_keys = [c.get('key') for c in columns]
         keys_to_use = list(keys_a_conservar) if keys_a_conservar else available_keys
-
+        
         final_datos = []
         for item in datos_filtrados:
-            row = {k: item[k] for k in keys_to_use if k in item}
-            final_datos.append(row)
+            final_datos.append({k: item.get(k) for k in keys_to_use if k in item})
 
         return final_datos
 
@@ -1452,10 +1451,9 @@ class GuiaVirtualViewSet(viewsets.ViewSet):
         try:
             resultado = agendar_cita_desde_guia(
                 inmueble_id=data['inmueble_id'],
-                usuario=request.user,
-                fecha=data['fecha'].strftime('%Y-%m-%d'),
+                fecha=data['fecha'],
                 hora_inicio=data['hora_inicio'],
-                hora_fin=data.get('hora_fin'),
+                usuario_solicitante=request.user,
                 notas=data.get('notas', '')
             )
             return Response({"success": True, "data": resultado}, status=status.HTTP_201_CREATED)
@@ -1464,93 +1462,60 @@ class GuiaVirtualViewSet(viewsets.ViewSet):
 
 
 # ═════════════════════════════════════════════════════════════════════════════
-# 🏠 VIEWSETS: 2. AMOBLADO VIRTUAL CON IA (VIRTUAL STAGING)
+# 🛋️ VIEWSETS: 2. VIRTUAL STAGING & AMOBLADO IA
 # ═════════════════════════════════════════════════════════════════════════════
 
 class AmobladoVirtualViewSet(viewsets.ModelViewSet):
     """
-    CRUD y generador de versiones amobladas virtualmente con IA (Virtual Staging)
-    para fotos 2D y panoramas 360° en 4 estilos (Moderno, Minimalista, Ejecutivo, Boliviano).
+    CRUD y Generador de Amoblado Virtual / Rediseño de Interiores con IA.
     """
-    queryset = AmobladoVirtual.objects.all().select_related('inmueble', 'multimedia_original')
+    queryset = AmobladoVirtual.objects.select_related('inmueble', 'creado_por').all()
     serializer_class = AmobladoVirtualSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
         qs = super().get_queryset()
-        inmueble_id = self.request.query_params.get('inmueble')
-        multimedia_id = self.request.query_params.get('multimedia')
-        estilo = self.request.query_params.get('estilo')
-        tipo = self.request.query_params.get('tipo')
-
+        inmueble_id = self.request.query_params.get('inmueble_id')
         if inmueble_id:
             qs = qs.filter(inmueble_id=inmueble_id)
-        if multimedia_id:
-            qs = qs.filter(multimedia_original_id=multimedia_id)
-        if estilo:
-            qs = qs.filter(estilo=estilo)
-        if tipo:
-            qs = qs.filter(tipo=tipo)
         return qs
 
-    @action(
-        detail=False,
-        methods=['post'],
-        url_path='generar',
-        permission_classes=[permissions.AllowAny],
-        parser_classes=[MultiPartParser, FormParser, JSONParser]
-    )
+    @action(detail=False, methods=['post'], url_path='generar', permission_classes=[permissions.IsAuthenticated])
     def generar(self, request):
         serializer = GenerarAmobladoVirtualSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
 
         try:
-            imagen_archivo = request.FILES.get('imagen') or data.get('imagen')
-            resultado = generar_amoblado_virtual(
+            amoblado = generar_amoblado_virtual(
                 inmueble_id=data['inmueble_id'],
-                multimedia_id=data.get('multimedia_id'),
-                estilo=data.get('estilo', 'moderno'),
-                ambiente=data.get('ambiente', 'sala'),
-                prompt=data.get('prompt', ''),
-                tipo=data.get('tipo', 'foto_2d'),
-                imagen=imagen_archivo,
-                guardar_en_inmueble=data.get('guardar_en_inmueble', False)
+                imagen_original=data['imagen_original'],
+                tipo_espacio=data['tipo_espacio'],
+                estilo=data['estilo'],
+                prompt_personalizado=data.get('prompt_personalizado', ''),
+                usuario=request.user
             )
-            return Response({"success": True, "data": resultado}, status=status.HTTP_201_CREATED)
+            return Response({
+                "success": True,
+                "data": AmobladoVirtualSerializer(amoblado).data
+            }, status=status.HTTP_201_CREATED)
         except Exception as e:
             return Response({"success": False, "error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 # ═════════════════════════════════════════════════════════════════════════════
-# 📊 VIEWSETS: 3. VALUACIÓN AUTOMÁTICA (AVM) Y SIMULADOR DE INVERSIÓN
+# 📈 VIEWSETS: 3. VALUACIÓN AUTOMATIZADA (AVM) Y SIMULADOR
 # ═════════════════════════════════════════════════════════════════════════════
 
-class ValuacionViewSet(viewsets.ViewSet):
+class ValuacionViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    Controlador para valuación automática (AVM) y simulador financiero de rentabilidad e inversión.
+    Motor AVM y Simulador Financiero de Inversión Inmobiliaria.
     """
+    queryset = ValuacionInmueble.objects.select_related('inmueble').all()
+    serializer_class = ValuacionInmuebleSerializer
     permission_classes = [permissions.AllowAny]
 
-    @action(detail=False, methods=['get'], url_path='por-inmueble')
-    def por_inmueble(self, request):
-        inmueble_id = request.query_params.get('inmueble_id')
-        if not inmueble_id:
-            return Response({"success": False, "error": "Parámetro inmueble_id es requerido."}, status=status.HTTP_400_BAD_REQUEST)
-
-        valuacion = ValuacionInmueble.objects.filter(inmueble_id=inmueble_id).first()
-        if not valuacion:
-            # Si no existe valuación previa, calcularla automáticamente
-            try:
-                data = calcular_valuacion_inmueble(int(inmueble_id))
-                return Response({"success": True, "data": data}, status=status.HTTP_200_OK)
-            except Exception as e:
-                return Response({"success": False, "error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
-        serializer = ValuacionInmuebleSerializer(valuacion)
-        return Response({"success": True, "data": serializer.data}, status=status.HTTP_200_OK)
-
-    @action(detail=False, methods=['post'], url_path='calcular', permission_classes=[permissions.IsAuthenticated])
+    @action(detail=False, methods=['post'], url_path='calcular')
     def calcular(self, request):
         inmueble_id = request.data.get('inmueble_id')
         if not inmueble_id:
@@ -1580,3 +1545,102 @@ class ValuacionViewSet(viewsets.ViewSet):
             return Response({"success": True, "data": resultado}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"success": False, "error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class BusquedaMapaIAView(APIView):
+    """
+    Endpoint para búsqueda geoespacial en mapa con Puntos de Interés (POIs) e IA (RF-C2-06).
+    POST /api/inmuebles/busqueda-mapa-ia/
+    """
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        data = request.data
+        try:
+            lat = float(data.get('lat', -17.3935))
+            lng = float(data.get('lng', -66.1570))
+        except (ValueError, TypeError):
+            return Response({'error': 'Parámetros lat y lng deben ser numéricos válidos.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            radio_km = float(data.get('radio_km', 5.0))
+        except (ValueError, TypeError):
+            radio_km = 5.0
+
+        puntos_interes = data.get('puntos_interes', [])
+        if not isinstance(puntos_interes, list):
+            puntos_interes = []
+
+        poligono_coords = data.get('poligono_coords', None)
+        if poligono_coords and not isinstance(poligono_coords, list):
+            poligono_coords = None
+
+        tipo_oferta = data.get('tipo_oferta')
+        precio_max = data.get('precio_max')
+        if precio_max:
+            try:
+                precio_max = float(precio_max)
+            except (ValueError, TypeError):
+                precio_max = None
+
+        from .services import procesar_busqueda_mapa_ia
+        resp_data = procesar_busqueda_mapa_ia(
+            center_lat=lat,
+            center_lng=lng,
+            radio_km=radio_km,
+            puntos_interes=puntos_interes,
+            tipo_oferta=tipo_oferta,
+            precio_max=precio_max,
+            poligono_coords=poligono_coords
+        )
+
+        return Response({
+            'total': resp_data.get('total', len(resp_data.get('resultados', []))),
+            'es_poligono': resp_data.get('es_poligono', False),
+            'centro': {'lat': lat, 'lng': lng, 'radio_km': radio_km},
+            'puntos_interes': puntos_interes,
+            'resultados': resp_data.get('resultados', [])
+        }, status=status.HTTP_200_OK)
+
+
+class BusquedaSemanticaIAView(APIView):
+    """
+    Endpoint para búsqueda multimodal y semántica en lenguaje natural y/o foto de referencia.
+    POST /api/inmuebles/busqueda-semantica-ia/
+    """
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        data = request.data
+        descripcion = data.get('descripcion', '')
+        imagen_base64 = data.get('imagen_base64', None)
+        tipo_oferta = data.get('tipo_oferta')
+        precio_max = data.get('precio_max')
+
+        # Procesar archivo subido en multipart si viene
+        if 'foto' in request.FILES:
+            import base64
+            archivo = request.FILES['foto']
+            imagen_base64 = base64.b64encode(archivo.read()).decode('utf-8')
+
+        if precio_max:
+            try:
+                precio_max = float(precio_max)
+            except (ValueError, TypeError):
+                precio_max = None
+
+        from .services import procesar_busqueda_semantica_ia
+        resp_data = procesar_busqueda_semantica_ia(
+            descripcion_texto=descripcion,
+            imagen_base64=imagen_base64,
+            tipo_oferta=tipo_oferta,
+            precio_max=precio_max
+        )
+
+        return Response({
+            'total': resp_data.get('total', len(resp_data.get('resultados', []))),
+            'criterio': descripcion,
+            'tiene_imagen': bool(imagen_base64),
+            'estilos_detectados': resp_data.get('estilos_detectados', []),
+            'resultados': resp_data.get('resultados', [])
+        }, status=status.HTTP_200_OK)

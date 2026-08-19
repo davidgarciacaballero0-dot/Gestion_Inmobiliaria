@@ -1,8 +1,12 @@
+import { useState } from 'react';
+import { ShieldCheck } from 'lucide-react';
 import useAuth from '../../hooks/useAuth';
+import ScoringInquilinoModal from '../../components/ScoringInquilinoModal';
 import './Propiedades.css';
 
 const MiPerfil = () => {
   const { user } = useAuth();
+  const [showScoringModal, setShowScoringModal] = useState(false);
 
   // Avatar por defecto incrustado si no hay foto
   const defaultAvatar = `https://ui-avatars.com/api/?name=${user?.first_name || 'U'}+${user?.last_name || 'X'}&background=0ea5e9&color=fff&size=200`;
@@ -14,7 +18,41 @@ const MiPerfil = () => {
         <div className="propiedad-card" style={{ padding: '24px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
             <h2 style={{ color: 'var(--color-text)', margin: 0 }}>Datos Personales</h2>
+            <button
+              type="button"
+              onClick={() => setShowScoringModal(true)}
+              style={{
+                background: '#ecfdf5',
+                color: '#065f46',
+                border: '1.5px solid #a7f3d0',
+                padding: '8px 15px',
+                borderRadius: '10px',
+                fontSize: '0.835rem',
+                fontWeight: 700,
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '7px',
+                transition: 'all 0.2s ease',
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.background = '#d1fae5';
+                e.currentTarget.style.borderColor = '#6ee7b7';
+                e.currentTarget.style.transform = 'translateY(-1px)';
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.background = '#ecfdf5';
+                e.currentTarget.style.borderColor = '#a7f3d0';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+              title="Consultar mi Score y Pasaporte de Confiabilidad como Inquilino"
+            >
+              <ShieldCheck size={16} color="#059669" />
+              <span>Mi Pasaporte Digital</span>
+              <span style={{ background: '#059669', color: '#ffffff', fontSize: '0.625rem', fontWeight: 800, padding: '1px 5px', borderRadius: '4px', lineHeight: 1.2 }}>IA</span>
+            </button>
           </div>
+
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'flex-start' }}>
             
@@ -74,8 +112,15 @@ const MiPerfil = () => {
           </div>
         </div>
       </div>
+
+      {showScoringModal && (
+        <ScoringInquilinoModal
+          onClose={() => setShowScoringModal(false)}
+        />
+      )}
     </div>
   );
 };
 
 export default MiPerfil;
+

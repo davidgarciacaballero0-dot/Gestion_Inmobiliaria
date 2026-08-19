@@ -3,8 +3,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import api from '../../services/api';
 import inmuebleService from '../../services/inmuebleService';
 import useAuth from '../../hooks/useAuth';
-import { Search, SlidersHorizontal, Trash2, Filter, X } from 'lucide-react';
+import { Search, SlidersHorizontal, Trash2, Filter, X, MapPin, Sparkles } from 'lucide-react';
+import BusquedaMapaIA from '../../components/BusquedaMapaIA';
+import BusquedaSemanticaIA from '../../components/BusquedaSemanticaIA';
 import './Propiedades.css';
+
 
 const Propiedades = () => {
   const [inmuebles, setInmuebles] = useState([]);
@@ -19,9 +22,13 @@ const Propiedades = () => {
   const [filtroTipoOferta, setFiltroTipoOferta] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [showAdvanced, setShowAdvanced] = useState(false);
+  const [showBusquedaMapa, setShowBusquedaMapa] = useState(false);
+  const [showBusquedaSemantica, setShowBusquedaSemantica] = useState(false);
 
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
+
+
 
   const activeFiltersCount =
     (filtroCategoria ? 1 : 0) +
@@ -109,49 +116,149 @@ const Propiedades = () => {
       <div className="propiedades-content">
 
         <div className="propiedades-filters-card">
-          <div className="propiedades-filters__search-row">
+          {/* Fila Principal de Búsqueda y Herramientas IA */}
+          <div className="propiedades-filters__main-bar">
+            {/* Input de Búsqueda */}
             <div className="propiedades-filters__search-wrapper">
-              <Search className="propiedades-filters__search-icon" size={20} />
+              <Search className="propiedades-filters__search-icon" size={19} />
               <input
                 type="text"
-                placeholder="Buscar por zona, ciudad o palabras clave (Ej: Equipetrol, Sopocachi...)"
+                placeholder="Buscar por zona, ciudad o palabras clave (Ej. Equipetrol, Sopocachi, Calacoto...)"
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
                 className="propiedades-filters__search-input"
               />
+              {searchTerm && (
+                <button
+                  type="button"
+                  className="propiedades-filters__search-clear-inline"
+                  onClick={() => setSearchTerm('')}
+                  title="Borrar texto"
+                >
+                  <X size={14} />
+                </button>
+              )}
             </div>
 
-            <div className="propiedades-filters__actions">
+            {/* Hub de Herramientas Inteligentes */}
+            <div className="propiedades-filters__smart-tools">
               <button
                 type="button"
-                className={`propiedades-filters__toggle-btn ${showAdvanced ? 'propiedades-filters__toggle-btn--active' : ''}`}
-                onClick={() => setShowAdvanced(!showAdvanced)}
+                className="smart-tool-btn smart-tool-btn--ai"
+                onClick={() => setShowBusquedaSemantica(true)}
+                title="Búsqueda Inteligente por Foto o Descripción Natural con IA"
               >
-                <SlidersHorizontal size={18} />
-                <span>Filtros</span>
+                <Sparkles size={16} className="smart-tool-btn__icon" />
+                <span className="smart-tool-btn__text">Búsqueda Visual</span>
+                <span className="smart-tool-btn__pill">IA</span>
+              </button>
+
+              <button
+                type="button"
+                className="smart-tool-btn smart-tool-btn--map"
+                onClick={() => setShowBusquedaMapa(true)}
+                title="Explorar en Mapa con Zonas Libres y Puntos de Interés"
+              >
+                <MapPin size={16} className="smart-tool-btn__icon" />
+                <span className="smart-tool-btn__text">Mapa & Rutina</span>
+                <span className="smart-tool-btn__pill smart-tool-btn__pill--blue">IA</span>
+              </button>
+
+              <button
+                type="button"
+                className={`smart-tool-btn smart-tool-btn--filter ${showAdvanced ? 'smart-tool-btn--filter-active' : ''}`}
+                onClick={() => setShowAdvanced(!showAdvanced)}
+                title="Filtros tradicionales de características y precio"
+              >
+                <SlidersHorizontal size={16} className="smart-tool-btn__icon" />
+                <span className="smart-tool-btn__text">Filtros</span>
                 {activeFiltersCount > 0 && (
-                  <span className="propiedades-filters__badge">{activeFiltersCount}</span>
+                  <span className="smart-tool-btn__counter">{activeFiltersCount}</span>
                 )}
               </button>
 
               {activeFiltersCount > 0 && (
                 <button
                   type="button"
-                  className="propiedades-filters__clear-btn"
+                  className="smart-tool-btn smart-tool-btn--clear"
                   onClick={clearFilters}
                   title="Limpiar todos los filtros"
                 >
-                  <Trash2 size={16} />
-                  <span className="desktop-only">Limpiar</span>
+                  <Trash2 size={15} />
+                  <span className="smart-tool-btn__text">Limpiar</span>
                 </button>
               )}
             </div>
+          </div>
+
+          {/* Fila de Filtros Rápidos (Tipo de Oferta y Chips Activos) */}
+          <div className="propiedades-filters__quick-bar">
+            <div className="quick-types-pills">
+              {[
+                { val: '', label: 'Todos' },
+                { val: 'alquiler', label: 'Alquiler' },
+                { val: 'venta', label: 'Venta' },
+                { val: 'anticretico', label: 'Anticrético' },
+              ].map(op => (
+                <button
+                  key={op.val}
+                  type="button"
+                  className={`quick-type-pill ${filtroTipoOferta === op.val ? 'quick-type-pill--active' : ''}`}
+                  onClick={() => setFiltroTipoOferta(op.val)}
+                >
+                  {op.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Chips de filtros activos */}
+            {(filtroCategoria || filtroCiudad || filtroPrecioMax || filtroHabitaciones || filtroBanos || filtroGaraje) && (
+              <div className="active-filters-chips">
+                {filtroCategoria && (
+                  <span className="active-filter-chip">
+                    {filtroCategoria}
+                    <button type="button" onClick={() => setFiltroCategoria('')} title="Quitar filtro"><X size={12} /></button>
+                  </span>
+                )}
+                {filtroCiudad && (
+                  <span className="active-filter-chip">
+                    {filtroCiudad}
+                    <button type="button" onClick={() => setFiltroCiudad('')} title="Quitar filtro"><X size={12} /></button>
+                  </span>
+                )}
+                {filtroPrecioMax && (
+                  <span className="active-filter-chip">
+                    Max: Bs. {filtroPrecioMax}
+                    <button type="button" onClick={() => setFiltroPrecioMax('')} title="Quitar filtro"><X size={12} /></button>
+                  </span>
+                )}
+                {filtroHabitaciones && (
+                  <span className="active-filter-chip">
+                    {filtroHabitaciones}+ Hab.
+                    <button type="button" onClick={() => setFiltroHabitaciones('')} title="Quitar filtro"><X size={12} /></button>
+                  </span>
+                )}
+                {filtroBanos && (
+                  <span className="active-filter-chip">
+                    {filtroBanos}+ Baños
+                    <button type="button" onClick={() => setFiltroBanos('')} title="Quitar filtro"><X size={12} /></button>
+                  </span>
+                )}
+                {filtroGaraje && (
+                  <span className="active-filter-chip">
+                    Con Garaje
+                    <button type="button" onClick={() => setFiltroGaraje(false)} title="Quitar filtro"><X size={12} /></button>
+                  </span>
+                )}
+              </div>
+            )}
           </div>
 
           {/* ADVANCED COLLAPSIBLE FILTERS PANEL */}
           {showAdvanced && (
             <div className="propiedades-filters__advanced">
               <div className="propiedades-filters__grid">
+
                 <div className="propiedades-filters__group">
                   <label className="propiedades-filters__label">Categoría</label>
                   <select
@@ -360,8 +467,31 @@ const Propiedades = () => {
           </div>
         )}
       </div>
+
+      {/* MODAL BÚSQUEDA MULTIMODAL IA (FOTO / LENGUAJE NATURAL) */}
+      {showBusquedaSemantica && (
+        <BusquedaSemanticaIA
+          onClose={() => setShowBusquedaSemantica(false)}
+          onSelectPropiedad={(id) => {
+            setShowBusquedaSemantica(false);
+            navigate(`/propiedades/${id}`);
+          }}
+        />
+      )}
+
+      {/* MODAL BÚSQUEDA IA POR MAPA Y POIS */}
+      {showBusquedaMapa && (
+        <BusquedaMapaIA
+          onClose={() => setShowBusquedaMapa(false)}
+          onSelectPropiedad={(id) => {
+            setShowBusquedaMapa(false);
+            navigate(`/propiedades/${id}`);
+          }}
+        />
+      )}
     </div>
   );
 };
 
 export default Propiedades;
+

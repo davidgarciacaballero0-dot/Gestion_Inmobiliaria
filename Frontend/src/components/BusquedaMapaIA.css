@@ -1,0 +1,981 @@
+/* ─── Modal Overlay & Layout ────────────────────────────────────────────── */
+.busqueda-mapa-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(6px);
+  z-index: 999999;
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.busqueda-mapa-modal {
+  background: #ffffff;
+  border-radius: 16px;
+  width: 96vw;
+  max-width: 1600px;
+  height: 92vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* ─── Header ───────────────────────────────────────────────────────────── */
+.busqueda-mapa-header {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.header-icon-container {
+  background: #eff6ff;
+  color: #2563eb;
+  padding: 0.6rem;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-svg-icon {
+  color: #2563eb;
+}
+
+.header-title h3 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.header-title p {
+  margin: 0.15rem 0 0 0;
+  font-size: 0.825rem;
+  color: #64748b;
+}
+
+.btn-close-modal {
+  background: #f1f5f9;
+  border: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #64748b;
+  transition: all 0.2s ease;
+}
+
+.btn-close-modal:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+/* ─── Body Layout V2 (3 Paneles: Sidebar Izq | Mapa Central 100% | Sidebar Der) */
+.busqueda-mapa-body-v2 {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ─── Panel 1: Sidebar Izquierdo (330px) ───────────────────────────────── */
+.busqueda-sidebar-v2 {
+  width: 330px;
+  flex-shrink: 0;
+  background: #ffffff;
+  border-right: 1px solid #e2e8f0;
+  padding: 1.25rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  z-index: 10;
+}
+
+.city-selector-box {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+}
+
+.city-select-dropdown {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #93c5fd;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #1e40af;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+.sidebar-section {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+}
+
+.section-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+
+.section-icon {
+  color: #2563eb;
+}
+
+.sidebar-section h4 {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.range-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  margin-bottom: 0.35rem;
+  color: #334155;
+}
+
+.range-group input[type='range'] {
+  width: 100%;
+  accent-color: #2563eb;
+}
+
+.help-text-pro {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin: 0.5rem 0 0 0;
+  line-height: 1.3;
+}
+
+/* Búsqueda de dirección física */
+.address-search-box {
+  margin-bottom: 0.75rem;
+}
+
+.input-label-sm {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #475569;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.address-input-row {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.address-input-row input {
+  flex: 1;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 0.8rem;
+}
+
+.btn-search-addr {
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  padding: 0.4rem 0.65rem;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.status-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.725rem;
+  margin-top: 0.35rem;
+  padding: 0.35rem 0.5rem;
+  border-radius: 4px;
+}
+
+.status-banner.success {
+  background: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+}
+
+.status-banner.error {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
+/* Formulario POI */
+.add-poi-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 0.6rem;
+}
+
+.add-poi-form input,
+.add-poi-form select {
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 0.8rem;
+}
+
+.btn-add-poi {
+  background: #eff6ff;
+  color: #2563eb;
+  border: 1px solid #bfdbfe;
+  padding: 0.45rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.775rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  transition: all 0.2s ease;
+}
+
+.btn-add-poi:hover,
+.btn-add-poi.active {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+}
+
+/* Lista de POIs */
+.pois-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  max-height: 110px;
+  overflow-y: auto;
+}
+
+.poi-chip-clean {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+}
+
+.poi-chip-clean .poi-name-text {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.poi-chip-clean button {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.poi-chip-clean button:hover {
+  color: #ef4444;
+}
+
+.no-pois {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  font-style: italic;
+  margin: 0;
+}
+
+.form-row-compact {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.form-row-compact label {
+  display: block;
+  font-size: 0.725rem;
+  color: #64748b;
+  margin-bottom: 0.2rem;
+}
+
+.form-row-compact input,
+.form-row-compact select {
+  width: 100%;
+  padding: 0.35rem 0.45rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 0.8rem;
+}
+
+.btn-calcular-ia-pro {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  color: #ffffff;
+  border: none;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+  transition: all 0.2s ease;
+  margin-top: auto;
+}
+
+.btn-calcular-ia-pro:hover:not(:disabled) {
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+}
+
+.btn-calcular-ia-pro:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.error-banner {
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+}
+
+/* ─── Panel 2: Mapa Completo (Flex 1) ─────────────────────────────────── */
+.busqueda-mapa-viewport-container {
+  flex: 1;
+  position: relative;
+  height: 100%;
+  min-height: 0;
+}
+
+.full-screen-map-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+/* Cursor interactivo de Pin Target cuando el usuario está marcando en mapa */
+.map-picking-active,
+.map-picking-active * {
+  cursor: crosshair !important;
+}
+
+/* Banner flotante superior de instrucción */
+.picking-banner-floating {
+  position: absolute;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  background: #1e293b;
+  color: #ffffff;
+  padding: 0.6rem 1.25rem;
+  border-radius: 30px;
+  font-size: 0.825rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+  animation: slideDown 0.3s ease-out;
+}
+
+.picking-icon-pulse {
+  color: #60a5fa;
+  animation: pulse 1.5s infinite;
+}
+
+.picking-banner-floating button {
+  background: #334155;
+  color: #cbd5e1;
+  border: none;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  margin-left: 0.5rem;
+}
+
+.picking-banner-floating button:hover {
+  background: #475569;
+  color: #ffffff;
+}
+
+@keyframes slideDown {
+  from { transform: translate(-50%, -20px); opacity: 0; }
+  to { transform: translate(-50%, 0); opacity: 1; }
+}
+
+/* Pins limpios */
+.custom-center-pin .center-target-node {
+  color: #2563eb;
+  background: #ffffff;
+  border: 2px solid #2563eb;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
+}
+
+.custom-poi-pin .poi-bubble-clean {
+  background: #ffffff;
+  border: 2px solid #2563eb;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.custom-prop-pin .score-badge-clean {
+  background: #2563eb;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.725rem;
+  padding: 2px 6px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  white-space: nowrap;
+}
+
+.custom-prop-pin .score-badge-clean.high { background: #16a34a; }
+.custom-prop-pin .score-badge-clean.mid { background: #d97706; }
+.custom-prop-pin .score-badge-clean.low { background: #475569; }
+
+.custom-prop-pin.selected .score-badge-clean {
+  transform: scale(1.2);
+  outline: 2px solid #ffffff;
+  box-shadow: 0 0 0 3px #2563eb;
+}
+
+/* Botón flotante para ocultar/mostrar resultados */
+.btn-toggle-results-panel {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 999;
+  background: #ffffff;
+  color: #0f172a;
+  border: 1px solid #cbd5e1;
+  padding: 0.5rem 0.85rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+}
+
+.btn-toggle-results-panel:hover {
+  background: #f8fafc;
+  border-color: #94a3b8;
+}
+
+/* ─── Panel 3: Panel de Resultados Lateral Derecho (380px) ─────────────── */
+.busqueda-results-sidebar {
+  width: 380px;
+  flex-shrink: 0;
+  background: #ffffff;
+  border-left: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  z-index: 20;
+}
+
+.results-sidebar-header {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f8fafc;
+}
+
+.results-sidebar-header h5 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.results-subtitle {
+  font-size: 0.725rem;
+  color: #16a34a;
+  font-weight: 600;
+}
+
+.btn-close-results-sidebar {
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.empty-results-pro {
+  padding: 3rem 1.5rem;
+  text-align: center;
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+.empty-svg {
+  color: #cbd5e1;
+  margin-bottom: 0.75rem;
+}
+
+.results-cards-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+/* Tarjeta Profesional */
+.result-card-pro {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.result-card-pro:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.result-card-pro.active {
+  border-color: #2563eb;
+  background: #f0f9ff;
+  box-shadow: 0 0 0 1px #2563eb;
+}
+
+.card-top-pro {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.card-img-container {
+  position: relative;
+  width: 85px;
+  height: 75px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.card-img-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.score-badge-overlay {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #ffffff;
+  padding: 2px 5px;
+  border-radius: 4px;
+}
+
+.score-badge-overlay.high { background: #16a34a; }
+.score-badge-overlay.mid { background: #d97706; }
+.score-badge-overlay.low { background: #475569; }
+
+.card-body-info h6 {
+  margin: 0 0 0.2rem 0;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.2;
+}
+
+.card-dir-text {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin: 0 0 0.35rem 0;
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.card-price-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.price-bold {
+  font-weight: 800;
+  color: #2563eb;
+  font-size: 0.9rem;
+}
+
+.tipo-badge {
+  font-size: 0.7rem;
+  background: #f1f5f9;
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  color: #475569;
+}
+
+/* Desglose POIs */
+.card-pois-breakdown-pro {
+  background: #f8fafc;
+  border-radius: 6px;
+  padding: 0.45rem 0.6rem;
+  font-size: 0.725rem;
+}
+
+.breakdown-label {
+  font-weight: 600;
+  color: #475569;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.poi-chips-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.poi-distance-tag {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #334155;
+}
+
+.poi-tag-name {
+  color: #64748b;
+}
+
+.time-sub {
+  font-size: 0.7rem;
+  color: #64748b;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  margin-left: 0.25rem;
+}
+
+/* Caja Evaluativa IA Groq Profesional */
+.ai-eval-box {
+  background: #f8fafc;
+  border-left: 3px solid #2563eb;
+  padding: 0.5rem 0.65rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  color: #1e293b;
+}
+
+.ai-eval-header {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-weight: 700;
+  color: #2563eb;
+  margin-bottom: 0.15rem;
+}
+
+.ai-eval-box p {
+  margin: 0;
+  line-height: 1.35;
+  color: #334155;
+}
+
+.btn-select-prop-pro {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #2563eb;
+  font-weight: 600;
+  font-size: 0.775rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  transition: all 0.2s ease;
+}
+
+.btn-select-prop-pro:hover {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+}
+
+/* ─── Herramientas de Zona Libre & InfoCasas Floating Button ────────────── */
+.zone-actions-bar {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+
+.btn-draw-zone {
+  flex: 1;
+  background: #fff7ed;
+  border: 1px solid #fdba74;
+  color: #c2410c;
+  padding: 0.45rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.775rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-draw-zone:hover {
+  background: #ffedd5;
+  border-color: #ea580c;
+}
+
+.btn-draw-zone.active {
+  background: #ea580c;
+  color: #ffffff;
+  border-color: #ea580c;
+  box-shadow: 0 4px 12px rgba(234, 88, 12, 0.3);
+}
+
+.btn-clear-draw-sm {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #64748b;
+  padding: 0.45rem 0.6rem;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-clear-draw-sm:hover {
+  background: #fee2e2;
+  color: #dc2626;
+  border-color: #fca5a5;
+}
+
+/* Selector Rápido de Barrios de Bolivia */
+.neighborhoods-quick-box {
+  margin-bottom: 0.75rem;
+  background: #f8fafc;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.sub-label-dim {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #64748b;
+  margin-bottom: 0.35rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.neighborhoods-chips-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.chip-neighborhood {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+  padding: 0.25rem 0.55rem;
+  border-radius: 6px;
+  font-size: 0.725rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.chip-neighborhood:hover {
+  border-color: #2563eb;
+  color: #2563eb;
+  background: #eff6ff;
+}
+
+.chip-neighborhood.active {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+}
+
+/* Botón Flotante Naranja de Eliminar Dibujo (Estilo InfoCasas) */
+.floating-infocasas-action {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  pointer-events: auto;
+}
+
+.btn-infocasas-eliminar {
+  background: #f97316;
+  color: #ffffff;
+  border: none;
+  padding: 0.75rem 1.75rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  box-shadow: 0 10px 25px -5px rgba(249, 115, 22, 0.5), 0 8px 10px -6px rgba(249, 115, 22, 0.4);
+  transition: all 0.2s ease;
+}
+
+.btn-infocasas-eliminar:hover {
+  background: #ea580c;
+  transform: scale(1.03);
+}
+
+.drawing-banner-floating {
+  position: absolute;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ea580c;
+  color: #ffffff;
+  padding: 0.6rem 1.25rem;
+  border-radius: 30px;
+  font-size: 0.825rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: 0 8px 20px rgba(234, 88, 12, 0.35);
+  z-index: 1000;
+  animation: slideDownBanner 0.3s ease;
+}
+
+.drawing-banner-floating button {
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  border: none;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.map-drawing-active .leaflet-container {
+  cursor: crosshair !important;
+}
+
+/* Badge de Rutina Diaria en Tarjetas */
+.daily-routine-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+  padding: 0.3rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.725rem;
+}
+
+.daily-routine-badge strong {
+  color: #15803d;
+}
+
+/* ─── Responsivo ───────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .busqueda-mapa-body-v2 {
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .busqueda-sidebar-v2 {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .busqueda-results-sidebar {
+    width: 100%;
+    height: auto;
+    border-left: none;
+    border-top: 1px solid #e2e8f0;
+  }
+
+  .busqueda-mapa-viewport-container {
+    height: 400px;
+    flex: none;
+  }
+}
+

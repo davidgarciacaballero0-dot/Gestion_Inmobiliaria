@@ -4,7 +4,9 @@ from rest_framework_simplejwt.views import TokenRefreshView
 from .views import (
     UsuarioViewSet, RegistroView, AgendaViewSet,
     NotificacionViewSet, ChatViewSet, MensajeViewSet,
-    BloqueoViewSet, ResenaViewSet, CustomTokenObtainPairView
+    BloqueoViewSet, ResenaViewSet, CustomTokenObtainPairView,
+    ScoringInquilinoView, MiScoringPasaporteView,
+    PasaporteInquilinoPDFView, MiPasaportePDFView
 )
 
 router = DefaultRouter()
@@ -22,8 +24,13 @@ router.register(r'panel/agenda', AgendaViewSet, basename='panel-agenda')
 router.register(r'panel/notificaciones', NotificacionViewSet, basename='panel-notificaciones')
 
 urlpatterns = [
-    path('', include(router.urls)),
-    #  RUTAS DE AUTENTICACIÓN (LOGIN) 
+    path('scoring-inquilino/<int:usuario_id>/pdf/', PasaporteInquilinoPDFView.as_view(), name='scoring-inquilino-pdf'),
+    path('scoring-inquilino/<int:usuario_id>/', ScoringInquilinoView.as_view(), name='scoring-inquilino'),
+    path('mi-scoring-pasaporte/pdf/', MiPasaportePDFView.as_view(), name='mi-scoring-pasaporte-pdf'),
+    path('mi-scoring-pasaporte/', MiScoringPasaporteView.as_view(), name='mi-scoring-pasaporte'),
     path('login/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('login/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('', include(router.urls)),
 ]
+
+

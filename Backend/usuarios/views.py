@@ -1,8 +1,10 @@
 from rest_framework import viewsets, permissions, status
+from rest_framework.views import APIView
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django.db.models import Q, Count
+
 
 from .models import Usuario, Agenda, Notificacion, Chat, Mensaje, Bloqueo, Resena
 from .services import crear_notificacion_sistema, crear_notificacion_usuario
@@ -410,3 +412,73 @@ class CustomTokenObtainPairView(TokenObtainPairView):
     Vista personalizada para retornar tokens y datos del usuario.
     """
     serializer_class = CustomTokenObtainPairSerializer
+
+
+class ScoringInquilinoView(APIView):
+    """
+    Endpoint para evaluar a un inquilino / candidato por ID.
+    GET /api/usuarios/scoring-inquilino/<int:usuario_id>/
+    """
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request, usuario_id=None):
+        from .services import calcular_scoring_inquilino
+        resultado = calcular_scoring_inquilino(usuario_id)
+        if not resultado:
+            return Response({'error': 'Usuario inquilino no encontrado.'}, status=status.HTTP_404_NOT_FOUND)
+        return Response(resultado, status=status.HTTP_200_OK)
+
+
+class MiScoringPasaporteView(APIView):
+    """
+    Endpoint para que el propio usuario consulte su pasaporte de confiabilidad y scoring.
+    GET /api/usuarios/mi-scoring-pasaporte/
+    """
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        from .services import calcular_scoring_inquilino
+        resultado = calcular_scoring_inquilino(request.user.id)
+        if not resultado:
+            return Response({'error': 'No se pudo generar el scoring del perfil.'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(resultado, status=status.HTTP_200_OK)
+
+
+class PasaporteInquilinoPDFView(APIView):
+    """
+    Descarga el certificado en PDF del Pasaporte de Confiabilidad del Inquilino.
+    GET /api/usuarios/scoring-inquilino/<int:usuario_id>/pdf/
+    """
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request, usuario_id=None):
+        from django.http import HttpResponse
+        from .services import generar_pasaporte_inquilino_pdf
+        pdf_bytes = generar_pasaporte_inquilino_pdf(usuario_id)
+        if not pdf_bytes:
+            return Response({'error': 'No se pudo generar el PDF del pasaporte.'}, status=status.HTTP_404_NOT_FOUND)
+
+        response = HttpResponse(pdf_bytes, content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="Pasaporte_Inquilino_{usuario_id}.pdf"'
+        return response
+
+
+class MiPasaportePDFView(APIView):
+    """
+    Descarga el certificado en PDF del propio usuario autenticado.
+    GET /api/usuarios/mi-scoring-pasaporte/pdf/
+    """
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        from django.http import HttpResponse
+        from .services import generar_pasaporte_inquilino_pdf
+        pdf_bytes = generar_pasaporte_inquilino_pdf(request.user.id)
+        if not pdf_bytes:
+            return Response({'error': 'No se pudo generar el PDF del pasaporte.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        response = HttpResponse(pdf_bytes, content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="Mi_Pasaporte_Inquilino.pdf"'
+        return response
+
+

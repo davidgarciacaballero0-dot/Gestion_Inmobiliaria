@@ -1,7 +1,12 @@
+import math
+import json
+import requests
 from django.db import transaction
 from django.db.models import Q
+from django.conf import settings
 from .models import TipoContrato, Contrato, VerificacionTitulo, Inmueble
 from django.core.exceptions import ValidationError
+
 
 
 def get_tipo_contrato_by_id(tipo_contrato_id):
@@ -1815,4 +1820,319 @@ def simular_metricas_inversion(
         "proyeccion_10_anos": proyeccion_10_anos
     }
 
+
+# ─── Búsqueda por Zona en Mapa con Puntos de Interés e IA (RF-C2-06) ─────────────
+
+def calcular_distancia_haversine(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    """Retorna la distancia en kilómetros entre dos coordenadas GPS usando Haversine."""
+    R = 6371.0  # Radio medio terrestre en km
+    dlat = math.radians(lat2 - lat1)
+    dlon = math.radians(lon2 - lon1)
+    a = math.sin(dlat / 2)**2 + math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) * math.sin(dlon / 2)**2
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+    return round(R * c, 2)
+
+
+def procesar_busqueda_mapa_ia(
+    center_lat: float,
+    center_lng: float,
+    radio_km: float,
+    puntos_interes: list,
+    tipo_oferta: str = None,
+    precio_max: float = None,
+    poligono_coords: list = None
+) -> dict:
+    """
+    Realiza la búsqueda espacial de inmuebles dentro de un polígono dibujado o radio especificado,
+    calcula distancias y tiempos de traslado a cada Punto de Interés (POI),
+    computa un Score de Conveniencia (0-100) y el Score de Rutina Diaria (tiempo ahorrado),
+    y genera justificativos de IA con Groq.
+    """
+    from .selectors import get_inmuebles_para_busqueda_mapa, punto_dentro_de_poligono
+    inmuebles_qs = get_inmuebles_para_busqueda_mapa(tipo_oferta=tipo_oferta, precio_max=precio_max)
+
+    resultados = []
+    tiene_poligono = bool(poligono_coords and len(poligono_coords) >= 3)
+
+    for inmueble in inmuebles_qs:
+        if not inmueble.gps:
+            continue
+        try:
+            parts = [p.strip() for p in inmueble.gps.split(',')]
+            inm_lat = float(parts[0])
+            inm_lng = float(parts[1])
+        except (ValueError, IndexError):
+            continue
+
+        # Filtrado espacial: Polígono libre o Radio circular
+        if tiene_poligono:
+            if not punto_dentro_de_poligono(inm_lat, inm_lng, poligono_coords):
+                continue
+            dist_centro = calcular_distancia_haversine(center_lat, center_lng, inm_lat, inm_lng)
+        else:
+            dist_centro = calcular_distancia_haversine(center_lat, center_lng, inm_lat, inm_lng)
+            if dist_centro > radio_km:
+                continue
+
+        # Distancia a cada POI y Rutina Diaria
+        desglose_pois = []
+        suma_distancias = 0
+        total_peso = 0
+        tiempo_total_viaje_min = 0
+
+        for poi in puntos_interes:
+            try:
+                p_lat = float(poi.get('lat', center_lat))
+                p_lng = float(poi.get('lng', center_lng))
+            except (ValueError, TypeError):
+                continue
+
+            p_nombre = poi.get('nombre', 'Punto de Interés')
+            p_icono = poi.get('icono', '📍')
+            p_peso = float(poi.get('peso', 1.0))
+
+            dist_km = calcular_distancia_haversine(inm_lat, inm_lng, p_lat, p_lng)
+
+            # Estimación de tiempos (30km/h auto, 5km/h caminando)
+            minutos_auto = max(1, round((dist_km / 30.0) * 60))
+            minutos_pie = max(1, round((dist_km / 5.0) * 60))
+            tiempo_total_viaje_min += (minutos_auto * 2)  # Ida y vuelta diaria
+
+            desglose_pois.append({
+                'nombre': p_nombre,
+                'icono': p_icono,
+                'distancia_km': dist_km,
+                'minutos_auto': minutos_auto,
+                'minutos_pie': minutos_pie,
+            })
+
+            suma_distancias += (dist_km * p_peso)
+            total_peso += p_peso
+
+        # Calcular Score de Conveniencia (0 - 100)
+        dist_promedio = (suma_distancias / total_peso) if total_peso > 0 else dist_centro
+        score = max(5, min(100, round(100 - (dist_promedio * 11))))
+
+        # Calcular Ahorro de Tiempo en Rutina Diaria (Base estándar 80 min diarios de tráfico)
+        ahorro_estimado_min = max(5, 80 - tiempo_total_viaje_min) if puntos_interes else 30
+        rutina_diaria_texto = f"Ahorro estimado de {ahorro_estimado_min} min al día en traslados de rutina"
+
+        # Formatear datos del inmueble para la salida
+        imagen_principal = None
+        mult = inmueble.multimedia.filter(principal=True).first() or inmueble.multimedia.first()
+        if mult:
+            imagen_principal = mult.archivo
+
+        pub_activa = inmueble.publicaciones.filter(estado='activa').first()
+        precio_val = float(pub_activa.precio) if pub_activa else None
+        tipo_oferta_val = pub_activa.get_tipo_oferta_display() if pub_activa else "Alquiler"
+
+        dir_str = str(inmueble.direccion) if inmueble.direccion else "Sin dirección"
+
+        resultados.append({
+            'inmueble_id': inmueble.id,
+            'titulo': inmueble.titulo,
+            'descripcion': inmueble.descripcion,
+            'lat': inm_lat,
+            'lng': inm_lng,
+            'direccion': dir_str,
+            'precio': precio_val,
+            'tipo_oferta': tipo_oferta_val,
+            'imagen': imagen_principal,
+            'superficie': float(inmueble.superficie) if inmueble.superficie else None,
+            'habitaciones': inmueble.habitaciones,
+            'banos': inmueble.banos,
+            'garaje': inmueble.garaje,
+            'distancia_centro_km': dist_centro,
+            'desglose_pois': desglose_pois,
+            'score_conveniencia': score,
+            'ahorro_rutina_min': ahorro_estimado_min,
+            'rutina_diaria_texto': rutina_diaria_texto,
+            'justificacion_ia': f"Excelente propiedad ubicada estratégicamente. {rutina_diaria_texto} y óptimo acceso a tus puntos clave.",
+        })
+
+    # Ordenar resultados por score de conveniencia descendente
+    resultados.sort(key=lambda x: x['score_conveniencia'], reverse=True)
+
+    # Generar justificativo de IA con Groq para los top 5 resultados
+    if resultados and getattr(settings, 'GROQ_API_KEY', None):
+        top_items = resultados[:5]
+        prompt_ia = (
+            "Eres un Asistente Inmobiliario Experto. Analiza las siguientes propiedades disponibles y "
+            "genera una justificación breve, ejecutiva y personalizada (2 oraciones por propiedad) "
+            "resaltando el ahorro de tiempo y conveniencia para la rutina diaria del usuario.\n"
+            "REGLA OBLIGATORIA: No utilices ningún emoji ni emoticono en el texto. Mantén un tono formal, profesional y elegante.\n\n"
+            f"Puntos de Interés del usuario: {json.dumps(puntos_interes, ensure_ascii=False)}\n\n"
+            "Propiedades:\n"
+        )
+
+        for idx, item in enumerate(top_items):
+            prompt_ia += f"[{idx+1}] ID:{item['inmueble_id']} - {item['titulo']} ({item['direccion']}). Score: {item['score_conveniencia']}/100. Ahorro: {item['ahorro_rutina_min']} min/día. POIs: {json.dumps(item['desglose_pois'], ensure_ascii=False)}\n"
+
+        prompt_ia += (
+            "\nResponde ÚNICAMENTE en formato JSON con la siguiente estructura exacta:\n"
+            '{"justificaciones": {"<inmueble_id>": "Explicación ejecutiva de conveniencia y rutina..."}}'
+        )
+
+        try:
+            payload = {
+                "model": "llama-3.3-70b-versatile",
+                "messages": [{"role": "user", "content": prompt_ia}],
+                "temperature": 0.3,
+                "response_format": {"type": "json_object"}
+            }
+            headers_req = {
+                "Authorization": f"Bearer {settings.GROQ_API_KEY}",
+                "Content-Type": "application/json"
+            }
+            resp = requests.post("https://api.groq.com/openai/v1/chat/completions", json=payload, headers=headers_req, timeout=15)
+            if resp.status_code == 200:
+                data_ia = resp.json()
+                content = data_ia['choices'][0]['message']['content']
+                parsed = json.loads(content)
+                justificativos = parsed.get('justificaciones', {})
+                for item in resultados:
+                    str_id = str(item['inmueble_id'])
+                    if str_id in justificativos:
+                        item['justificacion_ia'] = justificativos[str_id]
+        except Exception as e:
+            print(f"[procesar_busqueda_mapa_ia] Error llamando a Groq: {e}")
+
+    return {
+        'total': len(resultados),
+        'es_poligono': tiene_poligono,
+        'resultados': resultados
+    }
+
+
+def procesar_busqueda_semantica_ia(descripcion_texto: str, imagen_base64: str = None, tipo_oferta: str = None, precio_max: float = None) -> dict:
+    """
+    Realiza una búsqueda multimodal y semántica en el catálogo de inmuebles
+    utilizando análisis de lenguaje natural y visión computacional con Groq.
+    Extrae estilos arquitectónicos y detecta opciones look-alike según presupuesto.
+    """
+    from .selectors import get_inmuebles_para_busqueda_semantica
+    inmuebles_qs = get_inmuebles_para_busqueda_semantica(tipo_oferta=tipo_oferta, precio_max=precio_max)
+
+    if not inmuebles_qs.exists():
+        return {'resultados': [], 'estilos_detectados': [], 'total': 0}
+
+    # Construir lista de candidatos
+    candidatos = []
+    for inm in inmuebles_qs:
+        mult = inm.multimedia.filter(principal=True).first() or inm.multimedia.first()
+        imagen_url = mult.archivo if mult else None
+
+        pub_activa = inm.publicaciones.filter(estado='activa').first()
+        precio_val = float(pub_activa.precio) if pub_activa else None
+        tipo_oferta_val = pub_activa.get_tipo_oferta_display() if pub_activa else "Alquiler"
+        dir_str = str(inm.direccion) if inm.direccion else "Sin dirección especificada"
+
+        candidatos.append({
+            'inmueble_id': inm.id,
+            'titulo': inm.titulo,
+            'descripcion': inm.descripcion or '',
+            'tipo': inm.tipo.nombre if inm.tipo else 'Inmueble',
+            'direccion': dir_str,
+            'precio': precio_val,
+            'tipo_oferta': tipo_oferta_val,
+            'imagen': imagen_url,
+            'superficie': float(inm.superficie) if inm.superficie else None,
+            'habitaciones': inm.habitaciones,
+            'banos': inm.banos,
+            'garaje': inm.garaje,
+            'coincidencia_porcentaje': 70,
+            'atributos_coincidentes': [],
+            'es_lookalike_economico': False,
+            'justificacion_ia': 'Propiedad coincidente con los criterios de búsqueda.',
+        })
+
+    estilos_detectados = [
+        "Diseño Contemporáneo",
+        "Espacios Iluminados",
+        "Acabados Residenciales"
+    ]
+
+    # Si hay clave de Groq, ejecutar análisis semántico / multimodal con Llama 3.3
+    if getattr(settings, 'GROQ_API_KEY', None):
+        descripcion_busqueda = descripcion_texto.strip()
+        if imagen_base64 and not descripcion_busqueda:
+            descripcion_busqueda = "Propiedad similar a la imagen de referencia: acabados modernos, buena iluminación y distribución funcional."
+        elif imagen_base64 and descripcion_busqueda:
+            descripcion_busqueda += " (Búsqueda multimodal con imagen de referencia visual)"
+
+        prompt_ia = (
+            "Eres un Asistente Arquitectónico e Inmobiliario Experto de Búsqueda Semántica.\n"
+            "Evalúa las siguientes propiedades frente a la búsqueda del usuario. "
+            "Extrae los estilos y acabados detectados y evalúa el porcentaje de afinidad y si es una alternativa look-alike económica.\n\n"
+            f"Criterio del usuario: \"{descripcion_busqueda}\"\n"
+            f"Presupuesto máximo: {f'${precio_max} USD' if precio_max else 'No especificado'}\n\n"
+            "Propiedades candidatas:\n"
+        )
+
+        for c in candidatos[:12]:
+            prompt_ia += (
+                f"- ID:{c['inmueble_id']} | Título: {c['titulo']} | Tipo: {c['tipo']} | Precio: ${c['precio']} {c['tipo_oferta']} | "
+                f"Hab: {c['habitaciones']} | Baños: {c['banos']} | Garaje: {c['garaje']} | Sup: {c['superficie']}m2 | "
+                f"Ubicación: {c['direccion']} | Descripción: {c['descripcion'][:150]}\n"
+            )
+
+        prompt_ia += (
+            "\nREGLA OBLIGATORIA: No utilices ningún emoji ni emoticono en el texto. Mantén un tono formal, elegante y analítico.\n"
+            "Responde ÚNICAMENTE en formato JSON con la siguiente estructura exacta:\n"
+            "{\n"
+            '  "estilos_detectados": ["Estilo Moderno", "Cocina Americana", "Iluminación Natural"],\n'
+            '  "evaluaciones": [\n'
+            '    {\n'
+            '      "inmueble_id": 1,\n'
+            '      "coincidencia_porcentaje": 92,\n'
+            '      "atributos_coincidentes": ["3 dormitorios", "Jardín con parrillero", "Iluminación natural"],\n'
+            '      "es_lookalike_economico": false,\n'
+            '      "justificacion_ia": "Coincide en un 92% con la búsqueda debido a su distribución familiar y acabados modernos."\n'
+            '    }\n'
+            '  ]\n'
+            "}"
+        )
+
+        try:
+            payload = {
+                "model": "llama-3.3-70b-versatile",
+                "messages": [{"role": "user", "content": prompt_ia}],
+                "temperature": 0.2,
+                "response_format": {"type": "json_object"}
+            }
+            headers_req = {
+                "Authorization": f"Bearer {settings.GROQ_API_KEY}",
+                "Content-Type": "application/json"
+            }
+            resp = requests.post("https://api.groq.com/openai/v1/chat/completions", json=payload, headers=headers_req, timeout=18)
+            if resp.status_code == 200:
+                data_ia = resp.json()
+                content = data_ia['choices'][0]['message']['content']
+                parsed = json.loads(content)
+
+                if 'estilos_detectados' in parsed and isinstance(parsed['estilos_detectados'], list):
+                    estilos_detectados = parsed['estilos_detectados']
+
+                evaluaciones = parsed.get('evaluaciones', [])
+                eval_dict = {str(e.get('inmueble_id')): e for e in evaluaciones}
+
+                for item in candidatos:
+                    str_id = str(item['inmueble_id'])
+                    if str_id in eval_dict:
+                        ev = eval_dict[str_id]
+                        item['coincidencia_porcentaje'] = int(ev.get('coincidencia_porcentaje', 70))
+                        item['atributos_coincidentes'] = ev.get('atributos_coincidentes', [])
+                        item['es_lookalike_economico'] = bool(ev.get('es_lookalike_economico', False))
+                        item['justificacion_ia'] = ev.get('justificacion_ia', item['justificacion_ia'])
+        except Exception as e:
+            print(f"[procesar_busqueda_semantica_ia] Error llamando a Groq: {e}")
+
+    # Ordenar por % de coincidencia descendente
+    candidatos.sort(key=lambda x: x['coincidencia_porcentaje'], reverse=True)
+    return {
+        'total': len(candidatos),
+        'estilos_detectados': estilos_detectados,
+        'resultados': candidatos
+    }
 

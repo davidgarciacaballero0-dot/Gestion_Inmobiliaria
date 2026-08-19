@@ -25,17 +25,20 @@ import {
   Eye,
   Orbit,
   Bot,
+  ShieldCheck,
 } from 'lucide-react';
 import Modal from '../../components/Modal';
 import ModalRecorrido3D from '../../components/ModalRecorrido3D';
 import ContratoDetalle from '../../components/ContratoDetalle';
 import ContratoIACreador from '../../components/ContratoIACreador';
+import ScoringInquilinoModal from '../../components/ScoringInquilinoModal';
 import useAuth from '../../hooks/useAuth';
 import useAlertConfirm from '../../hooks/useAlertConfirm';
 import api from '../../services/api';
 import pagoService from '../../services/pagoService';
 import { API_BASE_URL } from '../../config';
 import './Propiedades.css';
+
 
 const CHIPS_EDITAR = [
   { id: 'tipo', emoji: '📄', label: 'Tipo de contrato', pregunta: '¿Qué tipo de contrato necesito para este inmueble y cuál es la diferencia entre alquiler, venta y anticrético?' },
@@ -233,8 +236,13 @@ const MisMensajes = () => {
   const [recorridoPanoramas, setRecorridoPanoramas] = useState([]);
 
 
+  // ─── Estado de Scoring de Inquilino con IA ────────────────
+  const [showScoringModal, setShowScoringModal] = useState(false);
+  const [scoringTargetUserId, setScoringTargetUserId] = useState(null);
+
   // ─── Estado de Contrato (formulario manual, se mantiene como fallback) ───
   const [showContratoModal, setShowContratoModal] = useState(false);
+
 
   // ─── Estado del nuevo Creador de Contrato con IA ───────────
   const [showContratoIAModal, setShowContratoIAModal] = useState(false);
@@ -1372,6 +1380,45 @@ Puedes consultarme sobre las cláusulas, penalidades o términos que deseas camb
                   </div>
                   <div style={{ display: 'flex', gap: '8px' }}>
                     <button
+                      type="button"
+                      onClick={() => {
+                        const targetId = selectedChat?.cliente === user?.id ? selectedChat?.propietario : selectedChat?.cliente;
+                        setScoringTargetUserId(targetId);
+                        setShowScoringModal(true);
+                      }}
+                      style={{
+                        background: '#ecfdf5',
+                        color: '#065f46',
+                        border: '1.5px solid #a7f3d0',
+                        padding: '7px 13px',
+                        borderRadius: '10px',
+                        fontSize: '0.825rem',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        transition: 'all 0.2s ease',
+                      }}
+                      onMouseOver={(e) => {
+                        e.currentTarget.style.background = '#d1fae5';
+                        e.currentTarget.style.borderColor = '#6ee7b7';
+                        e.currentTarget.style.transform = 'translateY(-1px)';
+                      }}
+                      onMouseOut={(e) => {
+                        e.currentTarget.style.background = '#ecfdf5';
+                        e.currentTarget.style.borderColor = '#a7f3d0';
+                        e.currentTarget.style.transform = 'translateY(0)';
+                      }}
+                      title="Evaluar perfil, antecedentes de pago y confiabilidad con IA"
+                    >
+                      <ShieldCheck size={15} color="#059669" />
+                      <span>Pasaporte & Scoring</span>
+                      <span style={{ background: '#059669', color: '#ffffff', fontSize: '0.625rem', fontWeight: 800, padding: '1px 5px', borderRadius: '4px', lineHeight: 1.2 }}>IA</span>
+                    </button>
+
+
+                    <button
                       onClick={handleBlockToggle}
                       style={{
                         background: isBlocked ? '#ef4444' : '#f1f5f9',
@@ -1408,6 +1455,7 @@ Puedes consultarme sobre las cláusulas, penalidades o términos que deseas camb
                     >
                       <Trash2 size={16} /> Eliminar
                     </button>
+
                   </div>
                 </div>
 
@@ -2495,7 +2543,20 @@ Puedes consultarme sobre las cláusulas, penalidades o términos que deseas camb
         )}
       </Modal>
 
+      {/* Modal de Scoring Inteligente de Inquilinos */}
+      {showScoringModal && (
+        <ScoringInquilinoModal
+          usuarioId={scoringTargetUserId}
+          onClose={() => {
+            setShowScoringModal(false);
+            setScoringTargetUserId(null);
+          }}
+        />
+      )}
+
       {ModalComponent}
+
+
 
 
       <style>{`
