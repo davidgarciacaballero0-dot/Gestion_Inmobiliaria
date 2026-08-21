@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { Maximize2, Minimize2, Layers, Compass } from 'lucide-react';
+import { Maximize2, Minimize2, Layers, Compass, Bot, Sparkles } from 'lucide-react';
 import 'pannellum/build/pannellum.css';
 import 'pannellum';
 import ModalRecorrido3D from './ModalRecorrido3D';
@@ -15,6 +15,7 @@ import './Visor360.css';
 const Visor360 = ({ inmuebleId = null, panoramas = [], accesoId = null, musica = null }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [mostrarGuia, setMostrarGuia] = useState(false);
   const viewerRef = useRef(null);
   const viewerInstanceRef = useRef(null);
   const [pisoActivo, setPisoActivo] = useState('');
@@ -359,7 +360,7 @@ const Visor360 = ({ inmuebleId = null, panoramas = [], accesoId = null, musica =
         <div ref={viewerRef} className="visor360__viewer" id="visor360-pannellum" />
 
         {/* Guía Virtual con Voz Inteligente en Visor Inline */}
-        {inmuebleId && (
+        {inmuebleId && mostrarGuia && (
           <GuiaVirtualVoz
             inmuebleId={inmuebleId}
             habitacionActiva={escenaActiva?.habitacion || 'Vista 360°'}
@@ -374,23 +375,36 @@ const Visor360 = ({ inmuebleId = null, panoramas = [], accesoId = null, musica =
             )}
             <span>{escenaActiva?.habitacion || 'Vista 360°'}</span>
           </div>
-          <button
-            className="visor360__fullscreen-btn"
-            onClick={toggleFullscreen}
-            type="button"
-          >
-            {isFullscreen ? (
-              <>
-                <Minimize2 size={14} />
-                Salir de pantalla completa
-              </>
-            ) : (
-              <>
-                <Maximize2 size={14} />
-                Pantalla completa
-              </>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            {inmuebleId && (
+              <button
+                className={`visor360__guia-btn ${mostrarGuia ? 'visor360__guia-btn--active' : ''}`}
+                onClick={() => setMostrarGuia(prev => !prev)}
+                type="button"
+                title={mostrarGuia ? 'Ocultar asistente Sofía' : 'Activar guía virtual con IA'}
+              >
+                <Bot size={14} />
+                <span>{mostrarGuia ? 'Ocultar Guía IA' : 'Guía Sofía IA'}</span>
+              </button>
             )}
-          </button>
+            <button
+              className="visor360__fullscreen-btn"
+              onClick={toggleFullscreen}
+              type="button"
+            >
+              {isFullscreen ? (
+                <>
+                  <Minimize2 size={14} />
+                  Salir de pantalla completa
+                </>
+              ) : (
+                <>
+                  <Maximize2 size={14} />
+                  Pantalla completa
+                </>
+              )}
+            </button>
+          </div>
         </div>
       </div>
     </div>

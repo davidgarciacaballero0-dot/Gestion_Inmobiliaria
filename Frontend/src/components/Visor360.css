@@ -227,6 +227,36 @@
   text-transform: uppercase;
 }
 
+.visor360__guia-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border: 1px solid rgba(14, 165, 233, 0.4);
+  border-radius: 8px;
+  background: rgba(14, 165, 233, 0.15);
+  color: #38bdf8;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(4px);
+}
+
+.visor360__guia-btn:hover {
+  background: rgba(14, 165, 233, 0.3);
+  color: #fff;
+  border-color: #0ea5e9;
+  transform: scale(1.03);
+}
+
+.visor360__guia-btn--active {
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 0 12px rgba(14, 165, 233, 0.4);
+}
+
 .visor360__fullscreen-btn {
   display: flex;
   align-items: center;

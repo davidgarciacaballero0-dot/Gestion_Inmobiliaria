@@ -1,7 +1,8 @@
 import { useState, useEffect, useMemo } from 'react';
 import {
   DollarSign, TrendingUp, Calendar, ShieldCheck, Sparkles,
-  Sliders, Download, Building, Percent, Clock
+  Sliders, Download, Building, Percent, Clock, BarChart3,
+  MapPin, CheckCircle2, HelpCircle, Layers, Check, ChevronDown, ChevronUp
 } from 'lucide-react';
 import {
   ResponsiveContainer, AreaChart, Area, BarChart, Bar,
@@ -24,8 +25,9 @@ const SimuladorInversion = ({ inmuebleId, valuacionInicial = null, precioReferen
   const [valuacion, setValuacion] = useState(valuacionInicial);
   const [cargandoValuacion, setCargandoValuacion] = useState(!valuacionInicial && !!inmuebleId);
   const [exportando, setExportando] = useState(false);
+  const [mostrarParametros, setMostrarParametros] = useState(true);
 
-  // Parámetros de simulación en tiempo real (Sliders)
+  // Parámetros de simulación en tiempo real (Sliders en Bolivianos Bs.)
   const [precioCompra, setPrecioCompra] = useState(
     valuacionInicial?.precio_venta_optimo || precioReferencia || 120000
   );
@@ -128,25 +130,76 @@ const SimuladorInversion = ({ inmuebleId, valuacionInicial = null, precioReferen
     });
   };
 
-  const formatUSD = (val) =>
-    new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(val);
+  const formatBs = (val) =>
+    `Bs. ${Number(val || 0).toLocaleString('es-BO', { maximumFractionDigits: 0 })}`;
+
+  // Función para parsear y renderizar el texto estructurado del diagnóstico IA
+  const renderDiagnosticoEstructurado = (texto) => {
+    if (!texto) {
+      return (
+        <p className="simulador-ai-text">
+          La propiedad presenta un precio sugerido óptimo de alquiler de {formatBs(alquilerMensual)}/mes con un retorno anual proyectado (ROI) de {metricas.roiAnual}%.
+        </p>
+      );
+    }
+
+    // Dividir en párrafos o secciones
+    const lineas = texto.split('\n').map(l => l.trim()).filter(Boolean);
+
+    return (
+      <div className="simulador-ai-content-structured">
+        {lineas.map((linea, idx) => {
+          // Encabezados en negrita (ej. **Diagnóstico Clave**)
+          if (linea.startsWith('**') && linea.endsWith('**')) {
+            const titulo = linea.replace(/\*\*/g, '');
+            return (
+              <h5 key={idx} className="simulador-ai-section-title">
+                <CheckCircle2 size={16} color="#0ea5e9" />
+                {titulo}
+              </h5>
+            );
+          }
+          // Viñetas (- o *)
+          if (linea.startsWith('-') || linea.startsWith('*')) {
+            const contenido = linea.replace(/^[-*]\s*/, '');
+            return (
+              <div key={idx} className="simulador-ai-bullet">
+                <span className="simulador-ai-bullet-dot" />
+                <span dangerouslySetInnerHTML={{
+                  __html: contenido.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                }} />
+              </div>
+            );
+          }
+          // Párrafo normal
+          return (
+            <p key={idx} className="simulador-ai-paragraph" dangerouslySetInnerHTML={{
+              __html: linea.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            }} />
+          );
+        })}
+      </div>
+    );
+  };
 
   return (
     <div className="simulador-inversion-container" id="simulador-pdf-export-container">
       {/* ─── Encabezado y Acción de Exportar ─── */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <h2 style={{ fontSize: '1.45rem', fontWeight: 800, margin: 0, color: 'var(--color-text)' }}>
-            📊 Valuación Automática & Simulador de Inversión
+          <h2 style={{ fontSize: '1.45rem', fontWeight: 800, margin: 0, color: 'var(--color-text)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <BarChart3 size={24} color="#0ea5e9" />
+            Valuación Automática & Simulador de Inversión
           </h2>
           <p style={{ margin: '4px 0 0 0', color: 'var(--color-text-secondary)', fontSize: '0.88rem' }}>
-            Estimación de mercado basada en modelo hedónico inmobiliario boliviano y proyecciones de rentabilidad.
+            Estimación hedónica de mercado basada en datos inmobiliarios de Bolivia y proyecciones de rentabilidad en Bolivianos (Bs.).
           </p>
         </div>
         <button
           className="simulador-export-btn"
           onClick={handleExportarPDF}
           disabled={exportando}
+          type="button"
         >
           <Download size={16} />
           {exportando ? 'Generando PDF...' : 'Descargar Informe PDF'}
@@ -161,9 +214,9 @@ const SimuladorInversion = ({ inmuebleId, valuacionInicial = null, precioReferen
           </div>
           <div className="simulador-kpi-content">
             <h4>Alquiler Sugerido</h4>
-            <p className="simulador-kpi-value">{formatUSD(alquilerMensual)}/mes</p>
+            <p className="simulador-kpi-value">{formatBs(alquilerMensual)}/mes</p>
             <span className="simulador-kpi-sub">
-              Rango: {formatUSD(valuacion?.precio_alquiler_min || alquilerMensual * 0.88)} - {formatUSD(valuacion?.precio_alquiler_max || alquilerMensual * 1.14)}
+              Rango: {formatBs(valuacion?.precio_alquiler_min || alquilerMensual * 0.88)} - {formatBs(valuacion?.precio_alquiler_max || alquilerMensual * 1.14)}
             </span>
           </div>
         </div>
@@ -209,7 +262,7 @@ const SimuladorInversion = ({ inmuebleId, valuacionInicial = null, precioReferen
           <div className="simulador-panel-header">
             <h3 className="simulador-panel-title">
               <Sliders size={18} color="#0ea5e9" />
-              Parámetros de Simulación
+              Parámetros de Simulación (Bs.)
             </h3>
           </div>
 
@@ -217,13 +270,13 @@ const SimuladorInversion = ({ inmuebleId, valuacionInicial = null, precioReferen
           <div className="simulador-slider-group">
             <div className="simulador-slider-label-row">
               <span>Valor del Inmueble</span>
-              <span className="simulador-slider-val">{formatUSD(precioCompra)}</span>
+              <span className="simulador-slider-val">{formatBs(precioCompra)}</span>
             </div>
             <input
               type="range"
-              min={30000}
-              max={600000}
-              step={2000}
+              min={100000}
+              max={5000000}
+              step={10000}
               value={precioCompra}
               onChange={(e) => setPrecioCompra(Number(e.target.value))}
               className="simulador-range-input"
@@ -234,13 +287,13 @@ const SimuladorInversion = ({ inmuebleId, valuacionInicial = null, precioReferen
           <div className="simulador-slider-group">
             <div className="simulador-slider-label-row">
               <span>Alquiler Mensual Estimado</span>
-              <span className="simulador-slider-val">{formatUSD(alquilerMensual)}/mes</span>
+              <span className="simulador-slider-val">{formatBs(alquilerMensual)}/mes</span>
             </div>
             <input
               type="range"
-              min={200}
-              max={4000}
-              step={25}
+              min={1000}
+              max={40000}
+              step={200}
               value={alquilerMensual}
               onChange={(e) => setAlquilerMensual(Number(e.target.value))}
               className="simulador-range-input"
@@ -302,15 +355,15 @@ const SimuladorInversion = ({ inmuebleId, valuacionInicial = null, precioReferen
           <div style={{ marginTop: 'auto', padding: '16px', background: 'rgba(14, 165, 233, 0.05)', borderRadius: '12px', border: '1px solid rgba(14, 165, 233, 0.15)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6, fontSize: '0.86rem' }}>
               <span>Ingreso Bruto Anual:</span>
-              <strong>{formatUSD(metricas.ingresoBrutoAnual)}</strong>
+              <strong>{formatBs(metricas.ingresoBrutoAnual)}</strong>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6, fontSize: '0.86rem', color: '#dc2626' }}>
               <span>Gastos Operativos Anuales:</span>
-              <strong>-{formatUSD(metricas.gastosAnuales)}</strong>
+              <strong>-{formatBs(metricas.gastosAnuales)}</strong>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: 8, borderTop: '1px solid rgba(14, 165, 233, 0.2)', fontSize: '0.95rem', color: '#059669', fontWeight: 800 }}>
               <span>Flujo Neto Anual (Cash Flow):</span>
-              <strong>{formatUSD(metricas.ingresoNetoAnual)}</strong>
+              <strong>{formatBs(metricas.ingresoNetoAnual)}</strong>
             </div>
           </div>
         </div>
@@ -319,7 +372,7 @@ const SimuladorInversion = ({ inmuebleId, valuacionInicial = null, precioReferen
         <div className="simulador-panel-charts">
           <h3 className="simulador-panel-title">
             <TrendingUp size={18} color="#059669" />
-            Proyección de Flujo de Caja Acumulado (10 Años)
+            Proyección de Flujo de Caja Acumulado (10 Años en Bs.)
           </h3>
           <div style={{ width: '100%', height: 320, minWidth: 0, minHeight: 320, position: 'relative' }}>
             <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={280}>
@@ -336,9 +389,9 @@ const SimuladorInversion = ({ inmuebleId, valuacionInicial = null, precioReferen
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
                 <XAxis dataKey="anio" stroke="#64748b" fontSize={12} />
-                <YAxis stroke="#64748b" fontSize={12} tickFormatter={(val) => `$${val / 1000}k`} />
+                <YAxis stroke="#64748b" fontSize={12} tickFormatter={(val) => `Bs.${val / 1000}k`} />
                 <Tooltip
-                  formatter={(val) => [`$${val.toLocaleString()}`, '']}
+                  formatter={(val) => [`Bs. ${val.toLocaleString()}`, '']}
                   contentStyle={{ background: '#1e293b', border: 'none', borderRadius: '8px', color: '#f8fafc' }}
                 />
                 <Legend />
@@ -350,24 +403,69 @@ const SimuladorInversion = ({ inmuebleId, valuacionInicial = null, precioReferen
         </div>
       </div>
 
-      {/* ─── Diagnóstico de Mercado con IA ─── */}
+      {/* ─── Diagnóstico de Mercado Sintetizado con IA ─── */}
       <div className="simulador-ai-diagnostic">
         <div className="simulador-ai-header">
           <Sparkles size={18} />
-          Diagnóstico de Mercado & Recomendaciones Estratégicas (IA Groq)
+          Diagnóstico Clave de Mercado & Recomendaciones (IA)
         </div>
-        <p className="simulador-ai-text">
-          {valuacion?.analisis_mercado_ia || (
-            `La propiedad presenta un precio sugerido óptimo de alquiler de ${formatUSD(alquilerMensual)}/mes con una tasa de retorno anual (ROI) estimada de ${metricas.roiAnual}%. Se recomienda mantener la propiedad amoblada para reducir el período de vacancia a menos de 15 días y maximizar el flujo de caja neto.`
-          )}
-        </p>
+        {renderDiagnosticoEstructurado(valuacion?.analisis_mercado_ia)}
+      </div>
+
+      {/* ─── Desglose de Variables Determinantes del Cálculo ─── */}
+      <div className="simulador-variables-card">
+        <div 
+          className="simulador-variables-header"
+          onClick={() => setMostrarParametros(!mostrarParametros)}
+          style={{ cursor: 'pointer' }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <HelpCircle size={18} color="#0ea5e9" />
+            <h4 style={{ margin: 0, fontSize: '1rem', fontWeight: 700, color: 'var(--color-text)' }}>
+              ¿Qué variables se consideran para este cálculo inteligente?
+            </h4>
+          </div>
+          <button className="simulador-toggle-btn" type="button">
+            {mostrarParametros ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+          </button>
+        </div>
+
+        {mostrarParametros && (
+          <div className="simulador-variables-grid">
+            <div className="simulador-variable-item">
+              <div className="simulador-var-badge">Superficie</div>
+              <p>Metros cuadrados ({valuacion?.superficie || '100'} m²) construidos y ratio precio/m² de mercado.</p>
+            </div>
+            <div className="simulador-variable-item">
+              <div className="simulador-var-badge">Ubicación</div>
+              <p>Ciudad ({valuacion?.ciudad || 'Bolivia'}) y Zona ({valuacion?.zona || 'Céntrica'}), analizando plusvalía y demanda local.</p>
+            </div>
+            <div className="simulador-variable-item">
+              <div className="simulador-var-badge">Dormitorios & Baños</div>
+              <p>Distribución funcional de ambientes, dormitorios y factor de confort de los baños.</p>
+            </div>
+            <div className="simulador-variable-item">
+              <div className="simulador-var-badge">Garaje / Parqueo</div>
+              <p>Disponibilidad de parqueo privado que reduce la vacancia e incrementa el valor de alquiler.</p>
+            </div>
+            <div className="simulador-variable-item">
+              <div className="simulador-var-badge">Comparables Reales</div>
+              <p>Cruce directo con {valuacion?.comparables?.length || 0} propiedades activas en la misma zona.</p>
+            </div>
+            <div className="simulador-variable-item">
+              <div className="simulador-var-badge">ROI & Absorción</div>
+              <p>Tasa de capitalización anual estimada ({metricas.capRate}%) y días promedio de vacancia.</p>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* ─── Tabla de Propiedades Comparables en la Zona ─── */}
       {valuacion?.comparables && valuacion.comparables.length > 0 && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-          <h3 style={{ fontSize: '1.1rem', fontWeight: 700, margin: 0, color: 'var(--color-text)' }}>
-            📍 Inmuebles Comparables en la Misma Zona
+          <h3 style={{ fontSize: '1.1rem', fontWeight: 700, margin: 0, color: 'var(--color-text)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <MapPin size={18} color="#0ea5e9" />
+            Inmuebles Comparables en la Misma Zona
           </h3>
           <div className="simulador-comparables-table-wrapper">
             <table className="simulador-comparables-table">
@@ -388,8 +486,8 @@ const SimuladorInversion = ({ inmuebleId, valuacionInicial = null, precioReferen
                     <td>{comp.zona}</td>
                     <td>{comp.superficie} m²</td>
                     <td>{comp.habitaciones} dorms</td>
-                    <td style={{ fontWeight: 700, color: '#4f46e5' }}>${comp.precio_oferta} {comp.tipo_oferta}</td>
-                    <td>${comp.precio_m2}/m²</td>
+                    <td style={{ fontWeight: 700, color: '#4f46e5' }}>Bs. {comp.precio_oferta.toLocaleString()} {comp.tipo_oferta}</td>
+                    <td>Bs. {comp.precio_m2}/m²</td>
                   </tr>
                 ))}
               </tbody>

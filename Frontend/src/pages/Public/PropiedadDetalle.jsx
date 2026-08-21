@@ -3,7 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import {
   Heart, Share2, MapPin, Bed, Bath, Maximize2, X, ChevronLeft,
   ChevronRight, Home, Video, MessageCircle, Check, AlertCircle, Calendar,
-  ShieldCheck, ShieldAlert, Lock, Orbit
+  ShieldCheck, ShieldAlert, Lock, Orbit, Sparkles
 } from 'lucide-react';
 
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
@@ -296,10 +296,14 @@ const PropiedadDetalle = () => {
                       fontWeight: 700,
                       cursor: 'pointer',
                       transition: 'all 0.2s',
-                      fontSize: '0.92rem'
+                      fontSize: '0.92rem',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '8px'
                     }}
                     type="button"
                   >
+                    <Video size={17} />
                     Fotos y Videos
                   </button>
                   {panoramas360.length > 0 && (
@@ -314,11 +318,15 @@ const PropiedadDetalle = () => {
                         fontWeight: 700,
                         cursor: 'pointer',
                         transition: 'all 0.2s',
-                        fontSize: '0.92rem'
+                        fontSize: '0.92rem',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '8px'
                       }}
                       type="button"
                     >
-                      🗣️ Recorrido 3D con Voz
+                      <Orbit size={17} />
+                      Recorrido 3D con Voz
                     </button>
                   )}
                   <button
@@ -332,14 +340,16 @@ const PropiedadDetalle = () => {
                       fontWeight: 700,
                       cursor: 'pointer',
                       transition: 'all 0.2s',
-                      fontSize: '0.92rem'
+                      fontSize: '0.92rem',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '8px'
                     }}
                     type="button"
                   >
-                    🛋️ Amoblado Virtual IA
+                    <Sparkles size={17} />
+                    Amoblado Virtual IA
                   </button>
-
-
                 </div>
 
                 {/* ─── Pestaña: Fotos y Videos ─── */}

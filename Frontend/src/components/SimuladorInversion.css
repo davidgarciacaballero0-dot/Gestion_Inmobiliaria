@@ -161,22 +161,73 @@
 
 /* Diagnóstico con IA */
 .simulador-ai-diagnostic {
-  background: linear-gradient(135deg, rgba(14, 165, 233, 0.05) 0%, rgba(2, 132, 199, 0.08) 100%);
-  border: 1px solid rgba(14, 165, 233, 0.2);
-  border-radius: 16px;
-  padding: 20px;
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.04) 0%, rgba(2, 132, 199, 0.07) 100%);
+  border: 1px solid rgba(14, 165, 233, 0.22);
+  border-radius: 18px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 14px;
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.05);
 }
 
 .simulador-ai-header {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: #0ea5e9;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #0284c7;
+  letter-spacing: -0.01em;
+}
+
+.simulador-ai-content-structured {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.simulador-ai-section-title {
+  margin: 12px 0 4px 0;
+  font-size: 0.94rem;
+  font-weight: 800;
+  color: var(--color-text, #0f172a);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.simulador-ai-section-title:first-child {
+  margin-top: 0;
+}
+
+.simulador-ai-bullet {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--color-text, #334155);
+  background: rgba(255, 255, 255, 0.65);
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(14, 165, 233, 0.12);
+}
+
+.simulador-ai-bullet-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #0ea5e9;
+  margin-top: 8px;
+  flex-shrink: 0;
+}
+
+.simulador-ai-paragraph {
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--color-text, #334155);
+  margin: 0;
 }
 
 .simulador-ai-text {
@@ -184,6 +235,82 @@
   line-height: 1.6;
   color: var(--color-text, #334155);
   margin: 0;
+}
+
+/* Panel Desglose de Variables de Cálculo */
+.simulador-variables-card {
+  background: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 18px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04);
+}
+
+.simulador-variables-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+}
+
+.simulador-toggle-btn {
+  background: rgba(14, 165, 233, 0.1);
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0ea5e9;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.simulador-toggle-btn:hover {
+  background: #0ea5e9;
+  color: #ffffff;
+}
+
+.simulador-variables-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+  padding-top: 6px;
+  border-top: 1px solid var(--color-border, #f1f5f9);
+}
+
+.simulador-variable-item {
+  background: var(--color-bg-secondary, #f8fafc);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.simulador-var-badge {
+  display: inline-block;
+  width: fit-content;
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: rgba(14, 165, 233, 0.12);
+  color: #0284c7;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.simulador-variable-item p {
+  margin: 0;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  color: var(--color-text-secondary, #475569);
 }
 
 /* Tabla de Comparables */

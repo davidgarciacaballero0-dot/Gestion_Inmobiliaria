@@ -1105,29 +1105,43 @@ def generar_narracion_espacial(inmueble_id: int, habitacion_nombre: str, orienta
     from django.conf import settings
     import requests
 
-    inmueble = Inmueble.objects.select_related('direccion', 'tipo', 'propietario').prefetch_related('publicaciones').get(id=inmueble_id)
+    inmueble = Inmueble.objects.select_related('direccion', 'tipo', 'propietario').prefetch_related('publicaciones', 'multimedia').get(id=inmueble_id)
     
     # Obtener precio activo si existe
     pub_activa = inmueble.publicaciones.filter(estado='activa').first()
-    precio_str = f"{pub_activa.precio} USD ({pub_activa.get_tipo_oferta_display()})" if pub_activa else "Consultar precio"
-    dir_str = str(inmueble.direccion) if inmueble.direccion else "Zona céntrica"
+    precio_str = f"Bs. {pub_activa.precio:,.2f} ({pub_activa.get_tipo_oferta_display()})" if pub_activa else "Consultar precio en Bolivianos (Bs.)"
+    dir_str = str(inmueble.direccion) if inmueble.direccion else "Zona céntrica de la ciudad"
+    tipo_str = inmueble.tipo.nombre if inmueble.tipo else 'Inmueble'
 
-    prompt_sistema = """Eres 'Sofía', la Guía Virtual Inmobiliaria con IA más sofisticada y carismática de Bolivia.
-Tu trabajo es narrar con entusiasmo, elegancia y brevedad (máximo 2 o 3 oraciones contundentes) lo que el cliente está viendo en la habitación actual del recorrido 360°.
-Usa un tono natural, cálido y profesional en español latino/boliviano. Resalta dimensiones, iluminación, acabados y confort.
-Al final, invita sutilmente a hacer una pregunta o explorar otro ambiente."""
+    # Detección o estimación de plantas/pisos a partir de las habitaciones 360
+    panoramas = inmueble.multimedia.filter(tipo='panorama360')
+    pisos_detectados = set()
+    for p in panoramas:
+        d = p.descripcion or ''
+        if d and '|' in d:
+            pisos_detectados.add(d.split('|')[0].strip())
+    pisos_info = f"{len(pisos_detectados)} plantas/pisos" if len(pisos_detectados) > 1 else "1 planta"
+
+    prompt_sistema = """Eres 'Sofía', la Guía Virtual Inmobiliaria con IA más sofisticada, precisa y carismática de Bolivia.
+Tu misión es narrar con entusiasmo, elegancia y brevedad (máximo 2 o 3 oraciones contundentes) lo que el cliente está viendo en la habitación actual del recorrido 360°.
+Usa un tono natural, cálido y profesional en español latino/boliviano. Resalta las características reales del inmueble: dimensiones, iluminación, acabados, distribución y confort.
+IMPORTANTE SOBRE LA MONEDA: La moneda oficial del inmueble es BOLIVIANOS (Bs.). NUNCA menciones dólares ni USD. Expresa siempre los precios y valores en Bolivianos (Bs.).
+Al final, invita sutilmente a hacer una pregunta sobre el inmueble o explorar otro ambiente."""
 
     prompt_usuario = f"""
-DATOS DE LA PROPIEDAD:
-- Inmueble: {inmueble.titulo} ({inmueble.tipo.nombre if inmueble.tipo else 'Inmueble'})
-- Ubicación: {dir_str}
-- Superficie total: {inmueble.superficie or 'Amplia'} m² | {inmueble.habitaciones} dormitorios | {inmueble.banos} baños | Garaje: {'Sí' if inmueble.garaje else 'No'}
-- Oferta: {precio_str}
-- Descripción general: {inmueble.descripcion[:200] if inmueble.descripcion else 'Propiedad de primer nivel'}
+DATOS REALES DE LA PROPIEDAD:
+- Inmueble: {inmueble.titulo} ({tipo_str} de {pisos_info})
+- Ubicación: {dir_str} (Ciudad: {inmueble.direccion.ciudad if inmueble.direccion else 'Bolivia'})
+- Superficie total: {inmueble.superficie or 'Amplia'} m²
+- Habitaciones / Dormitorios: {inmueble.habitaciones}
+- Baños: {inmueble.banos}
+- Garaje / Parqueo: {'Sí cuenta con garaje/parqueo' if inmueble.garaje else 'No cuenta con garaje'}
+- Oferta comercial activa: {precio_str} (Expresado en Bolivianos Bs.)
+- Descripción general del propietario: {inmueble.descripcion[:250] if inmueble.descripcion else 'Propiedad de excelente nivel'}
 
-HABITACIÓN ACTUAL: "{habitacion_nombre}"
+HABITACIÓN ACTUAL EN EL RECORRIDO 360°: "{habitacion_nombre}"
 
-Genera una narración en primera persona como guía turística/inmobiliaria lista para locución por voz."""
+Genera una narración concisa en primera persona como guía inmobiliaria lista para locución por voz."""
 
     narracion_texto = ""
     api_key = getattr(settings, 'GROQ_API_KEY', '')
@@ -1142,7 +1156,7 @@ Genera una narración en primera persona como guía turística/inmobiliaria list
                     {"role": "user", "content": prompt_usuario}
                 ],
                 "temperature": 0.7,
-                "max_tokens": 200,
+                "max_tokens": 220,
             }
             resp = requests.post(GROQ_API_URL, json=payload, headers=headers, timeout=15)
             if resp.ok:
@@ -1156,13 +1170,13 @@ Genera una narración en primera persona como guía turística/inmobiliaria list
         if 'cocina' in hab_lower:
             narracion_texto = f"Estás en la cocina de {inmueble.titulo}, un espacio diseñado con finos acabados, excelente ventilación y distribución ergonómica. ¿Querés saber qué electrodomésticos o servicios incluye?"
         elif 'dormitorio' in hab_lower or 'habitacion' in hab_lower or 'cuarto' in hab_lower:
-            narracion_texto = f"Te encuentras en una de las habitaciones principales. Destaca por su iluminación natural y ambiente acogedor pensado para tu descanso. ¿Te gustaría conocer las dimensiones o agendar una visita?"
+            narracion_texto = f"Te encuentras en una de las {inmueble.habitaciones} habitaciones principales. Destaca por su iluminación natural y ambiente acogedor pensado para tu descanso. ¿Te gustaría conocer las dimensiones o agendar una visita?"
         elif 'sala' in hab_lower or 'living' in hab_lower:
             narracion_texto = f"Bienvenido al área social de la propiedad. Un living amplio y luminoso con vistas agradables, ideal para compartir en familia. ¿Deseas explorar los demás ambientes?"
         elif 'baño' in hab_lower or 'bano' in hab_lower:
-            narracion_texto = f"Este es el baño principal, equipado con grifería moderna y revestimientos de primera calidad. ¿Tienes alguna consulta sobre la propiedad?"
+            narracion_texto = f"Este es uno de los {inmueble.banos} baños del inmueble, equipado con grifería moderna y revestimientos de primera calidad. ¿Tienes alguna consulta sobre la propiedad?"
         else:
-            narracion_texto = f"Estás visualizando {habitacion_nombre} en {inmueble.titulo}. Un ambiente versátil con excelente confort. ¿Deseas hacer alguna pregunta sobre el precio o agendar una visita?"
+            narracion_texto = f"Estás visualizando {habitacion_nombre} en {inmueble.titulo}. Un ambiente versátil con excelente confort. La propiedad se oferta en {precio_str}. ¿Deseas hacer alguna pregunta o agendar una visita?"
 
     # Síntesis opcional
     audio_info = sintetizar_audio_guia(narracion_texto)
@@ -1186,31 +1200,40 @@ def procesar_consulta_guia_virtual(inmueble_id: int, pregunta: str, habitacion_a
     import requests
     import json
 
-    inmueble = Inmueble.objects.select_related('direccion', 'tipo', 'propietario').prefetch_related('publicaciones').get(id=inmueble_id)
+    inmueble = Inmueble.objects.select_related('direccion', 'tipo', 'propietario').prefetch_related('publicaciones', 'multimedia').get(id=inmueble_id)
     pub_activa = inmueble.publicaciones.filter(estado='activa').first()
-    precio_str = f"${pub_activa.precio} USD ({pub_activa.get_tipo_oferta_display()})" if pub_activa else "Precio a consultar"
+    precio_str = f"Bs. {pub_activa.precio:,.2f} ({pub_activa.get_tipo_oferta_display()})" if pub_activa else "Precio a consultar en Bolivianos (Bs.)"
     dir_str = str(inmueble.direccion) if inmueble.direccion else "Ubicación disponible tras contacto"
     propietario_nombre = inmueble.propietario.get_full_name() or inmueble.propietario.email
+
+    panoramas = inmueble.multimedia.filter(tipo='panorama360')
+    pisos_detectados = set()
+    for p in panoramas:
+        d = p.descripcion or ''
+        if d and '|' in d:
+            pisos_detectados.add(d.split('|')[0].strip())
+    pisos_info = f"{len(pisos_detectados)} plantas/pisos" if len(pisos_detectados) > 1 else "1 planta"
 
     # Horarios disponibles para visitas
     horarios = HorarioDisponible.objects.filter(propietario=inmueble.propietario, activo=True)
     horarios_str = ", ".join([f"{h.get_dia_semana_display()}: {h.hora_inicio.strftime('%H:%M')} a {h.hora_fin.strftime('%H:%M')}" for h in horarios]) if horarios.exists() else "Lunes a Sábado de 09:00 a 18:00"
 
-    prompt_sistema = f"""Eres el Asistente Virtual Inteligente de la propiedad inmobiliaria '{inmueble.titulo}'.
+    prompt_sistema = f"""Eres Sofía, la Asistente y Guía Virtual Inmobiliaria experta de la propiedad '{inmueble.titulo}' en Bolivia.
 DATOS REALES Y VERIFICADOS DEL INMUEBLE:
 - Título: {inmueble.titulo}
-- Tipo: {inmueble.tipo.nombre if inmueble.tipo else 'Residencial'}
+- Tipo: {inmueble.tipo.nombre if inmueble.tipo else 'Residencial'} ({pisos_info})
 - Oferta comercial: {precio_str}
 - Ubicación: {dir_str} (Ciudad: {inmueble.direccion.ciudad if inmueble.direccion else 'Bolivia'})
-- Dimensiones: {inmueble.superficie} m² | Habitaciones: {inmueble.habitaciones} | Baños: {inmueble.banos} | Garaje: {'Sí cuenta con garaje' if inmueble.garaje else 'No cuenta con garaje'}
+- Dimensiones: {inmueble.superficie} m² | Habitaciones: {inmueble.habitaciones} | Baños: {inmueble.banos} | Garaje: {'Sí cuenta con garaje/parqueo' if inmueble.garaje else 'No cuenta con garaje'}
 - Propietario: {propietario_nombre}
 - Horarios de visita presencial: {horarios_str}
 - Habitación actual donde está el cliente: {habitacion_actual or 'Recorrido General'}
 
-TU MISIÓN:
-1. Responde a la pregunta del cliente de forma concisa, educada, convincente y con datos verídicos (máximo 3 párrafos cortos).
-2. Si el usuario muestra interés en agendar una cita o visita presencial, detecta la intención y extrae la fecha sugerida si la menciona.
-3. Responde en formato JSON con la siguiente estructura:
+REGLAS DE RESPUESTA:
+1. Responde a la pregunta del cliente de forma concisa, educada, convincente y con datos verídicos (máximo 2 o 3 párrafos cortos).
+2. MONEDA OFICIAL: Responde SIEMPRE en BOLIVIANOS (Bs.). NUNCA en USD ni dólares.
+3. Si el usuario muestra interés en agendar una cita o visita presencial, detecta la intención y extrae la fecha/hora sugerida si la menciona.
+4. Responde en formato JSON con la siguiente estructura:
 {{
   "respuesta": "Texto de la respuesta para el cliente",
   "intencion": "consulta_general" | "precio" | "agendar_visita" | "cambiar_habitacion",
@@ -1224,7 +1247,7 @@ Responde ÚNICAMENTE el bloque JSON válido."""
 
     api_key = getattr(settings, 'GROQ_API_KEY', '')
     respuesta_json = {
-        "respuesta": f"La propiedad '{inmueble.titulo}' cuenta con {inmueble.superficie or 'amplios'} m² y tiene un valor de {precio_str}. ¿Te gustaría coordinar una visita presencial para conocerla a detalle?",
+        "respuesta": f"La propiedad '{inmueble.titulo}' cuenta con {inmueble.superficie or 'amplios'} m², {inmueble.habitaciones} dormitorios, {inmueble.banos} baños y tiene un valor de {precio_str}. ¿Te gustaría coordinar una visita presencial para conocerla a detalle?",
         "intencion": "consulta_general",
         "datos_agendamiento": {"requiere_agendar": False, "fecha_sugerida": None, "hora_sugerida": None}
     }
@@ -1249,7 +1272,9 @@ Responde ÚNICAMENTE el bloque JSON válido."""
                         raw_content = raw_content[len(prefix):]
                 if raw_content.endswith("```"):
                     raw_content = raw_content[:-3]
-                respuesta_json = json.loads(raw_content.strip())
+                parsed = json.loads(raw_content.strip())
+                if isinstance(parsed, dict) and "respuesta" in parsed:
+                    respuesta_json = parsed
         except Exception as e:
             print(f"[procesar_consulta_guia_virtual] Error Groq: {e}")
 
@@ -1493,17 +1518,13 @@ def generar_amoblado_virtual(
     elif estilo in CATALOGO_AMBIENTES[ambiente_norm]:
         estilo_clave = estilo
 
-    catalogo_ambiente = CATALOGO_AMBIENTES[ambiente_norm]
+    catalogo_ambiente = CATALOGO_AMBIENTES.get(ambiente_norm, CATALOGO_AMBIENTES['sala'])
     
-    if url_subida:
-        url_amoblada = url_subida
-    elif multimedia_obj and multimedia_obj.archivo:
-        url_amoblada = multimedia_obj.archivo
+    # ─── Mockup/Render Base de Amoblado Virtual por IA según ambiente y estilo ───
+    if tipo == 'panorama360' or (multimedia_obj and multimedia_obj.tipo == 'panorama360'):
+        url_amoblada = catalogo_ambiente.get('panorama360', catalogo_ambiente['moderno'])
     else:
-        if tipo == 'panorama360' or (multimedia_obj and multimedia_obj.tipo == 'panorama360'):
-            url_amoblada = catalogo_ambiente.get('panorama360', catalogo_ambiente['moderno'])
-        else:
-            url_amoblada = catalogo_ambiente.get(estilo_clave, catalogo_ambiente['moderno'])
+        url_amoblada = catalogo_ambiente.get(estilo_clave, catalogo_ambiente['moderno'])
 
     descripcion_diseno = f"Diseño de {ambiente_norm.capitalize()} en estilo {estilo_clave.capitalize()} con distribución espacial armónica y fotorrealista."
     detalle_diseno = {
@@ -1684,27 +1705,54 @@ def calcular_valuacion_inmueble(inmueble_id: int) -> dict:
 
     # 2. Generar diagnóstico analítico con Groq LLM
     api_key = getattr(settings, 'GROQ_API_KEY', '')
-    analisis_ia = f"La propiedad '{inmueble.titulo}' situada en {zona}, {ciudad}, presenta una sólida rentabilidad estimada de {roi_estimado}% anual. Su superficie de {superficie} m² y distribución optimizan la absorción en el mercado de alquiler con una vacancia proyectada de solo {dias_vacancia} días."
+    garaje_txt = 'con garaje/parqueo' if inmueble.garaje else 'sin garaje'
+    analisis_ia = (
+        f"**Diagnóstico Clave y Rentabilidad**\n"
+        f"- **Precio Sugerido**: Alquiler óptimo de Bs. {alquiler_optimo:,.2f}/mes (Venta proyectada: Bs. {venta_optimo:,.2f}).\n"
+        f"- **ROI Anual Estimado**: {roi_estimado}% | **Cap Rate**: {cap_rate}%.\n"
+        f"- **Absorción de Mercado**: Vacancia proyectada de {dias_vacancia} días.\n\n"
+        f"**Variables Determinantes del Valor**\n"
+        f"- Superficie de {superficie} m², {inmueble.habitaciones} habitaciones, {inmueble.banos} baños y {garaje_txt}.\n"
+        f"- Ubicación estratégica en {zona}, {ciudad} comparada con {len(comparables_lista)} propiedades activas.\n\n"
+        f"**Recomendaciones Estratégicas**\n"
+        f"- Mantener la propiedad en condiciones óptimas para captar inquilinos de perfil premium y asegurar el {roi_estimado}% de ROI.\n"
+        f"- Implementar contratos de alquiler a mediano plazo para minimizar el período de vacancia."
+    )
 
     if api_key:
-        prompt_mercado = f"""Eres un Perito Valuador y Economista Inmobiliario experto en el mercado boliviano.
-Analiza la siguiente valuación de activo inmobiliario y redacta un informe ejecutivo conciso (3 párrafos estructurados) con:
-1. Justificación del precio sugerido de alquiler (${alquiler_optimo}/mes) y venta (${venta_optimo}).
-2. Análisis de rentabilidad de inversión (ROI estimado: {roi_estimado}%, Cap Rate: {cap_rate}%).
-3. Recomendaciones estratégicas para que el propietario maximice su retorno.
+        prompt_mercado = f"""Eres un Perito Valuador y Economista Inmobiliario experto en el mercado de Bolivia.
+Analiza la valuación hedónica del siguiente activo y redacta un diagnóstico ejecutivo, conciso y altamente estructurado (SIN párrafos densos).
+
+Estructura tu respuesta exactamente con estas 3 secciones en Markdown con viñetas:
+
+**Diagnóstico Clave y Rentabilidad**
+- **Precio Sugerido**: Alquiler óptimo de Bs. {alquiler_optimo:,.2f}/mes (Venta: Bs. {venta_optimo:,.2f}).
+- **ROI Estimado**: {roi_estimado}% anual (Retorno sobre inversión).
+- **Cap Rate**: {cap_rate}%.
+- **Absorción Estimada**: Período de vacancia de aprox. {dias_vacancia} días.
+
+**Variables Determinantes del Valor**
+- **Metros Cuadrados**: {superficie} m² construidos/totales.
+- **Distribución**: {inmueble.habitaciones} dormitorios y {inmueble.banos} baños.
+- **Garaje**: {'Garaje privado incluido (añade plusvalía y reduce vacancia)' if inmueble.garaje else 'Sin garaje propio'}.
+- **Ubicación**: Zona {zona}, {ciudad} (comparado con {len(comparables_lista)} inmuebles en la zona).
+
+**Recomendaciones Estratégicas**
+- [Recomendación 1 directa y accionable para el propietario]
+- [Recomendación 2 para maximizar el flujo de caja o cerrar el alquiler rápidamente]
 
 DATOS:
 - Inmueble: {inmueble.titulo} en {zona}, {ciudad}
 - Superficie: {superficie} m² | {inmueble.habitaciones} dorms | {inmueble.banos} baños | Garaje: {'Sí' if inmueble.garaje else 'No'}
-- Comparables en zona: {len(comparables_lista)} propiedades detectadas"""
+- Comparables: {len(comparables_lista)} detectados"""
 
         try:
             headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
             payload = {
                 "model": "llama-3.3-70b-versatile",
                 "messages": [{"role": "user", "content": prompt_mercado}],
-                "temperature": 0.4,
-                "max_tokens": 600,
+                "temperature": 0.3,
+                "max_tokens": 450,
             }
             resp = requests.post(GROQ_API_URL, json=payload, headers=headers, timeout=20)
             if resp.ok:
@@ -2062,17 +2110,17 @@ def procesar_busqueda_semantica_ia(descripcion_texto: str, imagen_base64: str = 
             descripcion_busqueda += " (Búsqueda multimodal con imagen de referencia visual)"
 
         prompt_ia = (
-            "Eres un Asistente Arquitectónico e Inmobiliario Experto de Búsqueda Semántica.\n"
+            "Eres un Asistente Arquitectónico e Inmobiliario Experto de Búsqueda Semántica en Bolivia.\n"
             "Evalúa las siguientes propiedades frente a la búsqueda del usuario. "
             "Extrae los estilos y acabados detectados y evalúa el porcentaje de afinidad y si es una alternativa look-alike económica.\n\n"
             f"Criterio del usuario: \"{descripcion_busqueda}\"\n"
-            f"Presupuesto máximo: {f'${precio_max} USD' if precio_max else 'No especificado'}\n\n"
+            f"Presupuesto máximo: {f'Bs. {precio_max}' if precio_max else 'No especificado'}\n\n"
             "Propiedades candidatas:\n"
         )
 
         for c in candidatos[:12]:
             prompt_ia += (
-                f"- ID:{c['inmueble_id']} | Título: {c['titulo']} | Tipo: {c['tipo']} | Precio: ${c['precio']} {c['tipo_oferta']} | "
+                f"- ID:{c['inmueble_id']} | Título: {c['titulo']} | Tipo: {c['tipo']} | Precio: Bs. {c['precio']} ({c['tipo_oferta']}) | "
                 f"Hab: {c['habitaciones']} | Baños: {c['banos']} | Garaje: {c['garaje']} | Sup: {c['superficie']}m2 | "
                 f"Ubicación: {c['direccion']} | Descripción: {c['descripcion'][:150]}\n"
             )
@@ -2135,4 +2183,4 @@ def procesar_busqueda_semantica_ia(descripcion_texto: str, imagen_base64: str = 
         'estilos_detectados': estilos_detectados,
         'resultados': candidatos
     }
-
+

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import {
-  Mic, MicOff, Send, Volume2, VolumeX, Sparkles, X, MessageSquare,
-  Calendar, Check, AlertCircle, Bot
+  Mic, MicOff, Send, Volume2, VolumeX, Sparkles, X, Minus,
+  EyeOff, Eye, MessageSquare, Calendar, Check, AlertCircle, Bot
 } from 'lucide-react';
 import guiaVirtualService from '../services/guiaVirtualService';
 import './GuiaVirtualVoz.css';
@@ -13,9 +13,11 @@ import './GuiaVirtualVoz.css';
  * @param {number} props.inmuebleId - ID de la propiedad
  * @param {string} props.habitacionActiva - Nombre de la escena o habitación actual
  * @param {Function} [props.onAgendarCita] - Callback para abrir modal de agendamiento
+ * @param {boolean} [props.ocultoPorDefecto] - Si inicia oculto o minimizado
  */
-const GuiaVirtualVoz = ({ inmuebleId, habitacionActiva = 'Recorrido General', onAgendarCita }) => {
+const GuiaVirtualVoz = ({ inmuebleId, habitacionActiva = 'Recorrido General', onAgendarCita, ocultoPorDefecto = false }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isHidden, setIsHidden] = useState(ocultoPorDefecto);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [audioMuted, setAudioMuted] = useState(false);
@@ -225,8 +227,8 @@ const GuiaVirtualVoz = ({ inmuebleId, habitacionActiva = 'Recorrido General', on
 
   return (
     <div className="guia-virtual-container">
-      {/* Ventana Modal Desplegable */}
-      {isOpen && (
+      {/* 1. Ventana Modal Desplegable del Asistente */}
+      {isOpen && !isHidden && (
         <div className="guia-card">
           {/* Header */}
           <div className="guia-header">
@@ -250,15 +252,29 @@ const GuiaVirtualVoz = ({ inmuebleId, habitacionActiva = 'Recorrido General', on
                   if (window.speechSynthesis) window.speechSynthesis.cancel();
                 }}
                 title={audioMuted ? 'Activar voz' : 'Silenciar voz'}
+                type="button"
               >
-                {audioMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
+                {audioMuted ? <VolumeX size={15} /> : <Volume2 size={15} />}
               </button>
               <button
                 className="guia-close-btn"
                 onClick={() => setIsOpen(false)}
-                title="Minimizar guía"
+                title="Minimizar asistente"
+                type="button"
               >
-                <X size={16} />
+                <Minus size={15} />
+              </button>
+              <button
+                className="guia-close-btn"
+                onClick={() => {
+                  setIsOpen(false);
+                  setIsHidden(true);
+                  if (window.speechSynthesis) window.speechSynthesis.cancel();
+                }}
+                title="Ocultar asistente para vista 360° limpia"
+                type="button"
+              >
+                <X size={15} />
               </button>
             </div>
           </div>
@@ -294,6 +310,7 @@ const GuiaVirtualVoz = ({ inmuebleId, habitacionActiva = 'Recorrido General', on
                 key={idx}
                 className="guia-pill-btn"
                 onClick={() => handleEnviarConsulta(sug)}
+                type="button"
               >
                 {sug}
               </button>
@@ -314,6 +331,7 @@ const GuiaVirtualVoz = ({ inmuebleId, habitacionActiva = 'Recorrido General', on
               className={`guia-mic-btn ${isRecording ? 'recording' : ''}`}
               onClick={toggleGrabacion}
               title={isRecording ? 'Detener micrófono' : 'Hablar por micrófono'}
+              type="button"
             >
               {isRecording ? <MicOff size={18} /> : <Mic size={18} />}
             </button>
@@ -322,6 +340,7 @@ const GuiaVirtualVoz = ({ inmuebleId, habitacionActiva = 'Recorrido General', on
               onClick={() => handleEnviarConsulta()}
               disabled={!inputText.trim() || cargando}
               title="Enviar consulta"
+              type="button"
             >
               <Send size={16} />
             </button>
@@ -329,14 +348,43 @@ const GuiaVirtualVoz = ({ inmuebleId, habitacionActiva = 'Recorrido General', on
         </div>
       )}
 
-      {/* Botón Trigger Flotante */}
-      {!isOpen && (
-        <button className="guia-trigger-btn" onClick={() => setIsOpen(true)}>
-          <div className={`guia-avatar-pulse ${isSpeaking ? 'speaking' : ''}`}>
-            <Bot size={18} />
-          </div>
-          <span>Guía Virtual con Voz</span>
-          <Sparkles size={16} color="#fbbf24" />
+      {/* 2. Botón Trigger Flotante Normal (Minimizado) */}
+      {!isOpen && !isHidden && (
+        <div className="guia-trigger-wrapper">
+          <button className="guia-trigger-btn" onClick={() => setIsOpen(true)} type="button">
+            <div className={`guia-avatar-pulse ${isSpeaking ? 'speaking' : ''}`}>
+              <Bot size={18} />
+            </div>
+            <span>Guía Sofía IA</span>
+            <Sparkles size={16} color="#fbbf24" />
+          </button>
+          <button
+            className="guia-trigger-hide-btn"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsHidden(true);
+            }}
+            title="Ocultar asistente para vista 360° completa"
+            type="button"
+          >
+            <X size={14} />
+          </button>
+        </div>
+      )}
+
+      {/* 3. Botón Ultracompacto / Discreto cuando está Oculto */}
+      {isHidden && (
+        <button
+          className="guia-mini-discreet-btn"
+          onClick={() => {
+            setIsHidden(false);
+            setIsOpen(true);
+          }}
+          title="Mostrar Guía Sofía IA"
+          type="button"
+        >
+          <Bot size={18} />
+          <span className="guia-mini-dot" />
         </button>
       )}
     </div>

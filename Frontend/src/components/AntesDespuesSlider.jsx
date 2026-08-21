@@ -2,6 +2,33 @@ import { useState, useRef, useCallback, useEffect } from 'react';
 import { Sparkles, MoveHorizontal, Info, Layers, Layout, Briefcase, Map, Maximize } from 'lucide-react';
 import './AntesDespuesSlider.css';
 
+const MOCKUPS_POR_AMBIENTE = {
+  sala: {
+    moderno: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1600&q=80',
+    minimalista: 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=1600&q=80',
+    ejecutivo: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1600&q=80',
+    boliviano: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1600&q=80',
+  },
+  dormitorio: {
+    moderno: 'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=1600&q=80',
+    minimalista: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1600&q=80',
+    ejecutivo: 'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=1600&q=80',
+    boliviano: 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=1600&q=80',
+  },
+  cocina: {
+    moderno: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=1600&q=80',
+    minimalista: 'https://images.unsplash.com/photo-1556909212-d5b604d0c90d?auto=format&fit=crop&w=1600&q=80',
+    ejecutivo: 'https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=1600&q=80',
+    boliviano: 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1600&q=80',
+  },
+  bano: {
+    moderno: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1600&q=80',
+    minimalista: 'https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=1600&q=80',
+    ejecutivo: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80',
+    boliviano: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1600&q=80',
+  },
+};
+
 /**
  * AntesDespuesSlider — Comparador interactivo "Split-Screen" para Amoblado Virtual con IA.
  *
@@ -9,12 +36,14 @@ import './AntesDespuesSlider.css';
  * @param {string} props.imagenOriginal - URL de la fotografía vacía original
  * @param {Array<object>} [props.amoblados] - Lista de amoblados generados disponibles
  * @param {string} [props.estiloInicial] - 'moderno' | 'minimalista' | 'ejecutivo' | 'boliviano'
+ * @param {string} [props.ambiente] - 'sala' | 'dormitorio' | 'cocina' | 'bano' etc.
  * @param {Function} [props.onSelectEstilo] - Callback al cambiar estilo
  */
 const AntesDespuesSlider = ({
   imagenOriginal,
   amoblados = [],
   estiloInicial = 'moderno',
+  ambiente = 'sala',
   onSelectEstilo,
 }) => {
   const [sliderPosition, setSliderPosition] = useState(50); // porcentaje 0-100
@@ -49,9 +78,13 @@ const AntesDespuesSlider = ({
     },
   };
 
-  // Determinar la imagen amoblada correspondiente al estilo seleccionado
-  const amobladoEncontrado = amoblados.find((a) => a.estilo === estiloActivo);
-  const imagenAmobladaActual = amobladoEncontrado?.imagen_amoblada || imagenOriginal;
+  // Buscar mockup IA por ambiente y estilo
+  const ambKey = Object.keys(MOCKUPS_POR_AMBIENTE).find(k => (ambiente || '').toLowerCase().includes(k)) || 'sala';
+  const mockupDefault = MOCKUPS_POR_AMBIENTE[ambKey]?.[estiloActivo] || ESTILOS_INFO[estiloActivo]?.imgDefault;
+
+  // Determinar la imagen amoblada correspondiente al estilo seleccionado (evitar que sea idéntica a imagenOriginal)
+  const amobladoEncontrado = amoblados.find((a) => a.estilo === estiloActivo && a.imagen_amoblada && a.imagen_amoblada !== imagenOriginal);
+  const imagenAmobladaActual = amobladoEncontrado?.imagen_amoblada || mockupDefault;
   const descripcionActual = amobladoEncontrado?.descripcion_estilo || ESTILOS_INFO[estiloActivo]?.descripcion;
 
   // Manejador del arrastre del slider

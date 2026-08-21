@@ -587,6 +587,7 @@ const DisenadorInterioresIA = ({
         <AntesDespuesSlider
           imagenOriginal={fotoOriginalEfectiva}
           amoblados={amoblados}
+          ambiente={ambienteActivo}
           estiloInicial={estiloSeleccionado}
           onSelectEstilo={(estilo) => setEstiloSeleccionado(estilo)}
         />
